@@ -1,3 +1,5 @@
+import "../css/jobcard.css";
+
 function JobCard({job}) {
     function onFavoriteClick() {
         console.log("Favorite clicked");

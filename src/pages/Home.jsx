@@ -1,5 +1,6 @@
 import JobCard from "../components/JobCard";
 import { useState } from "react";
+import "../css/home.css";
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState("");
