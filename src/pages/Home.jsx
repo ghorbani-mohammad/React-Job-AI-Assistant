@@ -1,19 +1,26 @@
 import JobCard from "../components/JobCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/home.css";
+import { searchJobs, getJobs } from "../services/api";
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState("");
+    const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const jobs = [
-        { "id": 1, "title": "Software Engineer", "release_date": "2025-08-1" },
-        { "id": 2, "title": "Backend Engineer", "release_date": "2025-08-08" },
-        { "id": 3, "title": "Frontend Engineer", "release_date": "2025-07-30" },
-        { "id": 4, "title": "DevOps Engineer", "release_date": "2025-07-27" },
-        { "id": 5, "title": "Data Engineer", "release_date": "2025-07-25" },
-        { "id": 6, "title": "AI Engineer", "release_date": "2025-07-23" },
-        { "id": 7, "title": "Cybersecurity Engineer", "release_date": "2025-07-20" },
-    ]
+    useEffect(() => {
+        const loadJobs = async() => {
+            try{
+                const data = await getJobs();
+                setJobs(data);
+            } catch (error) {
+                console.error("Error loading jobs:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadJobs();
+    }, []);
 
     const handleSearch = (e) => {
         e.preventDefault();
