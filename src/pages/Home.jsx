@@ -12,7 +12,7 @@ function Home() {
         const loadJobs = async() => {
             try{
                 const data = await getJobs();
-                setJobs(data);
+                setJobs(data.results);
             } catch (error) {
                 console.error("Error loading jobs:", error);
             } finally {
