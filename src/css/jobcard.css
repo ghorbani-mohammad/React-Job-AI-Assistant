@@ -58,6 +58,24 @@
   border-color: #555;
 }
 
+/* Active (favorited) state */
+.favorite-btn.active {
+  background: #ff6b81;
+  border-color: #ff6b81;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 107, 129, 0.25);
+}
+
+.favorite-btn.active:hover {
+  background: #ff5a72;
+  border-color: #ff5a72;
+}
+
+/* Keep the overlay visible when a favorite is active */
+.job-overlay:has(.favorite-btn.active) {
+  opacity: 1;
+}
+
 .job-info {
   padding: 12px 14px;
   text-align: left;

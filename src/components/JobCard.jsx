@@ -1,15 +1,24 @@
 import "../css/jobcard.css";
+import { useFavoriteContext } from "../contexts/Favorites";
 
 function JobCard({job}) {
-    function onFavoriteClick() {
-        console.log("Favorite clicked");
+    const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
+    const favorite = isFavorite(job.id);
+
+    function onFavoriteClick(e) {
+        e.preventDefault();
+        if (favorite) {
+            removeFavorite(job.id);
+        } else {
+            addFavorite(job);
+        }
     }
     return (
         <div className="job-card">
             <div className="job-poster">
                 <img src={job.poster} alt={job.title} />
                 <div className="job-overlay">
-                    <button className="favorite-btn" onClick={onFavoriteClick}>
+                    <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
                         ❤️
                     </button>
                 </div>
