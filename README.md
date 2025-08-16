@@ -1,6 +1,10 @@
 # Job AI Assitant
 Improve Job search and applying process using AI.
 
+## Website
+
+Visit the live site at [job-board.m-gh.com](https://job-board.m-gh.com/).
+
 ## Development
 
 1. Install deps: `npm install`
