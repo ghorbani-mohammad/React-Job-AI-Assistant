@@ -1,6 +1,12 @@
 services:
   job-board:
-    build: .
+    build:
+      context: .
+      args:
+        # Pass API key at build time; alternatively use Vite env files
+        VITE_API_KEY: ${VITE_API_KEY}
+        # Optional: mirror or custom registry to avoid slow/stuck npm ci
+        # NPM_REGISTRY: https://registry.npmmirror.com
     image: react-job-ai-assistant:latest
     container_name: job-board
     restart: unless-stopped
