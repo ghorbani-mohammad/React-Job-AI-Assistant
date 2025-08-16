@@ -16,7 +16,7 @@ function JobCard({job}) {
     return (
         <div className="job-card">
             <div className="job-poster">
-                <img src={job.poster} alt={job.title} />
+                <img src={job.image} alt={job.title} />
                 <div className="job-overlay">
                     <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
                         ❤️
