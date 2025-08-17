@@ -13,6 +13,13 @@ function JobCard({job}) {
         }
     }
 
+    function truncateWords(text, maxWords) {
+        if (!text) return '';
+        const words = text.trim().split(/\s+/);
+        if (words.length <= maxWords) return text;
+        return words.slice(0, maxWords).join(' ') + '…';
+    }
+
     function onFavoriteClick(e) {
         e.preventDefault();
         if (favorite) {
@@ -32,7 +39,7 @@ function JobCard({job}) {
                 </div>
             </div>
             <div className="job-info">
-                <h3>{job.title}</h3>
+                <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
                 <p>{job.release_date}</p>
             </div>
         </div>

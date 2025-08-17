@@ -13,6 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Normalize box sizing so widths include padding/borders */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Reserve space for scrollbar to avoid layout shift between pages */
+  scrollbar-gutter: stable;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -28,6 +38,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* Force a vertical scrollbar so content width stays constant */
+  overflow-y: scroll;
 }
 
 h1 {

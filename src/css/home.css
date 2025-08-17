@@ -35,6 +35,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+  width: 100%;
 }
 
 @media (min-width: 640px) {
