@@ -1,4 +1,11 @@
-## 0.1.0 (2025-08-17)
+## [0.2.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.1.0...v0.2.0) (2025-08-17)
+
+
+### Features
+
+* implement job search functionality with loading spinner ([f2753c4](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/f2753c43b31d5bae00a68c99dc4450e147080fd3))
+
+## [0.1.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/301278b71958f075bec9321278c1ff28e0e12c4c...v0.1.0) (2025-08-17)
 
 
 ### Features
