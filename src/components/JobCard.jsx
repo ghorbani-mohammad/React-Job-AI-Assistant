@@ -6,6 +6,7 @@ function JobCard({job}) {
     const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
     const favorite = isFavorite(job.id);
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     function handleImageError(e) {
         if (e.currentTarget.src !== defaultJobImage) {
@@ -35,6 +36,18 @@ function JobCard({job}) {
             addFavorite(job);
         }
     }
+
+    function formatCreatedAt(isoString, timeZone) {
+        if (!isoString) return '';
+        try {
+            const date = new Date(isoString);
+            const options = { dateStyle: 'medium', timeStyle: 'short' };
+            if (timeZone) options.timeZone = timeZone;
+            return new Intl.DateTimeFormat(undefined, options).format(date);
+        } catch (e) {
+            return '';
+        }
+    }
     return (
         <div
             className="job-card"
@@ -59,6 +72,11 @@ function JobCard({job}) {
             <div className="job-info">
                 <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
                 {job?.company && <p className="job-company">{job.company}</p>}
+                {job?.created_at && (
+                    <p className="job-created-at" title={new Date(job.created_at).toString()}>
+                        {formatCreatedAt(job.created_at, browserTimeZone)}
+                    </p>
+                )}
             </div>
         </div>
     )
