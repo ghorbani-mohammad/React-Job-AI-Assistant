@@ -1,3 +1,10 @@
+## [0.4.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.3.0...v0.4.0) (2025-08-17)
+
+
+### Features
+
+* add modal for job details in JobCard component ([275baa9](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/275baa9e6d6986c64b41fd16809f0946a07ce3bd))
+
 ## [0.3.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.2.0...v0.3.0) (2025-08-17)
 
 
