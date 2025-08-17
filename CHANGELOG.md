@@ -1,3 +1,10 @@
+## [0.3.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.2.0...v0.3.0) (2025-08-17)
+
+
+### Features
+
+* add created_at formatting to JobCard ([306d60f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/306d60f5c5c96f4b17bcb5fe46d1c4348b57e74d))
+
 ## [0.2.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.1.0...v0.2.0) (2025-08-17)
 
 
