@@ -133,6 +133,7 @@ function JobCard({job}) {
 							onClick={(e) => e.stopPropagation()}
 							style={{
 								background: '#fff',
+								color: '#111',
 								maxWidth: '720px',
 								width: '90%',
 								maxHeight: '80vh',
