@@ -20,8 +20,15 @@ function JobCard({job}) {
         return words.slice(0, maxWords).join(' ') + '…';
     }
 
+    function openJobUrl() {
+        if (job?.url) {
+            window.open(job.url, '_blank', 'noopener');
+        }
+    }
+
     function onFavoriteClick(e) {
         e.preventDefault();
+        e.stopPropagation();
         if (favorite) {
             removeFavorite(job.id);
         } else {
@@ -29,7 +36,18 @@ function JobCard({job}) {
         }
     }
     return (
-        <div className="job-card">
+        <div
+            className="job-card"
+            onClick={openJobUrl}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openJobUrl();
+                }
+            }}
+        >
             <div className="job-poster">
                 <img src={imageSrc} alt={job.title} onError={handleImageError} />
                 <div className="job-overlay">
@@ -40,7 +58,7 @@ function JobCard({job}) {
             </div>
             <div className="job-info">
                 <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
-                <p>{job.release_date}</p>
+                {job?.company && <p className="job-company">{job.company}</p>}
             </div>
         </div>
     )
