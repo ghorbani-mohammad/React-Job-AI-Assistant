@@ -15,6 +15,10 @@
   color: #ffffff;
   font-weight: 700;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
 }
 
 .navbar-links {
@@ -29,6 +33,14 @@
 
 .navbar a:hover {
   color: #c9cbff;
+}
+
+
+/* Logo image next to brand text */
+.navbar-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 
