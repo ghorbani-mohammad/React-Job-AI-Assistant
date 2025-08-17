@@ -22,7 +22,7 @@ export const searchJobs = async ({ query = '', limit = 12, offset = 0, ordering 
   params.set('search', query ?? '');
   if (API_KEY) params.set('api_key', API_KEY);
 
-  const response = await fetch(`${BASE_URL}linkedin/ignored-job/?${params.toString()}`);
+  const response = await fetch(`${BASE_URL}linkedin/job/?${params.toString()}`);
   const data = await response.json();
   return data;
 };

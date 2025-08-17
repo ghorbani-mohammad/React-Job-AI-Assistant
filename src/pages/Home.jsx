@@ -1,10 +1,11 @@
 import JobCard from '../components/JobCard';
 import { useState, useEffect } from 'react';
 import '../css/home.css';
-import { getJobs } from '../services/api';
+import { getJobs, searchJobs } from '../services/api';
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeQuery, setActiveQuery] = useState('');
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
@@ -12,10 +13,13 @@ function Home() {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        const loadJobs = async() => {
+        const loadJobs = async () => {
             setLoading(true);
-            try{
-                const data = await getJobs({ limit, offset: page * limit, language: 'en' });
+            try {
+                const isSearching = activeQuery.trim().length > 0;
+                const data = isSearching
+                    ? await searchJobs({ query: activeQuery, limit, offset: page * limit })
+                    : await getJobs({ limit, offset: page * limit, language: 'en' });
                 setJobs(data.results ?? []);
                 setCount(data.count ?? 0);
             } catch (error) {
@@ -23,15 +27,14 @@ function Home() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
         loadJobs();
-    }, [page, limit]);
+    }, [page, limit, activeQuery]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("Search submitted");
-        alert(searchTerm);
-        setSearchTerm("------");
+        setPage(0);
+        setActiveQuery(searchTerm);
     }
 
     const totalPages = Math.max(1, Math.ceil(count / limit));
@@ -42,9 +45,15 @@ function Home() {
                 <input type="text" placeholder="Search jobs" className="search-input" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 <button type="submit" className="search-btn">Search</button>
             </form>
-            <div className="jobs-grid">
-                {jobs.map((job) => (job.title.toLowerCase().includes(searchTerm.toLowerCase()) && <JobCard key={job.id} job={job} />))}
-            </div>
+            {loading ? (
+                <div className="loading" aria-busy="true" aria-live="polite">
+                    <div className="spinner" />
+                </div>
+            ) : (
+                <div className="jobs-grid">
+                    {jobs.map((job) => (<JobCard key={job.id} job={job} />))}
+                </div>
+            )}
             <div className="pagination">
                 <button type="button" onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0 || loading}>
                     Previous
