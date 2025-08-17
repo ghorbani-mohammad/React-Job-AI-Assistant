@@ -1,4 +1,5 @@
 import '../css/jobcard.css';
+import { useState, useEffect } from 'react';
 import { useFavoriteContext } from '../contexts/Favorites';
 import defaultJobImage from '../assets/default-job.svg';
 
@@ -7,6 +8,7 @@ function JobCard({job}) {
     const favorite = isFavorite(job.id);
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const [showModal, setShowModal] = useState(false);
 
     function handleImageError(e) {
         if (e.currentTarget.src !== defaultJobImage) {
@@ -48,6 +50,27 @@ function JobCard({job}) {
             return '';
         }
     }
+
+    function openDetails(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowModal(true);
+    }
+
+    function closeDetails() {
+        setShowModal(false);
+    }
+
+    useEffect(() => {
+        if (!showModal) return undefined;
+        function onKeyDown(ev) {
+            if (ev.key === 'Escape') {
+                setShowModal(false);
+            }
+        }
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [showModal]);
     return (
         <div
             className="job-card"
@@ -67,6 +90,11 @@ function JobCard({job}) {
                     <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
                         ❤️
                     </button>
+                    {job?.description && (
+                        <button className="details-btn" onClick={openDetails} aria-label="View details">
+                            ℹ️
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="job-info">
@@ -78,6 +106,64 @@ function JobCard({job}) {
                     </p>
                 )}
             </div>
+            {showModal && (
+                <div
+                    className="job-modal-backdrop"
+                    onClick={closeDetails}
+                    role="presentation"
+                    style={{
+                        position: 'fixed',
+                        inset: 0,
+                        background: 'rgba(0,0,0,0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000
+                    }}
+                >
+                    <div
+                        className="job-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby={`job-${job.id}-title`}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                            background: '#fff',
+                            maxWidth: '720px',
+                            width: '90%',
+                            maxHeight: '80vh',
+                            overflow: 'auto',
+                            borderRadius: '8px',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+                        }}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #eee' }}>
+                            <div>
+                                <h3 id={`job-${job.id}-title`} style={{ margin: 0 }}>{job.title}</h3>
+                                {job?.company && <p style={{ margin: '4px 0 0 0', color: '#555' }}>{job.company}</p>}
+                                {job?.created_at && (
+                                    <p style={{ margin: '6px 0 0 0', color: '#777', fontSize: '0.9em' }}>
+                                        Posted: {formatCreatedAt(job.created_at, browserTimeZone)}
+                                    </p>
+                                )}
+                            </div>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                                {job?.url && (
+                                    <button onClick={(e) => { e.stopPropagation(); openJobUrl(); }} className="apply-btn">
+                                        Open job
+                                    </button>
+                                )}
+                                <button onClick={(e) => { e.stopPropagation(); closeDetails(); }} aria-label="Close details" className="close-btn">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+                        <div style={{ padding: '16px 20px', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+                            {job?.description || 'No description available.'}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 
