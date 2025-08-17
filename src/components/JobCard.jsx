@@ -1,5 +1,6 @@
 import '../css/jobcard.css';
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
 import defaultJobImage from '../assets/default-job.svg';
 
@@ -72,100 +73,104 @@ function JobCard({job}) {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, [showModal]);
     return (
-        <div
-            className="job-card"
-            onClick={openJobUrl}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openJobUrl();
-                }
-            }}
-        >
-            <div className="job-poster">
-                <img src={imageSrc} alt={job.title} onError={handleImageError} />
-                <div className="job-overlay">
-                    <button className={`favorite-btn ${favorite ? "active" : ""}`} onClick={onFavoriteClick}>
-                        ❤️
-                    </button>
-                    {job?.description && (
-                        <button className="details-btn" onClick={openDetails} aria-label="View details">
-                            ℹ️
-                        </button>
-                    )}
-                </div>
-            </div>
-            <div className="job-info">
-                <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
-                {job?.company && <p className="job-company">{job.company}</p>}
-                {job?.created_at && (
-                    <p className="job-created-at" title={new Date(job.created_at).toString()}>
-                        {formatCreatedAt(job.created_at, browserTimeZone)}
-                    </p>
-                )}
-            </div>
-            {showModal && (
-                <div
-                    className="job-modal-backdrop"
-                    onClick={closeDetails}
-                    role="presentation"
-                    style={{
-                        position: 'fixed',
-                        inset: 0,
-                        background: 'rgba(0,0,0,0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 1000
-                    }}
-                >
-                    <div
-                        className="job-modal"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby={`job-${job.id}-title`}
-                        onClick={(e) => e.stopPropagation()}
-                        style={{
-                            background: '#fff',
-                            maxWidth: '720px',
-                            width: '90%',
-                            maxHeight: '80vh',
-                            overflow: 'auto',
-                            borderRadius: '8px',
-                            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-                        }}
-                    >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #eee' }}>
-                            <div>
-                                <h3 id={`job-${job.id}-title`} style={{ margin: 0 }}>{job.title}</h3>
-                                {job?.company && <p style={{ margin: '4px 0 0 0', color: '#555' }}>{job.company}</p>}
-                                {job?.created_at && (
-                                    <p style={{ margin: '6px 0 0 0', color: '#777', fontSize: '0.9em' }}>
-                                        Posted: {formatCreatedAt(job.created_at, browserTimeZone)}
-                                    </p>
-                                )}
-                            </div>
-                            <div style={{ display: 'flex', gap: '8px' }}>
-                                {job?.url && (
-                                    <button onClick={(e) => { e.stopPropagation(); openJobUrl(); }} className="apply-btn">
-                                        Open job
-                                    </button>
-                                )}
-                                <button onClick={(e) => { e.stopPropagation(); closeDetails(); }} aria-label="Close details" className="close-btn">
-                                    ✕
-                                </button>
-                            </div>
-                        </div>
-                        <div style={{ padding: '16px 20px', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-                            {job?.description || 'No description available.'}
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
-    )
+		<>
+			<div
+				className='job-card'
+				onClick={openJobUrl}
+				role='button'
+				tabIndex={0}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						openJobUrl();
+					}
+				}}
+			>
+				<div className='job-poster'>
+					<img src={imageSrc} alt={job.title} onError={handleImageError} />
+					<div className='job-overlay'>
+						<button className={`favorite-btn ${favorite ? 'active' : ''}`} onClick={onFavoriteClick}>
+							❤️
+						</button>
+						{job?.description && (
+							<button className='details-btn' onClick={openDetails} aria-label='View details'>
+								ℹ️
+							</button>
+						)}
+					</div>
+				</div>
+				<div className='job-info'>
+					<h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
+					{job?.company && <p className='job-company'>{job.company}</p>}
+					{job?.created_at && (
+						<p className='job-created-at' title={new Date(job.created_at).toString()}>
+							{formatCreatedAt(job.created_at, browserTimeZone)}
+						</p>
+					)}
+				</div>
+			</div>
+			{showModal &&
+				createPortal(
+					<div
+						className='job-modal-backdrop'
+						onClick={closeDetails}
+						role='presentation'
+						style={{
+							position: 'fixed',
+							inset: 0,
+							background: 'rgba(0,0,0,0.5)',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							zIndex: 1000
+						}}
+					>
+						<div
+							className='job-modal'
+							role='dialog'
+							aria-modal='true'
+							aria-labelledby={`job-${job.id}-title`}
+							onClick={(e) => e.stopPropagation()}
+							style={{
+								background: '#fff',
+								maxWidth: '720px',
+								width: '90%',
+								maxHeight: '80vh',
+								overflow: 'auto',
+								borderRadius: '8px',
+								boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+							}}
+						>
+							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderBottom: '1px solid #eee' }}>
+								<div>
+									<h3 id={`job-${job.id}-title`} style={{ margin: 0 }}>{job.title}</h3>
+									{job?.company && <p style={{ margin: '4px 0 0 0', color: '#555' }}>{job.company}</p>}
+									{job?.created_at && (
+										<p style={{ margin: '6px 0 0 0', color: '#777', fontSize: '0.9em' }}>
+											Posted: {formatCreatedAt(job.created_at, browserTimeZone)}
+										</p>
+									)}
+								</div>
+								<div style={{ display: 'flex', gap: '8px' }}>
+									{job?.url && (
+										<button onClick={(e) => { e.stopPropagation(); openJobUrl(); }} className='apply-btn'>
+											Open job
+										</button>
+									)}
+									<button onClick={(e) => { e.stopPropagation(); closeDetails(); }} aria-label='Close details' className='close-btn'>
+										✕
+									</button>
+								</div>
+							</div>
+							<div style={{ padding: '16px 20px', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+								{job?.description || 'No description available.'}
+							</div>
+						</div>
+					</div>,
+					document.body
+				)}
+		</>
+	)
 
 }
 
