@@ -78,6 +78,30 @@
   opacity: 1;
 }
 
+.details-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #444;
+  background: rgba(0, 0, 0, 0.4);
+  color: #64b5f6;
+  margin-left: 8px;
+}
+
+.details-btn:hover {
+  background: #222;
+  border-color: #555;
+}
+
+.job-created-at {
+  color: #888;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
 .job-info {
   padding: 12px 14px;
   text-align: left;
