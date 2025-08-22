@@ -59,6 +59,15 @@ function JobCard({job}) {
             <div className="job-info">
                 <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
                 {job?.company && <p className="job-company">{job.company}</p>}
+                {job?.keywords_as_hashtags && job.keywords_as_hashtags.length > 0 && (
+                    <div className="job-hashtags">
+                        {job.keywords_as_hashtags.map((hashtag, index) => (
+                            <span key={index} className="hashtag">
+                                {hashtag}
+                            </span>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )
