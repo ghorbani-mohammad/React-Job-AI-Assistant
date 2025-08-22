@@ -1,4 +1,6 @@
 import '../css/jobcard.css';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
 import defaultJobImage from '../assets/default-job.svg';
 
@@ -6,6 +8,8 @@ function JobCard({job}) {
     const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
     const favorite = isFavorite(job.id);
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const [showModal, setShowModal] = useState(false);
 
     function handleImageError(e) {
         if (e.currentTarget.src !== defaultJobImage) {
@@ -35,6 +39,39 @@ function JobCard({job}) {
             addFavorite(job);
         }
     }
+
+    function formatCreatedAt(isoString, timeZone) {
+        if (!isoString) return '';
+        try {
+            const date = new Date(isoString);
+            const options = { dateStyle: 'medium', timeStyle: 'short' };
+            if (timeZone) options.timeZone = timeZone;
+            return new Intl.DateTimeFormat(undefined, options).format(date);
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function openDetails(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowModal(true);
+    }
+
+    function closeDetails() {
+        setShowModal(false);
+    }
+
+    useEffect(() => {
+        if (!showModal) return undefined;
+        function onKeyDown(ev) {
+            if (ev.key === 'Escape') {
+                setShowModal(false);
+            }
+        }
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [showModal]);
     return (
         <div
             className="job-card"
