@@ -108,9 +108,9 @@ function JobCard({job}) {
                             {formatCreatedAt(job.created_at, browserTimeZone)}
                         </p>
                     )}
-                    {job?.keywords_as_hashtags && job.keywords_as_hashtags.length > 0 && (
+                    {job?.found_keywords_as_hashtags && job.found_keywords_as_hashtags.length > 0 && (
                         <div className="job-hashtags">
-                            {job.keywords_as_hashtags.map((hashtag, index) => (
+                            {job.found_keywords_as_hashtags.map((hashtag, index) => (
                                 <span key={index} className="hashtag">
                                     {hashtag}
                                 </span>
