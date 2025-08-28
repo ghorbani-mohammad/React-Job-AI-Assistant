@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
 import defaultJobImage from '../assets/default-job.svg';
 
-function JobCard({job}) {
+function JobCard({job, onHashtagClick}) {
     const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
     const favorite = isFavorite(job.id);
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
@@ -62,6 +62,14 @@ function JobCard({job}) {
         setShowModal(false);
     }
 
+    function handleHashtagClick(e, hashtag) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (onHashtagClick) {
+            onHashtagClick(hashtag);
+        }
+    }
+
     useEffect(() => {
         if (!showModal) return undefined;
         function onKeyDown(ev) {
@@ -111,9 +119,15 @@ function JobCard({job}) {
                     {job?.found_keywords_as_hashtags && job.found_keywords_as_hashtags.length > 0 && (
                         <div className="job-hashtags">
                             {job.found_keywords_as_hashtags.map((hashtag, index) => (
-                                <span key={index} className="hashtag">
+                                <button
+                                    key={index}
+                                    className="hashtag"
+                                    onClick={(e) => handleHashtagClick(e, hashtag)}
+                                    type="button"
+                                    aria-label={`Search for ${hashtag}`}
+                                >
                                     {hashtag}
-                                </span>
+                                </button>
                             ))}
                         </div>
                     )}

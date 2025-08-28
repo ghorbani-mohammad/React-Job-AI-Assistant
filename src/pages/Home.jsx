@@ -37,6 +37,12 @@ function Home() {
         setActiveQuery(searchTerm);
     }
 
+    const handleHashtagClick = (hashtag) => {
+        setSearchTerm(hashtag);
+        setPage(0);
+        setActiveQuery(hashtag);
+    }
+
     const totalPages = Math.max(1, Math.ceil(count / limit));
 
     return (
@@ -51,7 +57,7 @@ function Home() {
                 </div>
             ) : (
                 <div className="jobs-grid">
-                    {jobs.map((job) => (<JobCard key={job.id} job={job} />))}
+                    {jobs.map((job) => (<JobCard key={job.id} job={job} onHashtagClick={handleHashtagClick} />))}
                 </div>
             )}
             <div className="pagination">
