@@ -38,9 +38,10 @@ function Home() {
     }
 
     const handleHashtagClick = (hashtag) => {
-        setSearchTerm(hashtag);
+        const cleanHashtag = hashtag.replace(/^#+/, ''); // Remove leading # symbols
+        setSearchTerm(cleanHashtag);
         setPage(0);
-        setActiveQuery(hashtag);
+        setActiveQuery(cleanHashtag);
     }
 
     const totalPages = Math.max(1, Math.ceil(count / limit));
