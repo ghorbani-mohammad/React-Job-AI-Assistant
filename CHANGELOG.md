@@ -1,3 +1,10 @@
+## [0.6.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.5.1...v0.6.0) (2025-08-28)
+
+
+### Features
+
+* add hashtag click functionality to JobCard component ([b9e8891](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/b9e8891640abd1bf01a4f28bca5256dfd7b83ace))
+
 ## [0.5.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.5.0...v0.5.1) (2025-08-27)
 
 
@@ -26,11 +33,4 @@
 ### Features
 
 * add created_at formatting to JobCard ([306d60f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/306d60f5c5c96f4b17bcb5fe46d1c4348b57e74d))
-
-## [0.2.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.1.0...v0.2.0) (2025-08-17)
-
-
-### Features
-
-* implement job search functionality with loading spinner ([f2753c4](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/f2753c43b31d5bae00a68c99dc4450e147080fd3))
 
