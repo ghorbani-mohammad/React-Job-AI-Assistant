@@ -1,3 +1,10 @@
+## [0.7.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.1...v0.7.0) (2025-08-28)
+
+
+### Features
+
+* add relative time formatting to JobCard component ([031f735](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/031f735879d31e28e3be5b54fc5e5bbac4930b99))
+
 ## [0.6.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.0...v0.6.1) (2025-08-28)
 
 
@@ -26,11 +33,4 @@
 
 * add hashtags display to JobCard component ([e2a0d41](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/e2a0d41a5c97fae236a4f0dbe2d519405759bcf5))
 * enhance JobCard component with interactive job modal and accessibility features ([1eec2bd](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1eec2bdf4625c094ed9f874cf2432aae17379a7d))
-
-## [0.4.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.3.0...v0.4.0) (2025-08-17)
-
-
-### Features
-
-* add modal for job details in JobCard component ([275baa9](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/275baa9e6d6986c64b41fd16809f0946a07ce3bd))
 
