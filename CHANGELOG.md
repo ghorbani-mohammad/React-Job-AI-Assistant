@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.0...v0.6.1) (2025-08-28)
+
+
+### Bug Fixes
+
+* clean hashtag before setting search term and active query in Home component ([93d4be6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/93d4be67365925e83126d1766549c6e399ea31c1))
+
 ## [0.6.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.5.1...v0.6.0) (2025-08-28)
 
 
@@ -26,11 +33,4 @@
 ### Features
 
 * add modal for job details in JobCard component ([275baa9](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/275baa9e6d6986c64b41fd16809f0946a07ce3bd))
-
-## [0.3.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.2.0...v0.3.0) (2025-08-17)
-
-
-### Features
-
-* add created_at formatting to JobCard ([306d60f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/306d60f5c5c96f4b17bcb5fe46d1c4348b57e74d))
 
