@@ -1,3 +1,10 @@
+## [0.8.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.7.0...v0.8.0) (2025-09-02)
+
+
+### Features
+
+* implement WebSocket functionality with a WebSocketTester component and integrate it into the Home page ([e982b65](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/e982b651d10dcd05b3a163f975047bef750a8ef2))
+
 ## [0.7.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.1...v0.7.0) (2025-08-28)
 
 
@@ -25,12 +32,4 @@
 ### Bug Fixes
 
 * update JobCard component to use found_keywords_as_hashtags instead of keywords_as_hashtags ([0f5818c](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/0f5818c07fb7ee377772fc5c3bb02cadececade2))
-
-## [0.5.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.4.0...v0.5.0) (2025-08-22)
-
-
-### Features
-
-* add hashtags display to JobCard component ([e2a0d41](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/e2a0d41a5c97fae236a4f0dbe2d519405759bcf5))
-* enhance JobCard component with interactive job modal and accessibility features ([1eec2bd](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1eec2bdf4625c094ed9f874cf2432aae17379a7d))
 
