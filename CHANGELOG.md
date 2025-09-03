@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.0...v0.8.1) (2025-09-03)
+
+
+### Bug Fixes
+
+* enhance WebSocket connection status to include additional connected state ([3cdc9f1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3cdc9f12dd4294dd7f6b65856947ca51c810b0f2))
+
 ## [0.8.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.7.0...v0.8.0) (2025-09-02)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * add hashtag click functionality to JobCard component ([b9e8891](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/b9e8891640abd1bf01a4f28bca5256dfd7b83ace))
-
-## [0.5.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.5.0...v0.5.1) (2025-08-27)
-
-
-### Bug Fixes
-
-* update JobCard component to use found_keywords_as_hashtags instead of keywords_as_hashtags ([0f5818c](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/0f5818c07fb7ee377772fc5c3bb02cadececade2))
 
