@@ -64,7 +64,7 @@ export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
     };
 
     const onAuthenticated = () => {
-      setConnectionStatus('Authenticated');
+      setConnectionStatus('Socket is connected. Awaiting Job Updates...');
     };
 
     const onNewJob = (job) => {
@@ -133,3 +133,4 @@ export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
     isConnected: connectionStatus === 'Connected' || connectionStatus === 'Authenticated'
   };
 };
+
