@@ -1,6 +1,6 @@
 import JobCard from '../components/JobCard';
 import WebSocketTester from '../components/WebSocketTester';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../css/home.css';
 import { getJobs, searchJobs } from '../services/api';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -15,6 +15,7 @@ function Home() {
     const [count, setCount] = useState(0);
     const [showNewJobNotification, setShowNewJobNotification] = useState(false);
     const [highlightedJobIds, setHighlightedJobIds] = useState(new Set());
+    const processedJobIds = useRef(new Set());
     
     // WebSocket hook
     const { connectionStatus, newJobs, isConnected } = useWebSocket();
@@ -22,6 +23,10 @@ function Home() {
     useEffect(() => {
         const loadJobs = async () => {
             setLoading(true);
+            // Clear processed jobs when changing pages or search terms
+            processedJobIds.current.clear();
+            setHighlightedJobIds(new Set());
+            
             try {
                 const isSearching = activeQuery.trim().length > 0;
                 const data = isSearching
@@ -41,17 +46,22 @@ function Home() {
     // Handle new jobs from WebSocket - automatically add them to the list
     useEffect(() => {
         if (newJobs.length > 0 && page === 0 && !activeQuery) {
-            // Only add jobs if we're on the first page and not searching
-            const existingJobIds = new Set(jobs.map(job => job.id));
-            const uniqueNewJobs = newJobs.filter(job => !existingJobIds.has(job.id));
+            // Filter out jobs we've already processed
+            const unprocessedJobs = newJobs.filter(job => !processedJobIds.current.has(job.id));
             
-            if (uniqueNewJobs.length > 0) {
+            if (unprocessedJobs.length > 0) {
                 // Add new jobs to the beginning of the list
-                setJobs(prevJobs => [...uniqueNewJobs, ...prevJobs]);
-                setCount(prevCount => prevCount + uniqueNewJobs.length);
+                setJobs(prevJobs => {
+                    const existingJobIds = new Set(prevJobs.map(job => job.id));
+                    const uniqueNewJobs = unprocessedJobs.filter(job => !existingJobIds.has(job.id));
+                    return [...uniqueNewJobs, ...prevJobs];
+                });
                 
-                // Mark these jobs as highlighted
-                const newJobIds = uniqueNewJobs.map(job => job.id);
+                setCount(prevCount => prevCount + unprocessedJobs.length);
+                
+                // Mark these jobs as processed and highlighted
+                const newJobIds = unprocessedJobs.map(job => job.id);
+                newJobIds.forEach(id => processedJobIds.current.add(id));
                 setHighlightedJobIds(prev => new Set([...prev, ...newJobIds]));
                 
                 // Show notification briefly
@@ -68,7 +78,7 @@ function Home() {
                 }, 10000);
             }
         }
-    }, [newJobs, page, activeQuery, jobs]);
+    }, [newJobs, page, activeQuery]);
 
     const handleRefreshWithNewJobs = () => {
         // Merge new jobs with existing jobs, avoiding duplicates
