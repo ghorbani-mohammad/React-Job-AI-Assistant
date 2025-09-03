@@ -1,3 +1,10 @@
+## [0.9.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.1...v0.9.0) (2025-09-03)
+
+
+### Features
+
+* enhance JobCard component to highlight new jobs with visual indicators and update Home page to automatically add new jobs ([86eddba](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/86eddbaf8bf4a8125d4daf4aca5e3d20fe68f01f))
+
 ## [0.8.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.0...v0.8.1) (2025-09-03)
 
 
@@ -25,11 +32,4 @@
 ### Bug Fixes
 
 * clean hashtag before setting search term and active query in Home component ([93d4be6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/93d4be67365925e83126d1766549c6e399ea31c1))
-
-## [0.6.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.5.1...v0.6.0) (2025-08-28)
-
-
-### Features
-
-* add hashtag click functionality to JobCard component ([b9e8891](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/b9e8891640abd1bf01a4f28bca5256dfd7b83ace))
 
