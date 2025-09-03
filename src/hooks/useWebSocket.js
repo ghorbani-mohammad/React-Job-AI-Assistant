@@ -130,7 +130,7 @@ export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
     disconnect,
     addEventListener,
     removeEventListener,
-    isConnected: connectionStatus === 'Connected' || connectionStatus === 'Authenticated'
+    isConnected: connectionStatus === 'Connected' || connectionStatus === 'Authenticated' || connectionStatus.includes('Socket is connected')
   };
 };
 
