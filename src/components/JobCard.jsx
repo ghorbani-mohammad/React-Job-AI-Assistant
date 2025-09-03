@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
 import defaultJobImage from '../assets/default-job.svg';
 
-function JobCard({job, onHashtagClick}) {
+function JobCard({job, onHashtagClick, isNew = false}) {
     const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
     const favorite = isFavorite(job.id);
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
@@ -119,7 +119,7 @@ function JobCard({job, onHashtagClick}) {
     return (
         <>
             <div
-                className='job-card'
+                className={`job-card ${isNew ? 'job-card-new' : ''}`}
                 onClick={openJobUrl}
                 role='button'
                 tabIndex={0}
@@ -144,7 +144,10 @@ function JobCard({job, onHashtagClick}) {
                     </div>
                 </div>
                 <div className='job-info'>
-                    <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
+                    <div className="job-title-container">
+                        <h3 title={job.title}>{truncateWords(job.title, 6)}</h3>
+                        {isNew && <span className="new-job-badge">NEW</span>}
+                    </div>
                     {job?.company && <p className='job-company'>{job.company}</p>}
                     {job?.created_at && (
                         <p className='job-created-at' title={new Date(job.created_at).toString()}>

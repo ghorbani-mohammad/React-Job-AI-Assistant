@@ -14,6 +14,7 @@ function Home() {
     const [limit] = useState(10);
     const [count, setCount] = useState(0);
     const [showNewJobNotification, setShowNewJobNotification] = useState(false);
+    const [highlightedJobIds, setHighlightedJobIds] = useState(new Set());
     
     // WebSocket hook
     const { connectionStatus, newJobs, isConnected } = useWebSocket();
@@ -37,20 +38,37 @@ function Home() {
         loadJobs();
     }, [page, limit, activeQuery]);
 
-    // Handle new jobs from WebSocket
+    // Handle new jobs from WebSocket - automatically add them to the list
     useEffect(() => {
         if (newJobs.length > 0 && page === 0 && !activeQuery) {
-            // Only show notification and update jobs if we're on the first page and not searching
-            setShowNewJobNotification(true);
+            // Only add jobs if we're on the first page and not searching
+            const existingJobIds = new Set(jobs.map(job => job.id));
+            const uniqueNewJobs = newJobs.filter(job => !existingJobIds.has(job.id));
             
-            // Auto-hide notification after 5 seconds
-            const timer = setTimeout(() => {
-                setShowNewJobNotification(false);
-            }, 5000);
-
-            return () => clearTimeout(timer);
+            if (uniqueNewJobs.length > 0) {
+                // Add new jobs to the beginning of the list
+                setJobs(prevJobs => [...uniqueNewJobs, ...prevJobs]);
+                setCount(prevCount => prevCount + uniqueNewJobs.length);
+                
+                // Mark these jobs as highlighted
+                const newJobIds = uniqueNewJobs.map(job => job.id);
+                setHighlightedJobIds(prev => new Set([...prev, ...newJobIds]));
+                
+                // Show notification briefly
+                setShowNewJobNotification(true);
+                setTimeout(() => setShowNewJobNotification(false), 3000);
+                
+                // Remove highlighting after 10 seconds
+                setTimeout(() => {
+                    setHighlightedJobIds(prev => {
+                        const updated = new Set(prev);
+                        newJobIds.forEach(id => updated.delete(id));
+                        return updated;
+                    });
+                }, 10000);
+            }
         }
-    }, [newJobs, page, activeQuery]);
+    }, [newJobs, page, activeQuery, jobs]);
 
     const handleRefreshWithNewJobs = () => {
         // Merge new jobs with existing jobs, avoiding duplicates
@@ -97,16 +115,10 @@ function Home() {
                     <div className="notification-content">
                         <span className="notification-icon">🎉</span>
                         <div className="notification-text">
-                            <strong>{newJobs.length} new job{newJobs.length > 1 ? 's' : ''} available!</strong>
-                            <p>Click to refresh and see the latest opportunities</p>
+                            <strong>{newJobs.length} new job{newJobs.length > 1 ? 's' : ''} added!</strong>
+                            <p>New jobs have been automatically added to the top of the list</p>
                         </div>
-                        <button 
-                            className="refresh-btn" 
-                            onClick={handleRefreshWithNewJobs}
-                            type="button"
-                        >
-                            Refresh
-                        </button>
+
                         <button 
                             className="close-btn" 
                             onClick={() => setShowNewJobNotification(false)}
@@ -128,7 +140,14 @@ function Home() {
                 </div>
             ) : (
                 <div className="jobs-grid">
-                    {jobs.map((job) => (<JobCard key={job.id} job={job} onHashtagClick={handleHashtagClick} />))}
+                    {jobs.map((job) => (
+                        <JobCard 
+                            key={job.id} 
+                            job={job} 
+                            onHashtagClick={handleHashtagClick}
+                            isNew={highlightedJobIds.has(job.id)}
+                        />
+                    ))}
                 </div>
             )}
             <div className="pagination">

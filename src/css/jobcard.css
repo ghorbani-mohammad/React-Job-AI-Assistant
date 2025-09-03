@@ -14,6 +14,19 @@
   box-shadow: 0 2px 0 rgba(255, 255, 255, 0.04), 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
+/* New job styling */
+.job-card-new {
+  border: 2px solid #22c55e;
+  box-shadow: 0 1px 0 rgba(34, 197, 94, 0.1), 0 8px 24px rgba(34, 197, 94, 0.15);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(34, 197, 94, 0.02) 100%), #161616;
+  animation: newJobPulse 2s ease-in-out infinite;
+}
+
+.job-card-new:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 0 rgba(34, 197, 94, 0.2), 0 12px 28px rgba(34, 197, 94, 0.25);
+}
+
 .job-poster {
   position: relative;
   height: 160px;
@@ -108,11 +121,19 @@
   text-align: left;
 }
 
+.job-title-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
 .job-info h3 {
-  margin: 0 0 6px 0;
+  margin: 0;
   font-size: 1rem;
   color: #ffffff;
   line-height: 1.25;
+  flex: 1;
   /* Ensure consistent height regardless of title length (2 lines) */
   min-height: calc(1.25em * 2);
   display: -webkit-box;
@@ -122,6 +143,19 @@
   /* Break long, unspaced tokens to prevent grid expansion */
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+
+.new-job-badge {
+  background: #22c55e;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  animation: badgePulse 1.5s ease-in-out infinite;
 }
 
 .job-info p {
@@ -178,4 +212,26 @@
   outline-offset: 2px;
 }
 
+/* Animation keyframes */
+@keyframes newJobPulse {
+  0%, 100% {
+    border-color: #22c55e;
+    box-shadow: 0 1px 0 rgba(34, 197, 94, 0.1), 0 8px 24px rgba(34, 197, 94, 0.15);
+  }
+  50% {
+    border-color: #16a34a;
+    box-shadow: 0 1px 0 rgba(34, 197, 94, 0.2), 0 8px 24px rgba(34, 197, 94, 0.25);
+  }
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
 
