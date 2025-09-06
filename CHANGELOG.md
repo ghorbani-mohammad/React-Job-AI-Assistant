@@ -1,3 +1,11 @@
+## [0.11.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.10.0...v0.11.0) (2025-09-06)
+
+
+### Features
+
+* implement authentication flow with login, protected routes, and user session management ([75ead86](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/75ead8620541e797e3d8c3f4c8726df383f512dd))
+* implement debounced processing for new jobs in Home component to improve performance and prevent duplicate entries ([a8d6cf6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/a8d6cf662def836a7a81f1818945408180aca88e))
+
 ## [0.10.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.9.0...v0.10.0) (2025-09-03)
 
 
@@ -25,11 +33,4 @@
 ### Features
 
 * implement WebSocket functionality with a WebSocketTester component and integrate it into the Home page ([e982b65](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/e982b651d10dcd05b3a163f975047bef750a8ef2))
-
-## [0.7.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.1...v0.7.0) (2025-08-28)
-
-
-### Features
-
-* add relative time formatting to JobCard component ([031f735](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/031f735879d31e28e3be5b54fc5e5bbac4930b99))
 
