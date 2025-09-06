@@ -1,3 +1,10 @@
+## [0.12.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.11.0...v0.12.0) (2025-09-06)
+
+
+### Features
+
+* add Profile page and enhance authentication flow with login modal and favorite functionality ([b9105c8](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/b9105c81222df055b34cbf5ffa574be375c43a12))
+
 ## [0.11.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.10.0...v0.11.0) (2025-09-06)
 
 
@@ -26,11 +33,4 @@
 ### Bug Fixes
 
 * enhance WebSocket connection status to include additional connected state ([3cdc9f1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3cdc9f12dd4294dd7f6b65856947ca51c810b0f2))
-
-## [0.8.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.7.0...v0.8.0) (2025-09-02)
-
-
-### Features
-
-* implement WebSocket functionality with a WebSocketTester component and integrate it into the Home page ([e982b65](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/e982b651d10dcd05b3a163f975047bef750a8ef2))
 
