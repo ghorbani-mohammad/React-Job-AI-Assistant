@@ -3,21 +3,33 @@ import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Favorites from './pages/Favorites'
 import Navbar from './components/Navbar'
+import ProtectedRoute from './components/ProtectedRoute'
 import { FavoriteProvider } from './contexts/Favorites'
+import { AuthProvider } from './contexts/Auth'
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <FavoriteProvider>
-        <main className='main-content'>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/favorites' element={<Favorites />} />
-          </Routes>
-        </main>
-      </FavoriteProvider>
-    </div>
+    <AuthProvider>
+      <div>
+        <Navbar />
+        <FavoriteProvider>
+          <main className='main-content'>
+            <Routes>
+              <Route path='/' element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              } />
+              <Route path='/favorites' element={
+                <ProtectedRoute>
+                  <Favorites />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </main>
+        </FavoriteProvider>
+      </div>
+    </AuthProvider>
   )
 }
 
