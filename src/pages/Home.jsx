@@ -1,6 +1,6 @@
 import JobCard from '../components/JobCard';
 import WebSocketTester from '../components/WebSocketTester';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import '../css/home.css';
 import { getJobs, searchJobs } from '../services/api';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -16,6 +16,7 @@ function Home() {
     const [showNewJobNotification, setShowNewJobNotification] = useState(false);
     const [highlightedJobIds, setHighlightedJobIds] = useState(new Set());
     const processedJobIds = useRef(new Set());
+    const processingTimeout = useRef(null);
     
     // WebSocket hook
     const { connectionStatus, newJobs, isConnected } = useWebSocket();
@@ -43,17 +44,23 @@ function Home() {
         loadJobs();
     }, [page, limit, activeQuery]);
 
-    // Handle new jobs from WebSocket - automatically add them to the list
-    useEffect(() => {
+    // Debounced job processing function
+    const processNewJobs = useCallback(() => {
         if (newJobs.length > 0 && page === 0 && !activeQuery) {
+            console.log('Processing new jobs:', newJobs.length, 'jobs');
+            console.log('New jobs:', newJobs.map(job => ({ id: job.id, title: job.title })));
+            console.log('Already processed:', Array.from(processedJobIds.current));
+            
             // Filter out jobs we've already processed
             const unprocessedJobs = newJobs.filter(job => !processedJobIds.current.has(job.id));
+            console.log('Unprocessed jobs:', unprocessedJobs.length, unprocessedJobs.map(job => ({ id: job.id, title: job.title })));
             
             if (unprocessedJobs.length > 0) {
                 // Add new jobs to the beginning of the list
                 setJobs(prevJobs => {
                     const existingJobIds = new Set(prevJobs.map(job => job.id));
                     const uniqueNewJobs = unprocessedJobs.filter(job => !existingJobIds.has(job.id));
+                    console.log('Adding unique new jobs:', uniqueNewJobs.length, uniqueNewJobs.map(job => ({ id: job.id, title: job.title })));
                     return [...uniqueNewJobs, ...prevJobs];
                 });
                 
@@ -79,6 +86,27 @@ function Home() {
             }
         }
     }, [newJobs, page, activeQuery]);
+
+    // Handle new jobs from WebSocket with debouncing
+    useEffect(() => {
+        if (newJobs.length > 0 && page === 0 && !activeQuery) {
+            // Clear any existing timeout
+            if (processingTimeout.current) {
+                clearTimeout(processingTimeout.current);
+            }
+            
+            // Debounce processing to handle multiple jobs arriving quickly
+            processingTimeout.current = setTimeout(() => {
+                processNewJobs();
+            }, 100); // Wait 100ms for any additional jobs
+        }
+
+        return () => {
+            if (processingTimeout.current) {
+                clearTimeout(processingTimeout.current);
+            }
+        };
+    }, [newJobs, page, activeQuery, processNewJobs]);
 
     const handleRefreshWithNewJobs = () => {
         // Merge new jobs with existing jobs, avoiding duplicates
