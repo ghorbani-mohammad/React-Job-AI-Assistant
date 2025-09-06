@@ -2,11 +2,13 @@ import '../css/jobcard.css';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
+import { useAuth } from '../contexts/Auth';
 import defaultJobImage from '../assets/default-job.svg';
 
 function JobCard({job, onHashtagClick, isNew = false}) {
     const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
-    const favorite = isFavorite(job.id);
+    const { isLoggedIn } = useAuth();
+    const favorite = isLoggedIn ? isFavorite(job.id) : false;
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const [showModal, setShowModal] = useState(false);
@@ -33,6 +35,13 @@ function JobCard({job, onHashtagClick, isNew = false}) {
     function onFavoriteClick(e) {
         e.preventDefault();
         e.stopPropagation();
+        
+        if (!isLoggedIn) {
+            // Show login prompt or redirect to login
+            alert('Please sign in to save favorites');
+            return;
+        }
+        
         if (favorite) {
             removeFavorite(job.id);
         } else {
@@ -133,7 +142,11 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                 <div className='job-poster'>
                     <img src={imageSrc} alt={job.title} onError={handleImageError} />
                     <div className='job-overlay'>
-                        <button className={`favorite-btn ${favorite ? 'active' : ''}`} onClick={onFavoriteClick}>
+                        <button 
+                            className={`favorite-btn ${favorite ? 'active' : ''} ${!isLoggedIn ? 'disabled' : ''}`} 
+                            onClick={onFavoriteClick}
+                            title={!isLoggedIn ? 'Sign in to save favorites' : (favorite ? 'Remove from favorites' : 'Add to favorites')}
+                        >
                             ❤️
                         </button>
                         {job?.description && (

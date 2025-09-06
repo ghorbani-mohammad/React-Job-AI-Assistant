@@ -2,6 +2,7 @@ import './App.css'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Favorites from './pages/Favorites'
+import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import { FavoriteProvider } from './contexts/Favorites'
@@ -15,14 +16,15 @@ function App() {
         <FavoriteProvider>
           <main className='main-content'>
             <Routes>
-              <Route path='/' element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } />
+              <Route path='/' element={<Home />} />
               <Route path='/favorites' element={
                 <ProtectedRoute>
                   <Favorites />
+                </ProtectedRoute>
+              } />
+              <Route path='/profile' element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               } />
             </Routes>

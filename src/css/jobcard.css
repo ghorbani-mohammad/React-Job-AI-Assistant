@@ -92,6 +92,17 @@
   opacity: 1;
 }
 
+/* Disabled state for non-authenticated users */
+.favorite-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.favorite-btn.disabled:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: #444;
+}
+
 .details-btn {
   width: 36px;
   height: 36px;

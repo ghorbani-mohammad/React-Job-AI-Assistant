@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/Auth';
 import { requestVerificationCode, verifyEmailCode } from '../services/auth';
 import '../css/auth.css';
 
-const Login = () => {
+const Login = ({ onClose }) => {
   const { login } = useAuth();
   const [step, setStep] = useState('email'); // 'email' or 'code'
   const [email, setEmail] = useState('');
@@ -38,6 +38,10 @@ const Login = () => {
       const response = await verifyEmailCode(email, code);
       login(response.user);
       setSuccess('Login successful!');
+      // Close modal after successful login
+      setTimeout(() => {
+        if (onClose) onClose();
+      }, 1000);
     } catch (err) {
       setError(err.message || 'Invalid verification code');
     } finally {

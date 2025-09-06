@@ -8,6 +8,13 @@
   padding: 20px;
 }
 
+/* Modal context styles */
+.login-modal-content .auth-container {
+  min-height: auto;
+  background: transparent;
+  padding: 0;
+}
+
 .auth-card {
   background: white;
   border-radius: 12px;
