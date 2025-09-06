@@ -1,3 +1,10 @@
+## [0.10.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.9.0...v0.10.0) (2025-09-03)
+
+
+### Features
+
+* add processing logic for new jobs in Home component to prevent duplicates and enhance job highlighting ([6e9e16a](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/6e9e16ad1e1ab0719698d11ed00de01ec0b765a7))
+
 ## [0.9.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.1...v0.9.0) (2025-09-03)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * add relative time formatting to JobCard component ([031f735](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/031f735879d31e28e3be5b54fc5e5bbac4930b99))
-
-## [0.6.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.6.0...v0.6.1) (2025-08-28)
-
-
-### Bug Fixes
-
-* clean hashtag before setting search term and active query in Home component ([93d4be6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/93d4be67365925e83126d1766549c6e399ea31c1))
 
