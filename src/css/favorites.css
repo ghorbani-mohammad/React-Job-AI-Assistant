@@ -14,4 +14,74 @@
   color: #9aa0a6;
 }
 
+.favorites-loading {
+  padding: 60px 12px;
+  text-align: center;
+  color: #cfcfcf;
+}
+
+.favorites-loading h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+}
+
+.favorites-loading p {
+  margin: 0;
+  color: #9aa0a6;
+}
+
+.favorites-error {
+  padding: 60px 12px;
+  text-align: center;
+  color: #cfcfcf;
+}
+
+.favorites-error h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  color: #ff6b6b;
+}
+
+.favorites-error p {
+  margin: 0 0 16px 0;
+  color: #9aa0a6;
+}
+
+.retry-btn {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.retry-btn:hover {
+  background: #3367d6;
+}
+
+.favorites-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.favorites-header h2 {
+  margin: 0;
+  color: #cfcfcf;
+}
+
+.loading-indicator {
+  color: #9aa0a6;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.favorite-btn.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 

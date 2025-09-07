@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/Auth';
 import defaultJobImage from '../assets/default-job.svg';
 
 function JobCard({job, onHashtagClick, isNew = false}) {
-    const {addFavorite, removeFavorite, isFavorite} = useFavoriteContext();
+    const {addFavorite, removeFavorite, isFavorite, loading} = useFavoriteContext();
     const { isLoggedIn } = useAuth();
     const favorite = isLoggedIn ? isFavorite(job.id) : false;
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
@@ -32,7 +32,7 @@ function JobCard({job, onHashtagClick, isNew = false}) {
         }
     }
 
-    function onFavoriteClick(e) {
+    async function onFavoriteClick(e) {
         e.preventDefault();
         e.stopPropagation();
         
@@ -42,10 +42,25 @@ function JobCard({job, onHashtagClick, isNew = false}) {
             return;
         }
         
-        if (favorite) {
-            removeFavorite(job.id);
-        } else {
-            addFavorite(job);
+        if (loading) {
+            return; // Prevent multiple clicks while loading
+        }
+        
+        try {
+            if (favorite) {
+                const success = await removeFavorite(job.id);
+                if (!success) {
+                    alert('Failed to remove from favorites. Please try again.');
+                }
+            } else {
+                const success = await addFavorite(job);
+                if (!success) {
+                    alert('Failed to add to favorites. Please try again.');
+                }
+            }
+        } catch (error) {
+            console.error('Error managing favorite:', error);
+            alert(error.message || 'An error occurred. Please try again.');
         }
     }
 
@@ -143,11 +158,12 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                     <img src={imageSrc} alt={job.title} onError={handleImageError} />
                     <div className='job-overlay'>
                         <button 
-                            className={`favorite-btn ${favorite ? 'active' : ''} ${!isLoggedIn ? 'disabled' : ''}`} 
+                            className={`favorite-btn ${favorite ? 'active' : ''} ${!isLoggedIn ? 'disabled' : ''} ${loading ? 'loading' : ''}`} 
                             onClick={onFavoriteClick}
+                            disabled={loading}
                             title={!isLoggedIn ? 'Sign in to save favorites' : (favorite ? 'Remove from favorites' : 'Add to favorites')}
                         >
-                            ❤️
+                            {loading ? '⏳' : '❤️'}
                         </button>
                         {job?.description && (
                             <button className='details-btn' onClick={openDetails} aria-label='View details'>

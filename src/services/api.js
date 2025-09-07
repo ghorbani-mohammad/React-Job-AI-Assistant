@@ -54,3 +54,66 @@ export const fetchByUrl = async (url) => {
   const data = await response.json();
   return data;
 };
+
+// Favorites API functions
+export const getFavorites = async () => {
+  const response = await fetch(`${BASE_URL}linkedin/favorites/`, {
+    headers: getHeaders(),
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch favorites: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+export const addToFavorites = async (jobId) => {
+  const response = await fetch(`${BASE_URL}linkedin/favorites/`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ job_id: jobId }),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to add to favorites: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+export const removeFromFavorites = async (favoriteId) => {
+  const response = await fetch(`${BASE_URL}linkedin/favorites/${favoriteId}/`, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to remove from favorites: ${response.status}`);
+  }
+  
+  // DELETE requests typically return 204 No Content, so we handle that case
+  if (response.status === 204) {
+    return { message: 'Job removed from favorites' };
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+export const getFavoriteById = async (favoriteId) => {
+  const response = await fetch(`${BASE_URL}linkedin/favorites/${favoriteId}/`, {
+    headers: getHeaders(),
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch favorite: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
