@@ -1,3 +1,10 @@
+## [0.13.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.12.0...v0.13.0) (2025-09-07)
+
+
+### Features
+
+* enhance favorites functionality with loading states, error handling, and improved user feedback ([acba303](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/acba303d2ee13fcb6a78dfa7b49ddf8d5c32e1a2))
+
 ## [0.12.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.11.0...v0.12.0) (2025-09-06)
 
 
@@ -26,11 +33,4 @@
 ### Features
 
 * enhance JobCard component to highlight new jobs with visual indicators and update Home page to automatically add new jobs ([86eddba](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/86eddbaf8bf4a8125d4daf4aca5e3d20fe68f01f))
-
-## [0.8.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.0...v0.8.1) (2025-09-03)
-
-
-### Bug Fixes
-
-* enhance WebSocket connection status to include additional connected state ([3cdc9f1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3cdc9f12dd4294dd7f6b65856947ca51c810b0f2))
 
