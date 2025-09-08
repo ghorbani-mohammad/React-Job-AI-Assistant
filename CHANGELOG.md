@@ -1,3 +1,15 @@
+## [0.15.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.14.1...v0.15.0) (2025-09-08)
+
+
+### Features
+
+* add notification toggle button to Navbar and update styles ([3417a2b](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3417a2b091bd73d8f621c0464f3189d53a0850b5))
+
+
+### Bug Fixes
+
+* update notification toggle button title for clarity in Navbar ([f09ad66](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/f09ad66bd9c869fbb0ceb811b320616f3ae52fef))
+
 ## [0.14.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.14.0...v0.14.1) (2025-09-08)
 
 
@@ -25,12 +37,4 @@
 ### Features
 
 * add Profile page and enhance authentication flow with login modal and favorite functionality ([b9105c8](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/b9105c81222df055b34cbf5ffa574be375c43a12))
-
-## [0.11.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.10.0...v0.11.0) (2025-09-06)
-
-
-### Features
-
-* implement authentication flow with login, protected routes, and user session management ([75ead86](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/75ead8620541e797e3d8c3f4c8726df383f512dd))
-* implement debounced processing for new jobs in Home component to improve performance and prevent duplicate entries ([a8d6cf6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/a8d6cf662def836a7a81f1818945408180aca88e))
 
