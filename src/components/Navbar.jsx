@@ -42,7 +42,7 @@ function Navbar() {
                     <button 
                         onClick={handleToggleMute}
                         className="notification-toggle"
-                        title={isMuted ? 'Unmute notifications' : 'Mute notifications'}
+                        title={isMuted ? 'Unmute job notification sounds - You will hear a sound when new jobs arrive' : 'Mute job notification sounds - No sound will play when new jobs arrive'}
                     >
                         {isMuted ? '🔇' : '🔊'}
                     </button>
