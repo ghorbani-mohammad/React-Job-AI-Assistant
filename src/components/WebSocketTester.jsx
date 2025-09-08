@@ -8,7 +8,10 @@ function WebSocketTester() {
     lastMessage, 
     newJobs, 
     sendMessage, 
-    isConnected 
+    isConnected,
+    toggleNotificationMute,
+    isNotificationMuted,
+    playTestNotification
   } = useWebSocket();
 
   const handleSendTestMessage = () => {
@@ -61,6 +64,42 @@ function WebSocketTester() {
       
       <div style={{ marginBottom: '8px', color: '#eaeaea' }}>
         New Jobs: <span style={{ color: '#646cff' }}>{newJobs.length}</span>
+      </div>
+      
+      <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <button
+          onClick={toggleNotificationMute}
+          style={{
+            padding: '6px 12px',
+            background: isNotificationMuted() ? '#ef4444' : '#22c55e',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}
+        >
+          {isNotificationMuted() ? '🔇' : '🔊'} 
+          {isNotificationMuted() ? 'Unmute' : 'Mute'}
+        </button>
+        
+        <button
+          onClick={playTestNotification}
+          style={{
+            padding: '6px 12px',
+            background: '#646cff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px'
+          }}
+        >
+          🔊 Test Sound
+        </button>
       </div>
       
       <div style={{ marginBottom: '12px' }}>

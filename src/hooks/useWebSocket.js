@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import websocketService from '../services/websocket';
+import notificationSoundService from '../services/notificationSound';
 
 export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
   const [connectionStatus, setConnectionStatus] = useState('Disconnected');
@@ -70,6 +71,9 @@ export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
     const onNewJob = (job) => {
       setLastMessage({ type: 'new_job', job, timestamp: Date.now() });
       setNewJobs(prev => [job, ...prev.slice(0, 9)]); // Keep last 10 new jobs
+      
+      // Play notification sound for new job
+      notificationSoundService.playNotificationSound();
     };
 
     const onJobStatusChanged = (data) => {
@@ -130,7 +134,11 @@ export const useWebSocket = (url = 'wss://social.m-gh.com/ws/') => {
     disconnect,
     addEventListener,
     removeEventListener,
-    isConnected: connectionStatus === 'Connected' || connectionStatus === 'Authenticated' || connectionStatus.includes('Socket is connected')
+    isConnected: connectionStatus === 'Connected' || connectionStatus === 'Authenticated' || connectionStatus.includes('Socket is connected'),
+    // Notification sound methods
+    toggleNotificationMute: () => notificationSoundService.toggleMute(),
+    isNotificationMuted: () => notificationSoundService.isMutedState(),
+    playTestNotification: () => notificationSoundService.playNotificationSound()
   };
 };
 
