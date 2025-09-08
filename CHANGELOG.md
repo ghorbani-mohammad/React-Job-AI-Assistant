@@ -1,3 +1,10 @@
+## [0.14.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.14.0...v0.14.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* always render WebSocketTester component in Home page ([2995f19](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/2995f196871d3ce73bfb37f6350b77060f334676))
+
 ## [0.14.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.13.0...v0.14.0) (2025-09-08)
 
 
@@ -26,11 +33,4 @@
 
 * implement authentication flow with login, protected routes, and user session management ([75ead86](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/75ead8620541e797e3d8c3f4c8726df383f512dd))
 * implement debounced processing for new jobs in Home component to improve performance and prevent duplicate entries ([a8d6cf6](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/a8d6cf662def836a7a81f1818945408180aca88e))
-
-## [0.10.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.9.0...v0.10.0) (2025-09-03)
-
-
-### Features
-
-* add processing logic for new jobs in Home component to prevent duplicates and enhance job highlighting ([6e9e16a](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/6e9e16ad1e1ab0719698d11ed00de01ec0b765a7))
 
