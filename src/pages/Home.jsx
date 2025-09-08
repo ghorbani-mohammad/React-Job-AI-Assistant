@@ -203,7 +203,7 @@ function Home() {
             </div>
             
             {/* WebSocket Tester - Remove this in production */}
-            {import.meta.env.DEV && <WebSocketTester />}
+            <WebSocketTester />
         </div>
     )
 }
