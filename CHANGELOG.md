@@ -1,3 +1,10 @@
+## [0.14.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.13.0...v0.14.0) (2025-09-08)
+
+
+### Features
+
+* add notification sound functionality with mute toggle and test sound button in WebSocketTester ([de6b991](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/de6b991be08ae50e487a9f2e51a0f4cfbca829fb))
+
 ## [0.13.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.12.0...v0.13.0) (2025-09-07)
 
 
@@ -26,11 +33,4 @@
 ### Features
 
 * add processing logic for new jobs in Home component to prevent duplicates and enhance job highlighting ([6e9e16a](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/6e9e16ad1e1ab0719698d11ed00de01ec0b765a7))
-
-## [0.9.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.8.1...v0.9.0) (2025-09-03)
-
-
-### Features
-
-* enhance JobCard component to highlight new jobs with visual indicators and update Home page to automatically add new jobs ([86eddba](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/86eddbaf8bf4a8125d4daf4aca5e3d20fe68f01f))
 
