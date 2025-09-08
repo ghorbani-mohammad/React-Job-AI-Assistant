@@ -1,5 +1,4 @@
 import JobCard from '../components/JobCard';
-import WebSocketTester from '../components/WebSocketTester';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import '../css/home.css';
 import { getJobs, searchJobs } from '../services/api';
@@ -201,9 +200,6 @@ function Home() {
                     Next
                 </button>
             </div>
-            
-            {/* WebSocket Tester - Remove this in production */}
-            <WebSocketTester />
         </div>
     )
 }

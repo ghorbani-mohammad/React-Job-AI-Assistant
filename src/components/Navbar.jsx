@@ -4,10 +4,12 @@ import Login from './Login';
 import { useState } from 'react';
 import '../css/navbar.css';
 import logo from '../assets/logo.svg';
+import notificationSoundService from '../services/notificationSound';
 
 function Navbar() {
     const { user, isLoggedIn, logout } = useAuth();
     const [showLogin, setShowLogin] = useState(false);
+    const [isMuted, setIsMuted] = useState(notificationSoundService.isMutedState());
 
     const handleLogout = () => {
         logout();
@@ -21,6 +23,11 @@ function Navbar() {
         setShowLogin(false);
     };
 
+    const handleToggleMute = () => {
+        const newMuteState = notificationSoundService.toggleMute();
+        setIsMuted(newMuteState);
+    };
+
     return (
         <>
             <nav className="navbar">
@@ -32,6 +39,13 @@ function Navbar() {
                 </div>
                 <div className="navbar-links">
                     <Link to="/">Home</Link>
+                    <button 
+                        onClick={handleToggleMute}
+                        className="notification-toggle"
+                        title={isMuted ? 'Unmute notifications' : 'Mute notifications'}
+                    >
+                        {isMuted ? '🔇' : '🔊'}
+                    </button>
                     {isLoggedIn ? (
                         <>
                             <Link to="/favorites">Favorites</Link>
