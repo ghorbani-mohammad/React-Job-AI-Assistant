@@ -15,7 +15,7 @@ const Profile = () => {
   // Form state
   const [formData, setFormData] = useState({
     cell_number: '',
-    chat_id: '',
+    email: '',
     about_me: '',
     summary: '',
     education: '',
@@ -29,7 +29,7 @@ const Profile = () => {
         setProfile(profileData);
         setFormData({
           cell_number: profileData.cell_number || '',
-          chat_id: profileData.chat_id || '',
+          email: profileData.email || '',
           about_me: profileData.about_me || '',
           summary: profileData.summary || '',
           education: profileData.education || '',
@@ -74,7 +74,7 @@ const Profile = () => {
   const handleCancel = () => {
     setFormData({
       cell_number: profile?.cell_number || '',
-      chat_id: profile?.chat_id || '',
+      email: profile?.email || '',
       about_me: profile?.about_me || '',
       summary: profile?.summary || '',
       education: profile?.education || '',
@@ -161,15 +161,15 @@ const Profile = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="chat_id">Chat ID (Telegram/WhatsApp)</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="chat_id"
-              name="chat_id"
-              value={formData.chat_id}
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleInputChange}
               disabled={!isEditing}
-              placeholder="Enter your chat ID"
+              placeholder="Enter your email address"
             />
           </div>
         </div>
