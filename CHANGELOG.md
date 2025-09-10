@@ -1,3 +1,10 @@
+## [0.17.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.16.0...v0.17.0) (2025-09-10)
+
+
+### Features
+
+* update Profile component to use new patchProfileDetail function and rename form fields for clarity ([1203e84](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1203e84fd685724a2b7ff85fe54e1b25c6feaac8))
+
 ## [0.16.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.15.0...v0.16.0) (2025-09-10)
 
 
@@ -30,11 +37,4 @@
 ### Features
 
 * add notification sound functionality with mute toggle and test sound button in WebSocketTester ([de6b991](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/de6b991be08ae50e487a9f2e51a0f4cfbca829fb))
-
-## [0.13.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.12.0...v0.13.0) (2025-09-07)
-
-
-### Features
-
-* enhance favorites functionality with loading states, error handling, and improved user feedback ([acba303](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/acba303d2ee13fcb6a78dfa7b49ddf8d5c32e1a2))
 
