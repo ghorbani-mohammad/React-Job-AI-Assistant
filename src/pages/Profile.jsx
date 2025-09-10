@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/Auth';
-import { getProfileDetail, updateProfileDetail } from '../services/auth';
+import { getProfileDetail, patchProfileDetail } from '../services/auth';
 import '../css/profile.css';
 
 const Profile = () => {
@@ -17,9 +17,9 @@ const Profile = () => {
     cell_number: '',
     email: '',
     about_me: '',
-    summary: '',
-    education: '',
-    work_history: '',
+    additional_notes: '',
+    education_background: '',
+    professional_experience: '',
   });
 
   useEffect(() => {
@@ -31,9 +31,9 @@ const Profile = () => {
           cell_number: profileData.cell_number || '',
           email: profileData.email || '',
           about_me: profileData.about_me || '',
-          summary: profileData.summary || '',
-          education: profileData.education || '',
-          work_history: profileData.work_history || '',
+          additional_notes: profileData.additional_notes || '',
+          education_background: profileData.education_background || '',
+          professional_experience: profileData.professional_experience || '',
         });
       } catch (err) {
         setError('Failed to load profile data');
@@ -60,7 +60,7 @@ const Profile = () => {
     setSuccess('');
 
     try {
-      const updatedProfile = await updateProfileDetail(formData);
+      const updatedProfile = await patchProfileDetail(formData);
       setProfile(updatedProfile);
       setIsEditing(false);
       setSuccess('Profile updated successfully!');
@@ -76,9 +76,9 @@ const Profile = () => {
       cell_number: profile?.cell_number || '',
       email: profile?.email || '',
       about_me: profile?.about_me || '',
-      summary: profile?.summary || '',
-      education: profile?.education || '',
-      work_history: profile?.work_history || '',
+      additional_notes: profile?.additional_notes || '',
+      education_background: profile?.education_background || '',
+      professional_experience: profile?.professional_experience || '',
     });
     setIsEditing(false);
     setError('');
@@ -178,11 +178,11 @@ const Profile = () => {
         <div className="profile-section">
           <h2>Professional Summary</h2>
           <div className="form-group">
-            <label htmlFor="summary">About Me</label>
+            <label htmlFor="about_me">About Me</label>
             <textarea
-              id="summary"
-              name="summary"
-              value={formData.summary}
+              id="about_me"
+              name="about_me"
+              value={formData.about_me}
               onChange={handleInputChange}
               disabled={!isEditing}
               placeholder="Tell us about yourself, your skills, and what makes you unique..."
@@ -190,11 +190,11 @@ const Profile = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="about_me">Additional Notes</label>
+            <label htmlFor="additional_notes">Additional Notes</label>
             <textarea
-              id="about_me"
-              name="about_me"
-              value={formData.about_me}
+              id="additional_notes"
+              name="additional_notes"
+              value={formData.additional_notes}
               onChange={handleInputChange}
               disabled={!isEditing}
               placeholder="Any additional information you'd like to share..."
@@ -207,11 +207,11 @@ const Profile = () => {
         <div className="profile-section">
           <h2>Education</h2>
           <div className="form-group">
-            <label htmlFor="education">Educational Background</label>
+            <label htmlFor="education_background">Educational Background</label>
             <textarea
-              id="education"
-              name="education"
-              value={formData.education}
+              id="education_background"
+              name="education_background"
+              value={formData.education_background}
               onChange={handleInputChange}
               disabled={!isEditing}
               placeholder="List your educational qualifications, degrees, certifications, etc."
@@ -224,11 +224,11 @@ const Profile = () => {
         <div className="profile-section">
           <h2>Work History</h2>
           <div className="form-group">
-            <label htmlFor="work_history">Professional Experience</label>
+            <label htmlFor="professional_experience">Professional Experience</label>
             <textarea
-              id="work_history"
-              name="work_history"
-              value={formData.work_history}
+              id="professional_experience"
+              name="professional_experience"
+              value={formData.professional_experience}
               onChange={handleInputChange}
               disabled={!isEditing}
               placeholder="Describe your work experience, previous roles, achievements, and career highlights..."

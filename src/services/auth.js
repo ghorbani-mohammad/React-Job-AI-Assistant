@@ -148,6 +148,30 @@ export const updateProfileDetail = async (profileData) => {
   return data;
 };
 
+export const patchProfileDetail = async (profileData) => {
+  const token = getAccessToken();
+  if (!token) {
+    throw new Error('No access token available');
+  }
+  
+  const response = await fetch('https://social.m-gh.com/api/v1/user/profile/detail/', {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(profileData),
+  });
+  
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to update profile');
+  }
+  
+  return data;
+};
+
 // Refresh access token
 export const refreshAccessToken = async () => {
   const refreshToken = getRefreshToken();
