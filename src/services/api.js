@@ -1,7 +1,27 @@
 import { apiRequest } from './apiInterceptor';
+import { getAccessToken } from './auth';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = 'https://social.m-gh.com/api/v1/';
+
+// Helper function for public API calls (no auth required)
+const publicApiRequest = async (url, options = {}) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
+  
+  // Include token if available, but don't require it
+  const token = getAccessToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return fetch(url, {
+    ...options,
+    headers,
+  });
+};
 
 export const getJobs = async ({ limit = 12, offset = 0, ordering = '-created_at', language = 'en' } = {}) => {
   const params = new URLSearchParams();
@@ -11,7 +31,7 @@ export const getJobs = async ({ limit = 12, offset = 0, ordering = '-created_at'
   if (language) params.set('language', language);
   if (API_KEY) params.set('api_key', API_KEY);
 
-  const response = await apiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
+  const response = await publicApiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
   const data = await response.json();
   return data;
 };
@@ -24,13 +44,13 @@ export const searchJobs = async ({ query = '', limit = 12, offset = 0, ordering 
   params.set('search', query ?? '');
   if (API_KEY) params.set('api_key', API_KEY);
 
-  const response = await apiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
+  const response = await publicApiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
   const data = await response.json();
   return data;
 };
 
 export const fetchByUrl = async (url) => {
-  const response = await apiRequest(url);
+  const response = await publicApiRequest(url);
   const data = await response.json();
   return data;
 };
