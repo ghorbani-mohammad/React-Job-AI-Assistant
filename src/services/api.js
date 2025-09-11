@@ -11,11 +11,8 @@ const publicApiRequest = async (url, options = {}) => {
     ...options.headers,
   };
   
-  // Include token if available, but don't require it
-  const token = getAccessToken();
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
+  // For public endpoints, don't include any authorization headers
+  // This prevents issues with invalid/expired tokens
   
   return fetch(url, {
     ...options,

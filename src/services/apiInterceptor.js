@@ -53,7 +53,6 @@ export const apiRequest = async (url, options = {}) => {
         if (isRefreshTokenExpired()) {
           console.log('Refresh token also expired, requiring re-authentication');
           clearTokens();
-          window.location.href = '/login';
           throw new Error('Session expired. Please log in again.');
         }
         
@@ -69,7 +68,6 @@ export const apiRequest = async (url, options = {}) => {
         } catch (refreshError) {
           console.error('Token refresh failed:', refreshError);
           clearTokens();
-          window.location.href = '/login';
           throw new Error('Authentication failed. Please log in again.');
         } finally {
           isRefreshing = false;
@@ -85,7 +83,6 @@ export const apiRequest = async (url, options = {}) => {
       if (response.status === 401) {
         console.log('401 response after token refresh, refresh token invalid');
         clearTokens();
-        window.location.href = '/login';
         throw new Error('Authentication failed. Please log in again.');
       }
       
