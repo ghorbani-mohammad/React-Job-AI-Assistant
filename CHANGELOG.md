@@ -1,3 +1,10 @@
+## [0.18.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.17.0...v0.18.0) (2025-09-11)
+
+
+### Features
+
+* implement proactive token refresh mechanism and create useTokenManager hook for better token management ([1594873](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1594873b7f0b7a19bfc324e34fc6557004a2bafd))
+
 ## [0.17.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.16.0...v0.17.0) (2025-09-10)
 
 
@@ -30,11 +37,4 @@
 ### Bug Fixes
 
 * always render WebSocketTester component in Home page ([2995f19](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/2995f196871d3ce73bfb37f6350b77060f334676))
-
-## [0.14.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.13.0...v0.14.0) (2025-09-08)
-
-
-### Features
-
-* add notification sound functionality with mute toggle and test sound button in WebSocketTester ([de6b991](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/de6b991be08ae50e487a9f2e51a0f4cfbca829fb))
 
