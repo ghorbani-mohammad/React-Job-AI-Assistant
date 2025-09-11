@@ -7,7 +7,7 @@ import logo from '../assets/logo.svg';
 import notificationSoundService from '../services/notificationSound';
 
 function Navbar() {
-    const { user, isLoggedIn, logout } = useAuth();
+    const { user, isLoggedIn, logout, loading } = useAuth();
     const [showLogin, setShowLogin] = useState(false);
     const [isMuted, setIsMuted] = useState(notificationSoundService.isMutedState());
 
@@ -46,7 +46,11 @@ function Navbar() {
                     >
                         {isMuted ? '🔇' : '🔊'}
                     </button>
-                    {isLoggedIn ? (
+                    {loading ? (
+                        <div className="navbar-loading">
+                            <span>Loading...</span>
+                        </div>
+                    ) : isLoggedIn ? (
                         <>
                             <Link to="/favorites">Favorites</Link>
                             <Link to="/profile">Profile</Link>
