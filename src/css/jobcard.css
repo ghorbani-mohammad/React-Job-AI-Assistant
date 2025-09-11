@@ -179,6 +179,13 @@
   color: #d6d6d6;
 }
 
+.job-source {
+  color: #a0a0a0;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  text-transform: capitalize;
+}
+
 .job-url {
   color: #8ab4f8;
 }
