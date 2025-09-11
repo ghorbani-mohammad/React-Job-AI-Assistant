@@ -1,21 +1,7 @@
-import { getAccessToken } from './auth';
+import { apiRequest } from './apiInterceptor';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = 'https://social.m-gh.com/api/v1/';
-
-// Helper function to get headers with authentication
-const getHeaders = () => {
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  
-  const token = getAccessToken();
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-  
-  return headers;
-};
 
 export const getJobs = async ({ limit = 12, offset = 0, ordering = '-created_at', language = 'en' } = {}) => {
   const params = new URLSearchParams();
@@ -25,9 +11,7 @@ export const getJobs = async ({ limit = 12, offset = 0, ordering = '-created_at'
   if (language) params.set('language', language);
   if (API_KEY) params.set('api_key', API_KEY);
 
-  const response = await fetch(`${BASE_URL}linkedin/job/?${params.toString()}`, {
-    headers: getHeaders(),
-  });
+  const response = await apiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
   const data = await response.json();
   return data;
 };
@@ -40,26 +24,20 @@ export const searchJobs = async ({ query = '', limit = 12, offset = 0, ordering 
   params.set('search', query ?? '');
   if (API_KEY) params.set('api_key', API_KEY);
 
-  const response = await fetch(`${BASE_URL}linkedin/job/?${params.toString()}`, {
-    headers: getHeaders(),
-  });
+  const response = await apiRequest(`${BASE_URL}linkedin/job/?${params.toString()}`);
   const data = await response.json();
   return data;
 };
 
 export const fetchByUrl = async (url) => {
-  const response = await fetch(url, {
-    headers: getHeaders(),
-  });
+  const response = await apiRequest(url);
   const data = await response.json();
   return data;
 };
 
 // Favorites API functions
 export const getFavorites = async () => {
-  const response = await fetch(`${BASE_URL}linkedin/favorites/`, {
-    headers: getHeaders(),
-  });
+  const response = await apiRequest(`${BASE_URL}linkedin/favorites/`);
   
   if (!response.ok) {
     throw new Error(`Failed to fetch favorites: ${response.status}`);
@@ -70,9 +48,8 @@ export const getFavorites = async () => {
 };
 
 export const addToFavorites = async (jobId) => {
-  const response = await fetch(`${BASE_URL}linkedin/favorites/`, {
+  const response = await apiRequest(`${BASE_URL}linkedin/favorites/`, {
     method: 'POST',
-    headers: getHeaders(),
     body: JSON.stringify({ job_id: jobId }),
   });
   
@@ -86,9 +63,8 @@ export const addToFavorites = async (jobId) => {
 };
 
 export const removeFromFavorites = async (favoriteId) => {
-  const response = await fetch(`${BASE_URL}linkedin/favorites/${favoriteId}/`, {
+  const response = await apiRequest(`${BASE_URL}linkedin/favorites/${favoriteId}/`, {
     method: 'DELETE',
-    headers: getHeaders(),
   });
   
   if (!response.ok) {
@@ -106,9 +82,7 @@ export const removeFromFavorites = async (favoriteId) => {
 };
 
 export const getFavoriteById = async (favoriteId) => {
-  const response = await fetch(`${BASE_URL}linkedin/favorites/${favoriteId}/`, {
-    headers: getHeaders(),
-  });
+  const response = await apiRequest(`${BASE_URL}linkedin/favorites/${favoriteId}/`);
   
   if (!response.ok) {
     throw new Error(`Failed to fetch favorite: ${response.status}`);

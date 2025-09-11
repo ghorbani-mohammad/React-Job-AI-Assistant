@@ -1,3 +1,5 @@
+import { apiRequest } from './apiInterceptor';
+
 const BASE_URL = 'https://social.m-gh.com/api/v1/user/auth/';
 
 // Token management
@@ -82,17 +84,7 @@ export const registerUser = async (email, firstName, lastName, verificationCode)
 
 // Get user profile
 export const getUserProfile = async () => {
-  const token = getAccessToken();
-  if (!token) {
-    throw new Error('No access token available');
-  }
-  
-  const response = await fetch('https://social.m-gh.com/api/v1/user/profile/', {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  
+  const response = await apiRequest('https://social.m-gh.com/api/v1/user/profile/');
   const data = await response.json();
   
   if (!response.ok) {
@@ -104,17 +96,7 @@ export const getUserProfile = async () => {
 
 // Get/Update profile detail
 export const getProfileDetail = async () => {
-  const token = getAccessToken();
-  if (!token) {
-    throw new Error('No access token available');
-  }
-  
-  const response = await fetch('https://social.m-gh.com/api/v1/user/profile/detail/', {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  
+  const response = await apiRequest('https://social.m-gh.com/api/v1/user/profile/detail/');
   const data = await response.json();
   
   if (!response.ok) {
@@ -125,17 +107,8 @@ export const getProfileDetail = async () => {
 };
 
 export const updateProfileDetail = async (profileData) => {
-  const token = getAccessToken();
-  if (!token) {
-    throw new Error('No access token available');
-  }
-  
-  const response = await fetch('https://social.m-gh.com/api/v1/user/profile/detail/', {
+  const response = await apiRequest('https://social.m-gh.com/api/v1/user/profile/detail/', {
     method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(profileData),
   });
   
@@ -149,17 +122,8 @@ export const updateProfileDetail = async (profileData) => {
 };
 
 export const patchProfileDetail = async (profileData) => {
-  const token = getAccessToken();
-  if (!token) {
-    throw new Error('No access token available');
-  }
-  
-  const response = await fetch('https://social.m-gh.com/api/v1/user/profile/detail/', {
+  const response = await apiRequest('https://social.m-gh.com/api/v1/user/profile/detail/', {
     method: 'PATCH',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(profileData),
   });
   
@@ -216,6 +180,34 @@ export const isAuthenticated = () => {
     return payload.exp > currentTime;
   } catch (error) {
     return false;
+  }
+};
+
+// Check if token will expire soon (within 5 minutes)
+export const isTokenExpiringSoon = () => {
+  const token = getAccessToken();
+  if (!token) return false;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Date.now() / 1000;
+    const fiveMinutesFromNow = currentTime + (5 * 60); // 5 minutes in seconds
+    return payload.exp < fiveMinutesFromNow;
+  } catch (error) {
+    return false;
+  }
+};
+
+// Get token expiration time
+export const getTokenExpirationTime = () => {
+  const token = getAccessToken();
+  if (!token) return null;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000; // Convert to milliseconds
+  } catch (error) {
+    return null;
   }
 };
 
