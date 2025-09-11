@@ -168,22 +168,40 @@ export const logout = () => {
   clearTokens();
 };
 
-// Check if user is authenticated
-export const isAuthenticated = () => {
+// Check if access token is expired
+export const isAccessTokenExpired = () => {
   const token = getAccessToken();
-  if (!token) return false;
+  if (!token) return true;
   
   try {
-    // Check if token is expired
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    return payload.exp > currentTime;
+    return payload.exp <= currentTime;
   } catch (error) {
-    return false;
+    return true;
   }
 };
 
-// Check if token will expire soon (within 5 minutes)
+// Check if refresh token is expired
+export const isRefreshTokenExpired = () => {
+  const token = getRefreshToken();
+  if (!token) return true;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Date.now() / 1000;
+    return payload.exp <= currentTime;
+  } catch (error) {
+    return true;
+  }
+};
+
+// Check if user is authenticated (access token valid)
+export const isAuthenticated = () => {
+  return !isAccessTokenExpired();
+};
+
+// Check if token will expire soon (within 1 day for 7-day tokens)
 export const isTokenExpiringSoon = () => {
   const token = getAccessToken();
   if (!token) return false;
@@ -191,8 +209,8 @@ export const isTokenExpiringSoon = () => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    const fiveMinutesFromNow = currentTime + (5 * 60); // 5 minutes in seconds
-    return payload.exp < fiveMinutesFromNow;
+    const oneDayFromNow = currentTime + (24 * 60 * 60); // 1 day in seconds
+    return payload.exp < oneDayFromNow;
   } catch (error) {
     return false;
   }

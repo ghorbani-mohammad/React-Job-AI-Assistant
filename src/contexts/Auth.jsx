@@ -6,7 +6,9 @@ import {
   refreshAccessToken,
   getAccessToken,
   isTokenExpiringSoon,
-  getTokenExpirationTime
+  getTokenExpirationTime,
+  isAccessTokenExpired,
+  isRefreshTokenExpired
 } from '../services/auth';
 
 const AuthContext = createContext();
@@ -29,6 +31,16 @@ export const AuthProvider = ({ children }) => {
     if (isTokenExpiringSoon() && isAuthenticated()) {
       try {
         console.log('Token expiring soon, refreshing proactively...');
+        
+        // Check if refresh token is still valid before attempting refresh
+        if (isRefreshTokenExpired()) {
+          console.log('Refresh token expired, logging out user');
+          authLogout();
+          setUser(null);
+          setIsLoggedIn(false);
+          return;
+        }
+        
         await refreshAccessToken();
         console.log('Token refreshed successfully');
       } catch (error) {
@@ -44,8 +56,8 @@ export const AuthProvider = ({ children }) => {
   // Set up interval for proactive token refresh
   useEffect(() => {
     if (isLoggedIn) {
-      // Check every minute for token expiration
-      const interval = setInterval(handleProactiveRefresh, 60000);
+      // Check every hour for token expiration (since tokens last 7 days)
+      const interval = setInterval(handleProactiveRefresh, 60 * 60 * 1000);
       
       // Also check immediately
       handleProactiveRefresh();

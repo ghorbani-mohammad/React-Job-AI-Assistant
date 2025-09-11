@@ -5,7 +5,9 @@ import {
   refreshAccessToken, 
   isAuthenticated, 
   isTokenExpiringSoon,
-  getTokenExpirationTime 
+  getTokenExpirationTime,
+  isAccessTokenExpired,
+  isRefreshTokenExpired
 } from '../services/auth';
 
 export const useTokenManager = () => {
@@ -39,6 +41,14 @@ export const useTokenManager = () => {
     return getTokenExpirationTime();
   }, []);
 
+  const checkAccessTokenExpired = useCallback(() => {
+    return isAccessTokenExpired();
+  }, []);
+
+  const checkRefreshTokenExpired = useCallback(() => {
+    return isRefreshTokenExpired();
+  }, []);
+
   return {
     getToken,
     getRefreshToken: getRefreshTokenValue,
@@ -46,5 +56,7 @@ export const useTokenManager = () => {
     isAuthenticated: checkAuthentication,
     isTokenExpiringSoon: checkTokenExpiration,
     getTokenExpirationTime: getExpirationTime,
+    isAccessTokenExpired: checkAccessTokenExpired,
+    isRefreshTokenExpired: checkRefreshTokenExpired,
   };
 };
