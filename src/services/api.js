@@ -108,3 +108,19 @@ export const getFavoriteById = async (favoriteId) => {
   const data = await response.json();
   return data;
 };
+
+// AI Cover Letter Generation API function
+export const generateCoverLetter = async (data) => {
+  const response = await apiRequest(`${BASE_URL}ai/generate-cover-letter/`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to generate cover letter: ${response.status}`);
+  }
+  
+  const result = await response.json();
+  return result;
+};

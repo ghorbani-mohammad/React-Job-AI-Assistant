@@ -5,6 +5,7 @@ import { useFavoriteContext } from '../contexts/Favorites';
 import { useAuth } from '../contexts/Auth';
 import defaultJobImage from '../assets/default-job.svg';
 import SourceTag from './SourceTag';
+import AIModal from './AIModal';
 
 function JobCard({job, onHashtagClick, isNew = false}) {
     const {addFavorite, removeFavorite, isFavorite, loading} = useFavoriteContext();
@@ -13,6 +14,7 @@ function JobCard({job, onHashtagClick, isNew = false}) {
     const imageSrc = job.image && job.image.trim() !== '' ? job.image : defaultJobImage;
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const [showModal, setShowModal] = useState(false);
+    const [showAIModal, setShowAIModal] = useState(false);
 
     function handleImageError(e) {
         if (e.currentTarget.src !== defaultJobImage) {
@@ -122,6 +124,16 @@ function JobCard({job, onHashtagClick, isNew = false}) {
         setShowModal(false);
     }
 
+    function openAIModal(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowAIModal(true);
+    }
+
+    function closeAIModal() {
+        setShowAIModal(false);
+    }
+
     function handleHashtagClick(e, hashtag) {
         e.preventDefault();
         e.stopPropagation();
@@ -165,6 +177,9 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                             title={!isLoggedIn ? 'Sign in to save favorites' : (favorite ? 'Remove from favorites' : 'Add to favorites')}
                         >
                             {loading ? '⏳' : '❤️'}
+                        </button>
+                        <button className='ai-btn' onClick={openAIModal} aria-label='Generate cover letter with AI' title='Generate cover letter with AI'>
+                            🤖
                         </button>
                         {job?.description && (
                             <button className='details-btn' onClick={openDetails} aria-label='View details'>
@@ -270,6 +285,14 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                             </div>
                         </div>
                     </div>,
+                    document.body
+                )}
+            {showAIModal &&
+                createPortal(
+                    <AIModal 
+                        job={job} 
+                        onClose={closeAIModal}
+                    />,
                     document.body
                 )}
         </>
