@@ -56,7 +56,7 @@ function Favorites() {
                 <h2>My Favorites ({favorites.length})</h2>
                 {loading && <span className="loading-indicator">Updating...</span>}
             </div>
-            <div className="favorites-list">
+            <div className="jobs-grid">
                 {favorites.map((favorite) => (
                     <JobCard key={favorite.id} job={favorite.job} />
                 ))}
