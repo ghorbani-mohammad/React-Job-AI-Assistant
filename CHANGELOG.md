@@ -1,3 +1,10 @@
+## [0.21.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.20.0...v0.21.0) (2025-09-12)
+
+
+### Features
+
+* integrate SourceTag component for job source display in JobCard and update styles ([c53412d](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/c53412d72720853bcbfc381b7887d69329ef0824))
+
 ## [0.20.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.19.0...v0.20.0) (2025-09-11)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * update Profile component to use new patchProfileDetail function and rename form fields for clarity ([1203e84](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1203e84fd685724a2b7ff85fe54e1b25c6feaac8))
-
-## [0.16.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.15.0...v0.16.0) (2025-09-10)
-
-
-### Features
-
-* replace chat ID with email in Profile component and update form handling ([8148546](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/814854674c9e264ecce0e4579b1e817be673517d))
 
