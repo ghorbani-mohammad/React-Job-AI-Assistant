@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { useFavoriteContext } from '../contexts/Favorites';
 import { useAuth } from '../contexts/Auth';
 import defaultJobImage from '../assets/default-job.svg';
+import SourceTag from './SourceTag';
 
 function JobCard({job, onHashtagClick, isNew = false}) {
     const {addFavorite, removeFavorite, isFavorite, loading} = useFavoriteContext();
@@ -178,7 +179,11 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                         {isNew && <span className="new-job-badge">NEW</span>}
                     </div>
                     {job?.company && <p className='job-company'>{job.company}</p>}
-                    {job?.source && <p className='job-source'>Source: {job.source}</p>}
+                    {job?.source && (
+                        <div className="job-source-tag">
+                            <SourceTag source={job.source} />
+                        </div>
+                    )}
                     {job?.created_at && (
                         <p className='job-created-at' title={new Date(job.created_at).toString()}>
                             {formatCreatedAt(job.created_at, browserTimeZone)}
@@ -238,7 +243,11 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                                 <div>
                                     <h3 id={`job-${job.id}-title`} style={{ margin: 0 }}>{job.title}</h3>
                                     {job?.company && <p style={{ margin: '4px 0 0 0', color: '#555' }}>{job.company}</p>}
-                                    {job?.source && <p style={{ margin: '4px 0 0 0', color: '#666', fontSize: '0.9em' }}>Source: {job.source}</p>}
+                                    {job?.source && (
+                                        <div style={{ margin: '4px 0 0 0' }}>
+                                            <SourceTag source={job.source} variant="modal" />
+                                        </div>
+                                    )}
                                     {job?.created_at && (
                                         <p style={{ margin: '6px 0 0 0', color: '#777', fontSize: '0.9em' }}>
                                             Posted: {formatCreatedAt(job.created_at, browserTimeZone)}
