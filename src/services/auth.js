@@ -3,38 +3,11 @@ import { apiRequest } from './apiInterceptor';
 const BASE_URL = 'https://social.m-gh.com/api/v1/user/auth/';
 
 // Token management
-export const getAccessToken = () => {
-  const token = localStorage.getItem('access_token');
-  console.log('🔍 Getting access token from localStorage:', !!token ? 'Found' : 'Not found');
-  return token;
-};
+export const getAccessToken = () => localStorage.getItem('access_token');
 export const getRefreshToken = () => localStorage.getItem('refresh_token');
 export const setTokens = (accessToken, refreshToken) => {
-  console.log('🔧 Setting tokens from backend...');
-  
-  // Debug the access token
-  if (accessToken) {
-    try {
-      const payload = JSON.parse(atob(accessToken.split('.')[1]));
-      const issuedAt = new Date(payload.iat * 1000);
-      const expiresAt = new Date(payload.exp * 1000);
-      const duration = Math.round((payload.exp - payload.iat) / 60 / 60); // hours
-      
-      console.log('🔧 Access Token Details from Backend:', {
-        issuedAt: issuedAt.toLocaleString(),
-        expiresAt: expiresAt.toLocaleString(),
-        durationHours: duration,
-        durationDays: Math.round(duration / 24 * 10) / 10,
-        userId: payload.user_id
-      });
-    } catch (error) {
-      console.error('❌ Failed to parse access token from backend:', error);
-    }
-  }
-  
   localStorage.setItem('access_token', accessToken);
   localStorage.setItem('refresh_token', refreshToken);
-  console.log('✅ Tokens stored in localStorage');
 };
 export const clearTokens = () => {
   localStorage.removeItem('access_token');
@@ -205,35 +178,13 @@ export const logout = () => {
 // Check if access token is expired
 export const isAccessTokenExpired = () => {
   const token = getAccessToken();
-  console.log('🔍 Token validation - Access token exists:', !!token);
-  
-  if (!token) {
-    console.log('❌ No access token found');
-    return true;
-  }
+  if (!token) return true;
   
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    const isExpired = payload.exp <= currentTime;
-    
-    const timeUntilExpirySeconds = payload.exp - currentTime;
-    const timeUntilExpiryMinutes = Math.round(timeUntilExpirySeconds / 60);
-    
-    console.log('🔍 Token validation details:', {
-      tokenExists: true,
-      expirationTime: new Date(payload.exp * 1000).toLocaleString(),
-      currentTime: new Date(currentTime * 1000).toLocaleString(),
-      isExpired: isExpired,
-      timeUntilExpirySeconds: Math.round(timeUntilExpirySeconds),
-      timeUntilExpiryMinutes: timeUntilExpiryMinutes,
-      timeUntilExpiryDisplay: timeUntilExpiryMinutes > 0 ? `${timeUntilExpiryMinutes} minutes` : `expired ${Math.abs(timeUntilExpiryMinutes)} minutes ago`
-    });
-    
-    return isExpired;
+    return payload.exp <= currentTime;
   } catch (error) {
-    console.error('❌ Error parsing access token:', error);
-    console.log('Token that failed to parse:', token.substring(0, 50) + '...');
     return true;
   }
 };
@@ -254,13 +205,10 @@ export const isRefreshTokenExpired = () => {
 
 // Check if user is authenticated (access token valid)
 export const isAuthenticated = () => {
-  const expired = isAccessTokenExpired();
-  const authenticated = !expired;
-  console.log('🔍 isAuthenticated result:', authenticated);
-  return authenticated;
+  return !isAccessTokenExpired();
 };
 
-// Check if token will expire soon (within 1 day for 7-day tokens)
+// Check if token will expire soon (within 2 minutes for short-lived tokens)
 export const isTokenExpiringSoon = () => {
   const token = getAccessToken();
   if (!token) return false;
@@ -268,8 +216,8 @@ export const isTokenExpiringSoon = () => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    const oneDayFromNow = currentTime + (24 * 60 * 60); // 1 day in seconds
-    return payload.exp < oneDayFromNow;
+    const twoMinutesFromNow = currentTime + (2 * 60); // 2 minutes in seconds
+    return payload.exp < twoMinutesFromNow;
   } catch (error) {
     return false;
   }

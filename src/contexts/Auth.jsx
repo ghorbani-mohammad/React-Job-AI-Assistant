@@ -36,16 +36,13 @@ export const AuthProvider = ({ children }) => {
         const userProfile = await getUserProfile();
         setUser(userProfile);
         setIsLoggedIn(true);
-        console.log('Auth state synced - user logged in');
       } catch (error) {
         console.error('Failed to sync auth state:', error);
         // If sync fails, the API interceptor will handle 401s and clear tokens
         // We don't need to be aggressive here since 401s are handled elsewhere
-        console.log('Sync failed, but letting API interceptor handle auth errors');
       }
     } else if (!authenticated && isLoggedIn) {
       // Tokens are invalid but state says logged in - sync state
-      console.log('Tokens invalid during sync, logging out user');
       setUser(null);
       setIsLoggedIn(false);
     }
@@ -55,13 +52,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === 'access_token' || e.key === 'refresh_token') {
-        console.log('Token storage changed, syncing auth state');
         syncAuthState(); // Respond to storage changes immediately
       }
     };
 
     const handleAuthTokensCleared = (e) => {
-      console.log('Auth tokens cleared event received:', e.detail);
       setUser(null);
       setIsLoggedIn(false);
     };
@@ -82,11 +77,9 @@ export const AuthProvider = ({ children }) => {
   const handleProactiveRefresh = useCallback(async () => {
     if (isTokenExpiringSoon() && isAuthenticated()) {
       try {
-        console.log('Token expiring soon, refreshing proactively...');
         
         // Check if refresh token is still valid before attempting refresh
         if (isRefreshTokenExpired()) {
-          console.log('Refresh token expired, logging out user');
           authLogout();
           setUser(null);
           setIsLoggedIn(false);
@@ -94,7 +87,6 @@ export const AuthProvider = ({ children }) => {
         }
         
         await refreshAccessToken();
-        console.log('Token refreshed successfully');
       } catch (error) {
         console.error('Proactive token refresh failed:', error);
         // If proactive refresh fails, clear tokens and logout
@@ -108,8 +100,8 @@ export const AuthProvider = ({ children }) => {
   // Set up interval for proactive token refresh
   useEffect(() => {
     if (isLoggedIn) {
-      // Check every hour for token expiration (since tokens last 7 days)
-      const interval = setInterval(handleProactiveRefresh, 60 * 60 * 1000);
+      // Check every 2 minutes for token expiration (since tokens last only 5 minutes)
+      const interval = setInterval(handleProactiveRefresh, 2 * 60 * 1000);
       
       // Also check immediately
       handleProactiveRefresh();
@@ -121,19 +113,12 @@ export const AuthProvider = ({ children }) => {
   // Check authentication status on app load
   useEffect(() => {
     const checkAuth = async () => {
-      console.log('🚀 Starting initial auth check on app load...');
       try {
-        const authenticated = isAuthenticated();
-        console.log('🔍 Initial auth check - isAuthenticated():', authenticated);
-        
-        if (authenticated) {
-          console.log('✅ Tokens are valid, fetching user profile...');
+        if (isAuthenticated()) {
           const userProfile = await getUserProfile();
           setUser(userProfile);
           setIsLoggedIn(true);
-          console.log('✅ Initial auth check successful - user logged in');
         } else {
-          console.log('❌ No valid tokens found on app load');
           setUser(null);
           setIsLoggedIn(false);
         }
@@ -142,12 +127,10 @@ export const AuthProvider = ({ children }) => {
         // Try to refresh token if we have a refresh token
         if (!isRefreshTokenExpired()) {
           try {
-            console.log('Attempting token refresh on app load...');
             await refreshAccessToken();
             const userProfile = await getUserProfile();
             setUser(userProfile);
             setIsLoggedIn(true);
-            console.log('Token refresh successful on app load');
           } catch (refreshError) {
             console.error('Token refresh failed on app load:', refreshError);
             authLogout();
@@ -155,7 +138,6 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(false);
           }
         } else {
-          console.log('Refresh token expired, clearing tokens');
           authLogout();
           setUser(null);
           setIsLoggedIn(false);
@@ -185,7 +167,6 @@ export const AuthProvider = ({ children }) => {
 
   // Force sync auth state (useful for debugging or manual refresh)
   const forceSync = useCallback(() => {
-    console.log('Force syncing auth state...');
     syncAuthState();
   }, [syncAuthState]);
 
