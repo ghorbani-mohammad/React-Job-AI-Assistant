@@ -1,3 +1,10 @@
+## [0.20.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.19.0...v0.20.0) (2025-09-11)
+
+
+### Features
+
+* add job source display to JobCard component and style in CSS ([fab772a](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/fab772a42660e7f92f529681c446d665c42be050))
+
 ## [0.19.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.18.0...v0.19.0) (2025-09-11)
 
 
@@ -25,16 +32,4 @@
 ### Features
 
 * replace chat ID with email in Profile component and update form handling ([8148546](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/814854674c9e264ecce0e4579b1e817be673517d))
-
-## [0.15.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.14.1...v0.15.0) (2025-09-08)
-
-
-### Features
-
-* add notification toggle button to Navbar and update styles ([3417a2b](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3417a2b091bd73d8f621c0464f3189d53a0850b5))
-
-
-### Bug Fixes
-
-* update notification toggle button title for clarity in Navbar ([f09ad66](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/f09ad66bd9c869fbb0ceb811b320616f3ae52fef))
 
