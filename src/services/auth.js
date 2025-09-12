@@ -10,8 +10,31 @@ export const getAccessToken = () => {
 };
 export const getRefreshToken = () => localStorage.getItem('refresh_token');
 export const setTokens = (accessToken, refreshToken) => {
+  console.log('🔧 Setting tokens from backend...');
+  
+  // Debug the access token
+  if (accessToken) {
+    try {
+      const payload = JSON.parse(atob(accessToken.split('.')[1]));
+      const issuedAt = new Date(payload.iat * 1000);
+      const expiresAt = new Date(payload.exp * 1000);
+      const duration = Math.round((payload.exp - payload.iat) / 60 / 60); // hours
+      
+      console.log('🔧 Access Token Details from Backend:', {
+        issuedAt: issuedAt.toLocaleString(),
+        expiresAt: expiresAt.toLocaleString(),
+        durationHours: duration,
+        durationDays: Math.round(duration / 24 * 10) / 10,
+        userId: payload.user_id
+      });
+    } catch (error) {
+      console.error('❌ Failed to parse access token from backend:', error);
+    }
+  }
+  
   localStorage.setItem('access_token', accessToken);
   localStorage.setItem('refresh_token', refreshToken);
+  console.log('✅ Tokens stored in localStorage');
 };
 export const clearTokens = () => {
   localStorage.removeItem('access_token');
@@ -194,12 +217,17 @@ export const isAccessTokenExpired = () => {
     const currentTime = Date.now() / 1000;
     const isExpired = payload.exp <= currentTime;
     
+    const timeUntilExpirySeconds = payload.exp - currentTime;
+    const timeUntilExpiryMinutes = Math.round(timeUntilExpirySeconds / 60);
+    
     console.log('🔍 Token validation details:', {
       tokenExists: true,
       expirationTime: new Date(payload.exp * 1000).toLocaleString(),
       currentTime: new Date(currentTime * 1000).toLocaleString(),
       isExpired: isExpired,
-      timeUntilExpiry: Math.round((payload.exp - currentTime) / 60) + ' minutes'
+      timeUntilExpirySeconds: Math.round(timeUntilExpirySeconds),
+      timeUntilExpiryMinutes: timeUntilExpiryMinutes,
+      timeUntilExpiryDisplay: timeUntilExpiryMinutes > 0 ? `${timeUntilExpiryMinutes} minutes` : `expired ${Math.abs(timeUntilExpiryMinutes)} minutes ago`
     });
     
     return isExpired;
