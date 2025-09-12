@@ -1,3 +1,10 @@
+## [0.22.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.21.0...v0.22.0) (2025-09-12)
+
+
+### Features
+
+* add AI Cover Letter Generator modal and integrate with JobCard component ([34bbd96](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/34bbd968d5bd065d9fc3d86d62cc852066d026a7))
+
 ## [0.21.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.20.0...v0.21.0) (2025-09-12)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * implement proactive token refresh mechanism and create useTokenManager hook for better token management ([1594873](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1594873b7f0b7a19bfc324e34fc6557004a2bafd))
-
-## [0.17.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.16.0...v0.17.0) (2025-09-10)
-
-
-### Features
-
-* update Profile component to use new patchProfileDetail function and rename form fields for clarity ([1203e84](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1203e84fd685724a2b7ff85fe54e1b25c6feaac8))
 
