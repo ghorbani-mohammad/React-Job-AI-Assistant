@@ -179,15 +179,15 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                         {isNew && <span className="new-job-badge">NEW</span>}
                     </div>
                     {job?.company && <p className='job-company'>{job.company}</p>}
-                    {job?.source && (
-                        <div className="job-source-tag">
-                            <SourceTag source={job.source} />
-                        </div>
-                    )}
                     {job?.created_at && (
                         <p className='job-created-at' title={new Date(job.created_at).toString()}>
                             {formatCreatedAt(job.created_at, browserTimeZone)}
                         </p>
+                    )}
+                    {job?.source && (
+                        <div className="job-source-tag">
+                            <SourceTag source={job.source} />
+                        </div>
                     )}
                     {job?.found_keywords_as_hashtags && job.found_keywords_as_hashtags.length > 0 && (
                         <div className="job-hashtags">
