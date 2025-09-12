@@ -12,6 +12,11 @@ export const setTokens = (accessToken, refreshToken) => {
 export const clearTokens = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
+  
+  // Dispatch custom event to notify Auth context
+  window.dispatchEvent(new CustomEvent('authTokensCleared', {
+    detail: { reason: 'tokens_cleared' }
+  }));
 };
 
 // Request verification code

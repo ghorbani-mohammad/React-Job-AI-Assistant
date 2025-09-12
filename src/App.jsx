@@ -5,6 +5,7 @@ import Favorites from './pages/Favorites'
 import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import AuthDebugger from './components/AuthDebugger'
 import { FavoriteProvider } from './contexts/Favorites'
 import { AuthProvider } from './contexts/Auth'
 
@@ -13,6 +14,7 @@ function App() {
     <AuthProvider>
       <div>
         <Navbar />
+        <AuthDebugger />
         <FavoriteProvider>
           <main className='main-content'>
             <Routes>
