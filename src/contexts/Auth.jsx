@@ -121,14 +121,19 @@ export const AuthProvider = ({ children }) => {
   // Check authentication status on app load
   useEffect(() => {
     const checkAuth = async () => {
+      console.log('🚀 Starting initial auth check on app load...');
       try {
-        if (isAuthenticated()) {
+        const authenticated = isAuthenticated();
+        console.log('🔍 Initial auth check - isAuthenticated():', authenticated);
+        
+        if (authenticated) {
+          console.log('✅ Tokens are valid, fetching user profile...');
           const userProfile = await getUserProfile();
           setUser(userProfile);
           setIsLoggedIn(true);
-          console.log('Initial auth check successful');
+          console.log('✅ Initial auth check successful - user logged in');
         } else {
-          console.log('No valid tokens found on app load');
+          console.log('❌ No valid tokens found on app load');
           setUser(null);
           setIsLoggedIn(false);
         }

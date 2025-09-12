@@ -3,7 +3,11 @@ import { apiRequest } from './apiInterceptor';
 const BASE_URL = 'https://social.m-gh.com/api/v1/user/auth/';
 
 // Token management
-export const getAccessToken = () => localStorage.getItem('access_token');
+export const getAccessToken = () => {
+  const token = localStorage.getItem('access_token');
+  console.log('🔍 Getting access token from localStorage:', !!token ? 'Found' : 'Not found');
+  return token;
+};
 export const getRefreshToken = () => localStorage.getItem('refresh_token');
 export const setTokens = (accessToken, refreshToken) => {
   localStorage.setItem('access_token', accessToken);
@@ -178,13 +182,30 @@ export const logout = () => {
 // Check if access token is expired
 export const isAccessTokenExpired = () => {
   const token = getAccessToken();
-  if (!token) return true;
+  console.log('🔍 Token validation - Access token exists:', !!token);
+  
+  if (!token) {
+    console.log('❌ No access token found');
+    return true;
+  }
   
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    return payload.exp <= currentTime;
+    const isExpired = payload.exp <= currentTime;
+    
+    console.log('🔍 Token validation details:', {
+      tokenExists: true,
+      expirationTime: new Date(payload.exp * 1000).toLocaleString(),
+      currentTime: new Date(currentTime * 1000).toLocaleString(),
+      isExpired: isExpired,
+      timeUntilExpiry: Math.round((payload.exp - currentTime) / 60) + ' minutes'
+    });
+    
+    return isExpired;
   } catch (error) {
+    console.error('❌ Error parsing access token:', error);
+    console.log('Token that failed to parse:', token.substring(0, 50) + '...');
     return true;
   }
 };
@@ -205,7 +226,10 @@ export const isRefreshTokenExpired = () => {
 
 // Check if user is authenticated (access token valid)
 export const isAuthenticated = () => {
-  return !isAccessTokenExpired();
+  const expired = isAccessTokenExpired();
+  const authenticated = !expired;
+  console.log('🔍 isAuthenticated result:', authenticated);
+  return authenticated;
 };
 
 // Check if token will expire soon (within 1 day for 7-day tokens)

@@ -20,6 +20,22 @@ const AuthDebugger = () => {
     const refreshToken = getRefreshToken();
     const expirationTime = getTokenExpirationTime();
     
+    // Additional token inspection
+    let tokenDetails = null;
+    if (accessToken) {
+      try {
+        const payload = JSON.parse(atob(accessToken.split('.')[1]));
+        tokenDetails = {
+          exp: payload.exp,
+          iat: payload.iat,
+          user_id: payload.user_id,
+          tokenLength: accessToken.length
+        };
+      } catch (e) {
+        tokenDetails = { error: 'Failed to parse token' };
+      }
+    }
+    
     setDebugInfo({
       hasAccessToken: !!accessToken,
       hasRefreshToken: !!refreshToken,
@@ -32,6 +48,7 @@ const AuthDebugger = () => {
       contextIsLoggedIn: isLoggedIn,
       contextLoading: loading,
       contextUser: user?.email || 'None',
+      tokenDetails: tokenDetails,
       timestamp: new Date().toLocaleString()
     });
   };
@@ -117,6 +134,21 @@ const AuthDebugger = () => {
         Expires At: {debugInfo.tokenExpirationTime || 'N/A'}<br/>
         Time Until Expiry: {debugInfo.timeUntilExpiration || 'N/A'}<br/>
       </div>
+
+      {debugInfo.tokenDetails && (
+        <div style={{ marginBottom: '10px' }}>
+          <strong style={{ color: '#ffff00' }}>Token Details:</strong><br/>
+          {debugInfo.tokenDetails.error ? (
+            <span style={{ color: '#ff6b6b' }}>Error: {debugInfo.tokenDetails.error}</span>
+          ) : (
+            <>
+              User ID: {debugInfo.tokenDetails.user_id || 'N/A'}<br/>
+              Issued At: {debugInfo.tokenDetails.iat ? new Date(debugInfo.tokenDetails.iat * 1000).toLocaleString() : 'N/A'}<br/>
+              Token Length: {debugInfo.tokenDetails.tokenLength} chars<br/>
+            </>
+          )}
+        </div>
+      )}
 
       <div style={{ marginBottom: '10px' }}>
         <small>Last Updated: {debugInfo.timestamp}</small>
