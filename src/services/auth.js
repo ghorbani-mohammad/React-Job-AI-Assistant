@@ -93,7 +93,9 @@ export const getUserProfile = async () => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to get user profile');
+    const error = new Error(data.message || 'Failed to get user profile');
+    error.status = response.status;
+    throw error;
   }
   
   return data;

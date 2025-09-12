@@ -39,14 +39,13 @@ export const AuthProvider = ({ children }) => {
         console.log('Auth state synced - user logged in');
       } catch (error) {
         console.error('Failed to sync auth state:', error);
-        // If we can't get user profile, tokens might be invalid
-        authLogout();
-        setUser(null);
-        setIsLoggedIn(false);
+        // If sync fails, the API interceptor will handle 401s and clear tokens
+        // We don't need to be aggressive here since 401s are handled elsewhere
+        console.log('Sync failed, but letting API interceptor handle auth errors');
       }
     } else if (!authenticated && isLoggedIn) {
       // Tokens are invalid but state says logged in - sync state
-      console.log('Tokens invalid, logging out user');
+      console.log('Tokens invalid during sync, logging out user');
       setUser(null);
       setIsLoggedIn(false);
     }
@@ -57,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     const handleStorageChange = (e) => {
       if (e.key === 'access_token' || e.key === 'refresh_token') {
         console.log('Token storage changed, syncing auth state');
-        syncAuthState();
+        syncAuthState(); // Respond to storage changes immediately
       }
     };
 
@@ -70,16 +69,12 @@ export const AuthProvider = ({ children }) => {
     // Listen for storage events from other tabs/windows
     window.addEventListener('storage', handleStorageChange);
     
-    // Listen for custom auth events (same tab)
+    // Listen for custom auth events (same tab) - this handles 401 responses
     window.addEventListener('authTokensCleared', handleAuthTokensCleared);
-    
-    // Also check periodically for changes within the same tab
-    const syncInterval = setInterval(syncAuthState, 30000); // Check every 30 seconds
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('authTokensCleared', handleAuthTokensCleared);
-      clearInterval(syncInterval);
     };
   }, [syncAuthState]);
 
