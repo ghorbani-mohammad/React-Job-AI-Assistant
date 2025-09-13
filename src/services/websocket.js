@@ -24,7 +24,6 @@ class WebSocketService {
     if (!this.socket) return;
 
     this.socket.onopen = () => {
-      console.log('Connected to WebSocket server');
       this.isConnected = true;
       this.reconnectAttempts = 0;
       
@@ -63,7 +62,6 @@ class WebSocketService {
   handleMessage(data) {
     switch (data.type) {
       case 'authenticated':
-        console.log('Authentication successful');
         this.emit('authenticated');
         break;
         
