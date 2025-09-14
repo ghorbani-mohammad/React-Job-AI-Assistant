@@ -140,6 +140,18 @@
   color: #ffed4e;
 }
 
+/* Disabled state for non-authenticated users */
+.ai-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-btn.disabled:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: #444;
+  color: #ffd700;
+}
+
 .job-created-at {
   color: #888;
   font-size: 0.8rem;
