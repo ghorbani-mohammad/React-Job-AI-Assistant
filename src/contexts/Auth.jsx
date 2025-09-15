@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
       } catch (error) {
         console.error('Failed to sync auth state:', error);
-        // If sync fails, the API interceptor will handle 401s and clear tokens
+        // If sync fails, don't clear tokens immediately
+        // The API interceptor will handle 401s and clear tokens appropriately
         // We don't need to be aggressive here since 401s are handled elsewhere
       }
     } else if (!authenticated && isLoggedIn) {
@@ -77,7 +78,6 @@ export const AuthProvider = ({ children }) => {
   const handleProactiveRefresh = useCallback(async () => {
     if (isTokenExpiringSoon() && isAuthenticated()) {
       try {
-        
         // Check if refresh token is still valid before attempting refresh
         if (isRefreshTokenExpired()) {
           authLogout();
@@ -89,10 +89,13 @@ export const AuthProvider = ({ children }) => {
         await refreshAccessToken();
       } catch (error) {
         console.error('Proactive token refresh failed:', error);
-        // If proactive refresh fails, clear tokens and logout
-        authLogout();
-        setUser(null);
-        setIsLoggedIn(false);
+        // Only clear tokens if refresh token is also expired
+        // Don't be too aggressive - let the API interceptor handle 401s
+        if (isRefreshTokenExpired()) {
+          authLogout();
+          setUser(null);
+          setIsLoggedIn(false);
+        }
       }
     }
   }, []);
@@ -133,9 +136,17 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(true);
           } catch (refreshError) {
             console.error('Token refresh failed on app load:', refreshError);
-            authLogout();
-            setUser(null);
-            setIsLoggedIn(false);
+            // Only clear tokens if refresh token is also expired
+            if (isRefreshTokenExpired()) {
+              authLogout();
+              setUser(null);
+              setIsLoggedIn(false);
+            } else {
+              // If refresh token is still valid, just set logged out state
+              // Let the API interceptor handle future 401s
+              setUser(null);
+              setIsLoggedIn(false);
+            }
           }
         } else {
           authLogout();

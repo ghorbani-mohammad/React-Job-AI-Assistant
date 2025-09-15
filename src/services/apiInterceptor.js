@@ -64,8 +64,15 @@ export const apiRequest = async (url, options = {}) => {
           await refreshPromise;
         } catch (refreshError) {
           console.error('Token refresh failed:', refreshError);
-          clearTokens();
-          throw new Error('Authentication failed. Please log in again.');
+          // Only clear tokens if refresh token is also expired
+          if (isRefreshTokenExpired()) {
+            clearTokens();
+            throw new Error('Session expired. Please log in again.');
+          } else {
+            // If refresh token is still valid, don't clear tokens
+            // The user might have network issues or temporary server problems
+            throw new Error('Authentication failed. Please try again.');
+          }
         } finally {
           isRefreshing = false;
           refreshPromise = null;
@@ -76,10 +83,17 @@ export const apiRequest = async (url, options = {}) => {
       const token = getAccessToken();
       let response = await makeRequest(token);
       
-      // Step 5: If we still get 401, the refresh token might be invalid
+      // Step 5: If we still get 401, check if refresh token is expired
       if (response.status === 401) {
-        clearTokens();
-        throw new Error('Authentication failed. Please log in again.');
+        // Only clear tokens if refresh token is also expired
+        if (isRefreshTokenExpired()) {
+          clearTokens();
+          throw new Error('Session expired. Please log in again.');
+        } else {
+          // If refresh token is still valid, don't clear tokens
+          // This might be a temporary server issue
+          throw new Error('Authentication failed. Please try again.');
+        }
       }
       
       return response;
