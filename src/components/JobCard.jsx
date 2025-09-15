@@ -127,6 +127,13 @@ function JobCard({job, onHashtagClick, isNew = false}) {
     function openAIModal(e) {
         e.preventDefault();
         e.stopPropagation();
+        
+        if (!isLoggedIn) {
+            // Show login prompt
+            alert('Please sign in to use AI features');
+            return;
+        }
+        
         setShowAIModal(true);
     }
 
@@ -178,7 +185,12 @@ function JobCard({job, onHashtagClick, isNew = false}) {
                         >
                             {loading ? '⏳' : '❤️'}
                         </button>
-                        <button className='ai-btn' onClick={openAIModal} aria-label='Generate cover letter with AI' title='Generate cover letter with AI'>
+                        <button 
+                            className={`ai-btn ${!isLoggedIn ? 'disabled' : ''}`} 
+                            onClick={openAIModal} 
+                            aria-label='Generate cover letter with AI' 
+                            title={!isLoggedIn ? 'Sign in to use AI features' : 'Generate cover letter with AI'}
+                        >
                             🤖
                         </button>
                         {job?.description && (

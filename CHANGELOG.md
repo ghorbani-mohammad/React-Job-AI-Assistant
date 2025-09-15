@@ -1,3 +1,10 @@
+## [0.23.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.22.0...v0.23.0) (2025-09-14)
+
+
+### Features
+
+* add login prompt and disabled state for AI features in JobCard component ([69e096f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/69e096fbb076918568476ed570cb4437b5d9acaf))
+
 ## [0.22.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.21.0...v0.22.0) (2025-09-12)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * enhance token management by adding expiration checks for access and refresh tokens ([539139c](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/539139cdac674636ad9ca3bef33432931a7b0016))
-
-## [0.18.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.17.0...v0.18.0) (2025-09-11)
-
-
-### Features
-
-* implement proactive token refresh mechanism and create useTokenManager hook for better token management ([1594873](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/1594873b7f0b7a19bfc324e34fc6557004a2bafd))
 
