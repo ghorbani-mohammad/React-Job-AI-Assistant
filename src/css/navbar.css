@@ -205,6 +205,17 @@
   transform: translateY(1px); /* Fine-tune vertical position */
 }
 
+.pending-payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f59e0b;
+  line-height: 1;
+  transform: translateY(1px); /* Fine-tune vertical position */
+}
+
 .expired-indicator {
   color: #ef4444;
   font-weight: 600;
