@@ -4,7 +4,7 @@ import { useSubscription } from '../contexts/Subscription';
 import Login from './Login';
 import { useState } from 'react';
 import '../css/navbar.css';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import notificationSoundService from '../services/notificationSound';
 
 function Navbar() {
