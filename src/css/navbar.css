@@ -188,31 +188,19 @@
 .subscription-link {
   text-decoration: none;
   color: inherit;
-  display: flex;
-  align-items: center;
-  height: 36px; /* Match navbar element height */
 }
 
 .subscription-link:hover {
   color: #c9cbff;
 }
 
-.subscription-link:hover .premium-status {
-  background: rgba(16, 185, 129, 0.1);
-}
-
 .premium-status {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 4px;
   font-size: 14px;
   font-weight: 500;
   color: #10b981;
-  height: 36px; /* Match the height of other navbar elements */
-  padding: 0 8px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
 }
 
 .expired-indicator {
@@ -226,18 +214,15 @@
 }
 
 .upgrade-prompt {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  height: 28px; /* Fixed height for consistency */
   transition: all 0.2s ease;
 }
 
