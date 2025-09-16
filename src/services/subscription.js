@@ -40,7 +40,7 @@ export const getPremiumStatus = async () => {
 };
 
 /**
- * Create a new subscription
+ * Create a new subscription with payment information
  */
 export const createSubscription = async (planId) => {
   const response = await apiRequest(`${BASE_URL}user/subscriptions/`, {
@@ -114,6 +114,89 @@ export const getFeatureUsage = async () => {
   
   const data = await response.json();
   return data;
+};
+
+// Payment-related endpoints
+
+/**
+ * Check payment status by payment ID
+ */
+export const checkPaymentStatus = async (paymentId) => {
+  const response = await apiRequest(`${BASE_URL}user/payments/invoices/${paymentId}/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to check payment status: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get user's payment history
+ */
+export const getPaymentHistory = async () => {
+  const response = await apiRequest(`${BASE_URL}user/payments/invoices/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch payment history: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Check payment service status
+ */
+export const checkPaymentServiceStatus = async () => {
+  const response = await apiRequest(`${BASE_URL}user/payments/status/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to check payment service status: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Poll payment status until completion or timeout
+ */
+export const pollPaymentStatus = async (paymentId, maxAttempts = 30, intervalMs = 10000) => {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      const payment = await checkPaymentStatus(paymentId);
+      
+      // Payment completed successfully
+      if (payment.is_paid || payment.status === 'finished') {
+        return { success: true, payment };
+      }
+      
+      // Payment failed or expired
+      if (payment.status === 'expired' || payment.status === 'failed' || payment.status === 'refunded') {
+        return { success: false, payment, reason: `Payment ${payment.status}` };
+      }
+      
+      // Continue polling for other statuses (waiting, confirming, sending, etc.)
+      if (attempt < maxAttempts - 1) {
+        await new Promise(resolve => setTimeout(resolve, intervalMs));
+      }
+      
+    } catch (error) {
+      console.error(`Payment status check attempt ${attempt + 1} failed:`, error);
+      
+      // If it's the last attempt, throw the error
+      if (attempt === maxAttempts - 1) {
+        throw error;
+      }
+      
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, intervalMs));
+    }
+  }
+  
+  return { success: false, reason: 'Timeout waiting for payment confirmation' };
 };
 
 // AI Premium endpoints
