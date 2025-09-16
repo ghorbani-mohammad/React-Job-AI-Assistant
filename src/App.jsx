@@ -4,6 +4,9 @@ import { Routes, Route } from 'react-router-dom'
 import Favorites from './pages/Favorites'
 import Profile from './pages/Profile'
 import Subscription from './pages/Subscription'
+import PaymentSuccess from './pages/PaymentSuccess'
+import PaymentFailure from './pages/PaymentFailure'
+import PaymentCancel from './pages/PaymentCancel'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import PaymentStatusNotification from './components/PaymentStatusNotification'
@@ -35,6 +38,21 @@ function App() {
                 <Route path='/subscription' element={
                   <ProtectedRoute>
                     <Subscription />
+                  </ProtectedRoute>
+                } />
+                <Route path='/payment/success' element={
+                  <ProtectedRoute>
+                    <PaymentSuccess />
+                  </ProtectedRoute>
+                } />
+                <Route path='/payment/failed' element={
+                  <ProtectedRoute>
+                    <PaymentFailure />
+                  </ProtectedRoute>
+                } />
+                <Route path='/payment/cancelled' element={
+                  <ProtectedRoute>
+                    <PaymentCancel />
                   </ProtectedRoute>
                 } />
               </Routes>

@@ -42,10 +42,30 @@ export const getPremiumStatus = async () => {
 /**
  * Create a new subscription with payment information
  */
-export const createSubscription = async (planId) => {
+export const createSubscription = async (planId, options = {}) => {
+  const currentOrigin = window.location.origin;
+  
+  // Default payment redirect URLs
+  const defaultUrls = {
+    successUrl: `${currentOrigin}/payment/success`,
+    failureUrl: `${currentOrigin}/payment/failed`,
+    cancelUrl: `${currentOrigin}/payment/cancelled`
+  };
+  
+  // Merge with any custom URLs provided
+  const redirectUrls = { ...defaultUrls, ...options.redirectUrls };
+  
+  const requestBody = {
+    plan_id: planId,
+    success_url: redirectUrls.successUrl,
+    failure_url: redirectUrls.failureUrl,
+    cancel_url: redirectUrls.cancelUrl,
+    ...options.additionalData
+  };
+  
   const response = await apiRequest(`${BASE_URL}user/subscriptions/`, {
     method: 'POST',
-    body: JSON.stringify({ plan_id: planId }),
+    body: JSON.stringify(requestBody),
   });
   
   if (!response.ok) {
