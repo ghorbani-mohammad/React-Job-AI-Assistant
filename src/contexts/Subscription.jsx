@@ -190,6 +190,11 @@ export const SubscriptionProvider = ({ children }) => {
     ]);
   }, [loadSubscriptionPlans, loadPremiumStatus, loadPaymentServiceStatus]);
 
+  // Refresh subscription status only (for payment result pages)
+  const refreshSubscriptionStatus = useCallback(async () => {
+    await loadPremiumStatus();
+  }, [loadPremiumStatus]);
+
   // Load plans on mount
   useEffect(() => {
     loadSubscriptionPlans();
@@ -261,6 +266,7 @@ export const SubscriptionProvider = ({ children }) => {
     subscribe,
     cancelCurrentSubscription,
     refreshSubscriptionData,
+    refreshSubscriptionStatus,
     hasFeatureAccess,
     getPlanByType,
     handlePaymentReturnCallback,

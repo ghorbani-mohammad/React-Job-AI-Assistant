@@ -1,0 +1,355 @@
+/* Payment Result Pages Styles */
+
+.payment-result-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.payment-result-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Icons */
+.payment-success-icon,
+.payment-failure-icon,
+.payment-cancel-icon,
+.payment-processing-icon,
+.payment-error-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-success-icon {
+  background: #10b981;
+  color: white;
+}
+
+.payment-failure-icon,
+.payment-error-icon {
+  background: #ef4444;
+  color: white;
+}
+
+.payment-cancel-icon {
+  background: #6b7280;
+  color: white;
+}
+
+.payment-processing-icon {
+  background: #3b82f6;
+  color: white;
+}
+
+.payment-success-icon svg,
+.payment-failure-icon svg,
+.payment-cancel-icon svg,
+.payment-processing-icon svg,
+.payment-error-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 2;
+}
+
+/* Titles */
+.payment-result-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.payment-result-title.success {
+  color: #10b981;
+}
+
+.payment-result-title.failure,
+.payment-result-title.error {
+  color: #ef4444;
+}
+
+.payment-result-title.cancel {
+  color: #6b7280;
+}
+
+.payment-result-title.processing {
+  color: #3b82f6;
+}
+
+/* Messages */
+.payment-result-message {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin: 0 0 30px 0;
+  line-height: 1.6;
+}
+
+/* Payment Details */
+.payment-details {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.payment-details h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-info-row:last-child {
+  border-bottom: none;
+}
+
+.payment-info-row span:first-child {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.payment-info-row span:last-child {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.failure {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Help Section */
+.payment-help-section {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.payment-help-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.payment-help-section p {
+  color: #6b7280;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+}
+
+.payment-help-section ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #6b7280;
+}
+
+.payment-help-section li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+/* Actions */
+.payment-result-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.payment-result-actions .btn-primary,
+.payment-result-actions .btn-secondary {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 140px;
+}
+
+.payment-result-actions .btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.payment-result-actions .btn-primary:hover {
+  background: #5a6fd8;
+  transform: translateY(-1px);
+}
+
+.payment-result-actions .btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.payment-result-actions .btn-secondary:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* Loading State */
+.payment-loading {
+  padding: 40px 20px;
+}
+
+.payment-loading h2 {
+  margin: 20px 0 12px 0;
+  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.payment-loading p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Spinner */
+.spinner {
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.spinner.large {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payment-result-container {
+    padding: 16px;
+  }
+  
+  .payment-result-card {
+    padding: 30px 20px;
+  }
+  
+  .payment-result-title {
+    font-size: 1.75rem;
+  }
+  
+  .payment-result-message {
+    font-size: 1rem;
+  }
+  
+  .payment-result-actions {
+    flex-direction: column;
+  }
+  
+  .payment-result-actions .btn-primary,
+  .payment-result-actions .btn-secondary {
+    width: 100%;
+  }
+  
+  .payment-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .payment-info-row span:last-child {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-result-title {
+    font-size: 1.5rem;
+  }
+  
+  .payment-success-icon,
+  .payment-failure-icon,
+  .payment-cancel-icon,
+  .payment-processing-icon,
+  .payment-error-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .payment-success-icon svg,
+  .payment-failure-icon svg,
+  .payment-cancel-icon svg,
+  .payment-processing-icon svg,
+  .payment-error-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+}
