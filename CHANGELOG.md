@@ -1,3 +1,10 @@
+## [0.25.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.24.0...v0.25.0) (2025-09-16)
+
+
+### Features
+
+* add payment history and notification components for subscription management ([fb708e4](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/fb708e4878fe1bc941e620e33c6a91fdc6010746))
+
 ## [0.24.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.23.0...v0.24.0) (2025-09-16)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * integrate SourceTag component for job source display in JobCard and update styles ([c53412d](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/c53412d72720853bcbfc381b7887d69329ef0824))
-
-## [0.20.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.19.0...v0.20.0) (2025-09-11)
-
-
-### Features
-
-* add job source display to JobCard component and style in CSS ([fab772a](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/fab772a42660e7f92f529681c446d665c42be050))
 
