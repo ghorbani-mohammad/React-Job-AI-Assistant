@@ -23,7 +23,7 @@
 
 .navbar-links {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
 }
 
@@ -196,11 +196,12 @@
 
 .premium-status {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 4px;
   font-size: 14px;
   font-weight: 500;
   color: #10b981;
+  line-height: 1;
 }
 
 .expired-indicator {
