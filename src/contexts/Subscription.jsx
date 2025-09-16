@@ -5,8 +5,15 @@ import {
   getCurrentSubscription, 
   createSubscription, 
   cancelSubscription,
-  getFeatureUsage
+  getFeatureUsage,
+  checkPaymentServiceStatus
 } from '../services/subscription';
+import { 
+  storePendingSubscription, 
+  getPendingSubscription, 
+  clearPendingSubscription, 
+  handlePaymentReturn 
+} from '../services/payment';
 import { useAuth } from './Auth';
 
 const SubscriptionContext = createContext();
@@ -27,6 +34,8 @@ export const SubscriptionProvider = ({ children }) => {
   const [featureUsage, setFeatureUsage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [paymentServiceStatus, setPaymentServiceStatus] = useState(null);
+  const [pendingPayment, setPendingPayment] = useState(null);
 
   // Load subscription plans (public endpoint)
   const loadSubscriptionPlans = useCallback(async () => {
@@ -71,18 +80,28 @@ export const SubscriptionProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
-  // Subscribe to a plan
+  // Subscribe to a plan with payment handling
   const subscribe = useCallback(async (planId) => {
     try {
       setLoading(true);
       setError(null);
       
-      const subscription = await createSubscription(planId);
+      const result = await createSubscription(planId);
       
-      // Refresh status after successful subscription
-      await loadPremiumStatus();
-      
-      return subscription;
+      // Check if payment is required
+      if (result.payment && result.payment.payment_url) {
+        // Store pending subscription info
+        const pendingData = storePendingSubscription(result);
+        setPendingPayment(pendingData);
+        
+        // Redirect to payment page
+        window.location.href = result.payment.payment_url;
+        return result;
+      } else {
+        // No payment required or already paid - refresh status
+        await loadPremiumStatus();
+        return result;
+      }
     } catch (error) {
       console.error('Failed to create subscription:', error);
       setError(error.message || 'Failed to create subscription');
@@ -117,23 +136,86 @@ export const SubscriptionProvider = ({ children }) => {
     }
   }, [currentSubscription?.id, loadPremiumStatus]);
 
+  // Load payment service status
+  const loadPaymentServiceStatus = useCallback(async () => {
+    if (!isLoggedIn) {
+      setPaymentServiceStatus(null);
+      return;
+    }
+
+    try {
+      const status = await checkPaymentServiceStatus();
+      setPaymentServiceStatus(status);
+    } catch (error) {
+      console.error('Failed to load payment service status:', error);
+      setPaymentServiceStatus({ service_available: false });
+    }
+  }, [isLoggedIn]);
+
+  // Handle payment return from payment page
+  const handlePaymentReturnCallback = useCallback(async () => {
+    const result = await handlePaymentReturn(
+      // onSuccess
+      (payment) => {
+        console.log('Payment successful:', payment);
+        loadPremiumStatus(); // Refresh subscription status
+        setPendingPayment(null);
+      },
+      // onFailure
+      (reason, payment) => {
+        console.error('Payment failed:', reason, payment);
+        setError(`Payment failed: ${reason}`);
+        setPendingPayment(null);
+      },
+      // onLoading
+      (message) => {
+        setLoading(true);
+        console.log('Payment status:', message);
+      }
+    );
+
+    if (result.handled) {
+      setLoading(false);
+    }
+
+    return result;
+  }, [loadPremiumStatus]);
+
   // Refresh all subscription data
   const refreshSubscriptionData = useCallback(async () => {
     await Promise.all([
       loadSubscriptionPlans(),
-      loadPremiumStatus()
+      loadPremiumStatus(),
+      loadPaymentServiceStatus()
     ]);
-  }, [loadSubscriptionPlans, loadPremiumStatus]);
+  }, [loadSubscriptionPlans, loadPremiumStatus, loadPaymentServiceStatus]);
 
   // Load plans on mount
   useEffect(() => {
     loadSubscriptionPlans();
   }, [loadSubscriptionPlans]);
 
-  // Load premium status when auth state changes
+  // Load premium status and payment service status when auth state changes
   useEffect(() => {
     loadPremiumStatus();
-  }, [loadPremiumStatus]);
+    loadPaymentServiceStatus();
+  }, [loadPremiumStatus, loadPaymentServiceStatus]);
+
+  // Check for pending payments on mount and when returning from payment
+  useEffect(() => {
+    const checkPendingPayment = async () => {
+      const pending = getPendingSubscription();
+      if (pending) {
+        setPendingPayment(pending);
+        // Automatically handle payment return
+        await handlePaymentReturnCallback();
+      }
+    };
+
+    if (isLoggedIn) {
+      checkPendingPayment();
+    }
+  }, [isLoggedIn, handlePaymentReturnCallback]);
 
   // Helper functions
   const hasPremium = premiumStatus?.has_premium || false;
@@ -166,6 +248,8 @@ export const SubscriptionProvider = ({ children }) => {
     featureUsage,
     loading,
     error,
+    paymentServiceStatus,
+    pendingPayment,
     
     // Computed values
     hasPremium,
@@ -179,10 +263,12 @@ export const SubscriptionProvider = ({ children }) => {
     refreshSubscriptionData,
     hasFeatureAccess,
     getPlanByType,
+    handlePaymentReturnCallback,
     
     // Loaders
     loadPremiumStatus,
     loadSubscriptionPlans,
+    loadPaymentServiceStatus,
   };
 
   return (

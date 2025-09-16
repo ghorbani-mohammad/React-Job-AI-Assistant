@@ -373,6 +373,56 @@
   color: #166534;
 }
 
+.payment-service-warning {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.payment-service-warning h4 {
+  margin: 0 0 0.5rem 0;
+  color: #92400e;
+  font-size: 1rem;
+}
+
+.payment-service-warning p {
+  margin: 0;
+  color: #92400e;
+  font-size: 0.9rem;
+}
+
+.subscription-error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.subscription-error p {
+  margin: 0;
+  color: #dc2626;
+  font-weight: 500;
+}
+
 .plans-grid {
   display: grid;
   gap: 2rem;

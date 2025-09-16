@@ -6,6 +6,7 @@ import Profile from './pages/Profile'
 import Subscription from './pages/Subscription'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import PaymentStatusNotification from './components/PaymentStatusNotification'
 import { FavoriteProvider } from './contexts/Favorites'
 import { AuthProvider } from './contexts/Auth'
 import { SubscriptionProvider } from './contexts/Subscription'
@@ -16,6 +17,7 @@ function App() {
       <SubscriptionProvider>
         <div>
           <Navbar />
+          <PaymentStatusNotification />
           <FavoriteProvider>
             <main className='main-content'>
               <Routes>

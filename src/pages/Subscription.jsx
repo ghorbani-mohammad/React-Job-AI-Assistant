@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSubscription } from '../contexts/Subscription';
 import { useAuth } from '../contexts/Auth';
 import SubscriptionPlans from '../components/SubscriptionPlans';
+import PaymentHistory from '../components/PaymentHistory';
 import '../css/subscription.css';
 
 const Subscription = () => {
@@ -126,6 +127,12 @@ const Subscription = () => {
               Usage
             </button>
           )}
+          <button 
+            className={`tab-button ${activeTab === 'payments' ? 'active' : ''}`}
+            onClick={() => setActiveTab('payments')}
+          >
+            Payments
+          </button>
         </div>
 
         <div className='tab-content'>
@@ -260,6 +267,12 @@ const Subscription = () => {
                   <p>No usage data available</p>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'payments' && (
+            <div className='payments-tab'>
+              <PaymentHistory />
             </div>
           )}
         </div>

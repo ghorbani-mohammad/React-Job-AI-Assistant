@@ -4,7 +4,15 @@ import { useAuth } from '../contexts/Auth';
 import '../css/subscription.css';
 
 const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
-  const { subscriptionPlans, loading, subscribe, hasPremium, currentSubscription } = useSubscription();
+  const { 
+    subscriptionPlans, 
+    loading, 
+    subscribe, 
+    hasPremium, 
+    currentSubscription, 
+    paymentServiceStatus,
+    error 
+  } = useSubscription();
   const { isLoggedIn } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [subscribing, setSubscribing] = useState(false);
@@ -17,6 +25,12 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
 
     if (subscribing) return;
 
+    // Check if payment service is available
+    if (paymentServiceStatus && !paymentServiceStatus.service_available) {
+      alert('Payment service is temporarily unavailable. Please try again later.');
+      return;
+    }
+
     try {
       setSelectedPlan(plan.id);
       setSubscribing(true);
@@ -24,8 +38,14 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
       if (onPlanSelect) {
         onPlanSelect(plan);
       } else {
-        await subscribe(plan.id);
-        alert('Successfully subscribed to ' + plan.name + ' plan!');
+        const result = await subscribe(plan.id);
+        
+        // If payment is required, user will be redirected
+        // If no payment needed, show success message
+        if (!result.payment || !result.payment.payment_url) {
+          alert('Successfully subscribed to ' + plan.name + ' plan!');
+        }
+        // Note: If payment is required, user gets redirected and won't see this
       }
     } catch (error) {
       alert('Failed to subscribe: ' + error.message);
@@ -107,6 +127,23 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
         </div>
       )}
 
+      {paymentServiceStatus && !paymentServiceStatus.service_available && (
+        <div className='payment-service-warning'>
+          <span className='warning-icon'>⚠️</span>
+          <div>
+            <h4>Payment Service Unavailable</h4>
+            <p>Our payment service is temporarily unavailable. Please try again later.</p>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className='subscription-error'>
+          <span className='error-icon'>❌</span>
+          <p>{error}</p>
+        </div>
+      )}
+
       <div className='plans-grid'>
         {Object.entries(groupedPlans).map(([planName, planTypes]) => (
           <div key={planName} className='plan-group'>
@@ -159,11 +196,12 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
                     <button
                       className={`plan-button ${isCurrent ? 'current' : subscribing && isSelected ? 'loading' : ''}`}
                       onClick={() => handlePlanSelect(plan)}
-                      disabled={subscribing || isCurrent || !plan.is_active}
+                      disabled={subscribing || isCurrent || !plan.is_active || (paymentServiceStatus && !paymentServiceStatus.service_available)}
                     >
                       {isCurrent ? 'Current Plan' : 
                        subscribing && isSelected ? 'Subscribing...' : 
                        !plan.is_active ? 'Unavailable' :
+                       paymentServiceStatus && !paymentServiceStatus.service_available ? 'Payment Service Unavailable' :
                        `Choose ${planName} ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}`}
                     </button>
                   </div>
