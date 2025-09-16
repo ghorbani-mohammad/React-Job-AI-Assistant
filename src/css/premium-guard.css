@@ -1,0 +1,241 @@
+/* Premium Feature Guard Styles */
+.premium-guard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.guard-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 2rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.guard-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.guard-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.guard-content > p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Login Required State */
+.login-required .guard-content {
+  border-color: #fbbf24;
+  background: #fffbeb;
+}
+
+.login-required h3 {
+  color: #92400e;
+}
+
+.login-required p {
+  color: #a16207;
+}
+
+/* Upgrade Required State */
+.upgrade-required .guard-content {
+  border-color: #a78bfa;
+  background: #f3f4f6;
+}
+
+.upgrade-benefits {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.upgrade-benefits > p {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.upgrade-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.upgrade-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.expired-notice {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.expired-notice p {
+  color: #dc2626;
+  margin: 0;
+  font-weight: 500;
+}
+
+.guard-actions {
+  margin-top: 1.5rem;
+}
+
+.upgrade-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.upgrade-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  text-decoration: none;
+  color: white;
+}
+
+.upgrade-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Compact version for smaller spaces */
+.premium-guard.compact {
+  min-height: 200px;
+  padding: 1rem;
+}
+
+.premium-guard.compact .guard-content {
+  padding: 1.5rem;
+}
+
+.premium-guard.compact .guard-icon {
+  font-size: 2rem;
+}
+
+.premium-guard.compact h3 {
+  font-size: 1.25rem;
+}
+
+/* Inline version for inline features */
+.premium-guard.inline {
+  min-height: auto;
+  padding: 0.5rem;
+  display: inline-flex;
+}
+
+.premium-guard.inline .guard-content {
+  padding: 1rem;
+  border-style: solid;
+  border-width: 1px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+}
+
+.premium-guard.inline .guard-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+}
+
+.premium-guard.inline h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.premium-guard.inline p {
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+
+.premium-guard.inline .upgrade-benefits,
+.premium-guard.inline .guard-actions {
+  display: none;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .guard-content {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+  
+  .guard-content h3 {
+    color: #f9fafb;
+  }
+  
+  .guard-content > p {
+    color: #d1d5db;
+  }
+  
+  .upgrade-benefits > p {
+    color: #e5e7eb;
+  }
+  
+  .upgrade-benefits li {
+    color: #d1d5db;
+  }
+  
+  .login-required .guard-content {
+    background: #451a03;
+    border-color: #92400e;
+  }
+  
+  .upgrade-required .guard-content {
+    background: #1f2937;
+    border-color: #a78bfa;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .premium-guard {
+    padding: 1rem;
+    min-height: 250px;
+  }
+  
+  .guard-content {
+    padding: 1.5rem;
+  }
+  
+  .guard-icon {
+    font-size: 2.5rem;
+  }
+  
+  .guard-content h3 {
+    font-size: 1.25rem;
+  }
+  
+  .upgrade-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}

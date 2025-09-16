@@ -1,0 +1,643 @@
+/* Subscription Page Styles */
+.subscription-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 0;
+}
+
+.subscription-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.subscription-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.subscription-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subscription-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Error Banner */
+.error-banner {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+.error-banner p {
+  margin: 0;
+  color: #dc2626;
+}
+
+/* Loading States */
+.loading-state, .subscription-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: white;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Tabs */
+.subscription-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tab-button.active {
+  background: white;
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* Tab Content */
+.tab-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Overview Tab */
+.premium-status {
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+  background: #fafafa;
+}
+
+.status-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.status-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-cancelled {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-expired {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.status-pending {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.subscription-details {
+  margin-bottom: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.features-included {
+  margin-bottom: 1.5rem;
+}
+
+.features-included h4 {
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+.features-included ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-included li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.feature-check {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.subscription-actions {
+  text-align: center;
+}
+
+.cancel-button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.renewal-notice {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.renewal-notice h4 {
+  margin: 0 0 0.5rem 0;
+  color: #92400e;
+}
+
+.renewal-notice p {
+  margin: 0;
+  color: #92400e;
+}
+
+/* No Subscription State */
+.no-subscription {
+  text-align: center;
+}
+
+.no-sub-card {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.no-sub-card h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.no-sub-card > p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.premium-benefits {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.premium-benefits h4 {
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+.premium-benefits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.premium-benefits li {
+  padding: 0.25rem 0;
+  color: #4b5563;
+}
+
+.upgrade-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.upgrade-button:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: white;
+}
+
+/* Subscription Plans */
+.subscription-plans {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.plans-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.plans-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.plans-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.current-plan-notice {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.premium-badge {
+  background: #10b981;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.current-plan-notice p {
+  margin: 0;
+  color: #166534;
+}
+
+.plans-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.plan-group {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.plan-group-header {
+  background: #f8fafc;
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.plan-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.plan-group-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+}
+
+.billing-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.plan-card {
+  padding: 2rem;
+  border-right: 1px solid #e5e7eb;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.plan-card:last-child {
+  border-right: none;
+}
+
+.plan-card:hover {
+  background: #f8fafc;
+}
+
+.plan-card.current-plan {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.plan-card.selected {
+  background: #eff6ff;
+  border-color: #3b82f6;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #ef4444;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.currency {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.period {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.plan-billing {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.plan-features {
+  margin-bottom: 1.5rem;
+}
+
+.plan-features h4 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+.plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.plan-description {
+  margin-bottom: 1.5rem;
+}
+
+.plan-description p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.plan-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.plan-button:hover:not(:disabled) {
+  background: #667eea;
+  color: white;
+}
+
+.plan-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.plan-button.current {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.plan-button.loading {
+  background: #6b7280;
+  border-color: #6b7280;
+  color: white;
+}
+
+.login-notice {
+  text-align: center;
+  margin-top: 2rem;
+  color: #6b7280;
+}
+
+/* Usage Tab */
+.usage-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.usage-card h3 {
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.usage-stats {
+  display: grid;
+  gap: 1rem;
+}
+
+.usage-item {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.usage-label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.usage-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Login Required State */
+.login-required {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: white;
+}
+
+.login-required h2 {
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subscription-container {
+    padding: 0 0.5rem;
+  }
+  
+  .subscription-header h1 {
+    font-size: 2rem;
+  }
+  
+  .subscription-tabs {
+    flex-direction: column;
+  }
+  
+  .billing-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-card {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .plan-card:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .amount {
+    font-size: 2rem;
+  }
+}

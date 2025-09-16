@@ -1,0 +1,190 @@
+import { apiRequest } from './apiInterceptor';
+
+const BASE_URL = 'https://social.m-gh.com/api/v1/';
+
+// Public endpoints
+
+/**
+ * Get all available subscription plans
+ */
+export const getSubscriptionPlans = async () => {
+  const response = await fetch(`${BASE_URL}user/subscriptions/plans/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch subscription plans: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+// Authenticated endpoints
+
+/**
+ * Check user's premium status
+ */
+export const getPremiumStatus = async () => {
+  const response = await apiRequest(`${BASE_URL}user/premium-status/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch premium status: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Create a new subscription
+ */
+export const createSubscription = async (planId) => {
+  const response = await apiRequest(`${BASE_URL}user/subscriptions/`, {
+    method: 'POST',
+    body: JSON.stringify({ plan_id: planId }),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to create subscription: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get all user subscriptions
+ */
+export const getUserSubscriptions = async () => {
+  const response = await apiRequest(`${BASE_URL}user/subscriptions/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user subscriptions: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get current active subscription
+ */
+export const getCurrentSubscription = async () => {
+  const response = await apiRequest(`${BASE_URL}user/subscriptions/current/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch current subscription: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Cancel a subscription
+ */
+export const cancelSubscription = async (subscriptionId) => {
+  const response = await apiRequest(`${BASE_URL}user/subscriptions/${subscriptionId}/cancel/`, {
+    method: 'POST',
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to cancel subscription: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get feature usage statistics
+ */
+export const getFeatureUsage = async () => {
+  const response = await apiRequest(`${BASE_URL}user/feature-usage/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch feature usage: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+// AI Premium endpoints
+
+/**
+ * Generate cover letter (Premium only)
+ */
+export const generateCoverLetter = async (jobDescription) => {
+  const response = await apiRequest(`${BASE_URL}ai/cover-letter/generate/`, {
+    method: 'POST',
+    body: JSON.stringify({ job_description: jobDescription }),
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    if (response.status === 403) {
+      throw new Error(errorData.message || 'Premium subscription required for this feature');
+    }
+    throw new Error(errorData.detail || `Failed to generate cover letter: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get user cover letters
+ */
+export const getUserCoverLetters = async () => {
+  const response = await apiRequest(`${BASE_URL}ai/cover-letters/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch cover letters: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Get specific cover letter
+ */
+export const getCoverLetter = async (coverLetterId) => {
+  const response = await apiRequest(`${BASE_URL}ai/cover-letters/${coverLetterId}/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch cover letter: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
+ * Delete cover letter
+ */
+export const deleteCoverLetter = async (coverLetterId) => {
+  const response = await apiRequest(`${BASE_URL}ai/cover-letters/${coverLetterId}/delete/`, {
+    method: 'DELETE',
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Failed to delete cover letter: ${response.status}`);
+  }
+  
+  // DELETE requests typically return 204 No Content
+  if (response.status === 204) {
+    return { message: 'Cover letter deleted successfully' };
+  }
+  
+  const data = await response.json();
+  return data;
+};

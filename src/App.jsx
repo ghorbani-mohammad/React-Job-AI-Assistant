@@ -3,34 +3,43 @@ import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import Favorites from './pages/Favorites'
 import Profile from './pages/Profile'
+import Subscription from './pages/Subscription'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import { FavoriteProvider } from './contexts/Favorites'
 import { AuthProvider } from './contexts/Auth'
+import { SubscriptionProvider } from './contexts/Subscription'
 
 function App() {
   return (
     <AuthProvider>
-      <div>
-        <Navbar />
-        <FavoriteProvider>
-          <main className='main-content'>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/favorites' element={
-                <ProtectedRoute>
-                  <Favorites />
-                </ProtectedRoute>
-              } />
-              <Route path='/profile' element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } />
-            </Routes>
-          </main>
-        </FavoriteProvider>
-      </div>
+      <SubscriptionProvider>
+        <div>
+          <Navbar />
+          <FavoriteProvider>
+            <main className='main-content'>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/favorites' element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                } />
+                <Route path='/profile' element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } />
+                <Route path='/subscription' element={
+                  <ProtectedRoute>
+                    <Subscription />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </main>
+          </FavoriteProvider>
+        </div>
+      </SubscriptionProvider>
     </AuthProvider>
   )
 }
