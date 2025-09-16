@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { generateCoverLetter } from '../services/api';
+import { generateCoverLetter } from '../services/subscription';
+import PremiumFeatureGuard from './PremiumFeatureGuard';
 import '../css/aimodal.css';
 
 function AIModal({ job, onClose }) {
@@ -16,12 +17,9 @@ function AIModal({ job, onClose }) {
     setError('');
     
     try {
-      const response = await generateCoverLetter({
-        job_title: job.title,
-        company: job.company,
-        job_description: job.description,
-        custom_instruction: customInstruction
-      });
+      const jobDescription = `Job Title: ${job.title}\nCompany: ${job.company}\n\nJob Description:\n${job.description}\n\nCustom Instructions: ${customInstruction || 'None'}`;
+      
+      const response = await generateCoverLetter(jobDescription);
       
       setCoverLetter(response.cover_letter || '');
     } catch (err) {
@@ -81,64 +79,66 @@ function AIModal({ job, onClose }) {
         </div>
         
         <div className='ai-modal-content'>
-          <div className='ai-form-group'>
-            <label 
-              htmlFor='custom-instruction' 
-              className='ai-form-label'
-            >
-              Custom Instructions (Optional)
-            </label>
-            <textarea
-              id='custom-instruction'
-              value={customInstruction}
-              onChange={(e) => setCustomInstruction(e.target.value)}
-              placeholder='Add any specific instructions for the cover letter (e.g., highlight specific skills, mention particular experiences, tone preferences, etc.)'
-              className='ai-form-textarea'
-            />
-          </div>
-
-          <div className='ai-form-group'>
-            <button
-              onClick={handleGenerateCoverLetter}
-              disabled={isGenerating}
-              className='ai-generate-btn'
-            >
-              {isGenerating ? '⏳' : '🤖'} 
-              {isGenerating ? 'Generating...' : 'Generate Cover Letter'}
-            </button>
-          </div>
-
-          {error && (
-            <div className='ai-error-message'>
-              {error}
-            </div>
-          )}
-
-          <div className='ai-cover-letter-section'>
-            <div className='ai-cover-letter-header'>
+          <PremiumFeatureGuard feature='AI Cover Letter Generation'>
+            <div className='ai-form-group'>
               <label 
-                htmlFor='cover-letter' 
+                htmlFor='custom-instruction' 
                 className='ai-form-label'
               >
-                Generated Cover Letter
+                Custom Instructions (Optional)
               </label>
-              {coverLetter && (
-                <button
-                  onClick={handleCopyToClipboard}
-                  className='ai-copy-btn'
-                >
-                  📋 Copy
-                </button>
-              )}
+              <textarea
+                id='custom-instruction'
+                value={customInstruction}
+                onChange={(e) => setCustomInstruction(e.target.value)}
+                placeholder='Add any specific instructions for the cover letter (e.g., highlight specific skills, mention particular experiences, tone preferences, etc.)'
+                className='ai-form-textarea'
+              />
             </div>
-            <textarea
-              id='cover-letter'
-              value={coverLetter}
-              onChange={(e) => setCoverLetter(e.target.value)}
-              placeholder='Your generated cover letter will appear here...'
-              className='ai-cover-letter-textarea'
-            />
-          </div>
+
+            <div className='ai-form-group'>
+              <button
+                onClick={handleGenerateCoverLetter}
+                disabled={isGenerating}
+                className='ai-generate-btn'
+              >
+                {isGenerating ? '⏳' : '🤖'} 
+                {isGenerating ? 'Generating...' : 'Generate Cover Letter'}
+              </button>
+            </div>
+
+            {error && (
+              <div className='ai-error-message'>
+                {error}
+              </div>
+            )}
+
+            <div className='ai-cover-letter-section'>
+              <div className='ai-cover-letter-header'>
+                <label 
+                  htmlFor='cover-letter' 
+                  className='ai-form-label'
+                >
+                  Generated Cover Letter
+                </label>
+                {coverLetter && (
+                  <button
+                    onClick={handleCopyToClipboard}
+                    className='ai-copy-btn'
+                  >
+                    📋 Copy
+                  </button>
+                )}
+              </div>
+              <textarea
+                id='cover-letter'
+                value={coverLetter}
+                onChange={(e) => setCoverLetter(e.target.value)}
+                placeholder='Your generated cover letter will appear here...'
+                className='ai-cover-letter-textarea'
+              />
+            </div>
+          </PremiumFeatureGuard>
         </div>
       </div>
     </div>,

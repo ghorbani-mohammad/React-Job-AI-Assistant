@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/Auth';
+import { useSubscription } from '../contexts/Subscription';
 import Login from './Login';
 import { useState } from 'react';
 import '../css/navbar.css';
@@ -8,6 +9,7 @@ import notificationSoundService from '../services/notificationSound';
 
 function Navbar() {
     const { user, isLoggedIn, logout, loading } = useAuth();
+    const { hasPremium, daysRemaining, isExpired } = useSubscription();
     const [showLogin, setShowLogin] = useState(false);
     const [isMuted, setIsMuted] = useState(notificationSoundService.isMutedState());
 
@@ -54,6 +56,19 @@ function Navbar() {
                         <>
                             <Link to="/favorites">Favorites</Link>
                             <Link to="/profile">Profile</Link>
+                            <Link to="/subscription" className="subscription-link">
+                                {hasPremium ? (
+                                    <span className="premium-status">
+                                        ✨ Premium
+                                        {isExpired && <span className="expired-indicator"> (Expired)</span>}
+                                        {!isExpired && daysRemaining <= 7 && daysRemaining > 0 && (
+                                            <span className="expiring-soon"> ({daysRemaining}d left)</span>
+                                        )}
+                                    </span>
+                                ) : (
+                                    <span className="upgrade-prompt">Upgrade</span>
+                                )}
+                            </Link>
                             <div className="navbar-user">
                                 <span className="user-email">{user?.email}</span>
                                 <button onClick={handleLogout} className="logout-btn">
