@@ -1,3 +1,10 @@
+## [0.26.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.25.0...v0.26.0) (2025-09-16)
+
+
+### Features
+
+* implement payment result pages and update subscription context ([3574982](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/35749827dbc5f3a4d439d996cd3e75c059dd4d96))
+
 ## [0.25.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.24.0...v0.25.0) (2025-09-16)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * add AI Cover Letter Generator modal and integrate with JobCard component ([34bbd96](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/34bbd968d5bd065d9fc3d86d62cc852066d026a7))
-
-## [0.21.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.20.0...v0.21.0) (2025-09-12)
-
-
-### Features
-
-* integrate SourceTag component for job source display in JobCard and update styles ([c53412d](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/c53412d72720853bcbfc381b7887d69329ef0824))
 
