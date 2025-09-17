@@ -1,3 +1,10 @@
+## [0.27.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.26.0...v0.27.0) (2025-09-17)
+
+
+### Features
+
+* handle payment not found errors across payment components ([eefa179](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/eefa179bcce28f56c5e44f160012575ab09f1dd7))
+
 ## [0.26.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.25.0...v0.26.0) (2025-09-16)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * add login prompt and disabled state for AI features in JobCard component ([69e096f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/69e096fbb076918568476ed570cb4437b5d9acaf))
-
-## [0.22.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.21.0...v0.22.0) (2025-09-12)
-
-
-### Features
-
-* add AI Cover Letter Generator modal and integrate with JobCard component ([34bbd96](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/34bbd968d5bd065d9fc3d86d62cc852066d026a7))
 
