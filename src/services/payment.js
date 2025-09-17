@@ -172,12 +172,27 @@ export const handlePaymentReturn = async (onSuccess, onFailure, onLoading) => {
       if (onSuccess) onSuccess(result.payment);
       return { handled: true, success: true, payment: result.payment };
     } else {
+      // If payment not found, clear the pending subscription
+      if (result.paymentNotFound) {
+        clearPendingSubscription();
+        if (onFailure) onFailure('Payment invoice not found. Please try creating a new subscription.', null);
+        return { handled: true, success: false, reason: 'Payment invoice not found', paymentNotFound: true };
+      }
+      
       if (onFailure) onFailure(result.reason, result.payment);
       return { handled: true, success: false, reason: result.reason };
     }
     
   } catch (error) {
     console.error('Payment return handling error:', error);
+    
+    // If payment not found (404), clear the pending subscription
+    if (error.paymentNotFound) {
+      clearPendingSubscription();
+      if (onFailure) onFailure('Payment invoice not found. Please try creating a new subscription.', null);
+      return { handled: true, success: false, reason: 'Payment invoice not found', paymentNotFound: true };
+    }
+    
     if (onFailure) onFailure('Unable to confirm payment status. Please contact support.');
     return { handled: true, success: false, error: error.message };
   }

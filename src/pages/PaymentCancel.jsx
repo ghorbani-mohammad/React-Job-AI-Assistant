@@ -25,7 +25,14 @@ const PaymentCancel = () => {
         setPaymentDetails(payment);
       } catch (err) {
         console.error('Failed to get payment details:', err);
-        // Don't show error for cancelled payments
+        
+        // Handle 404 - payment invoice not found (this is expected for cancelled payments)
+        if (err.paymentNotFound) {
+          console.log('Payment invoice not found - likely cancelled or expired');
+          // Don't show error for cancelled payments, this is expected
+        } else {
+          console.error('Unexpected error getting payment details:', err);
+        }
       } finally {
         setLoading(false);
       }

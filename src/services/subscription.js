@@ -145,6 +145,13 @@ export const checkPaymentStatus = async (paymentId) => {
   const response = await apiRequest(`${BASE_URL}user/payments/invoices/${paymentId}/`);
   
   if (!response.ok) {
+    // Handle 404 specifically - payment doesn't exist
+    if (response.status === 404) {
+      const error = new Error(`Payment invoice not found: ${paymentId}`);
+      error.status = 404;
+      error.paymentNotFound = true;
+      throw error;
+    }
     throw new Error(`Failed to check payment status: ${response.status}`);
   }
   
@@ -205,6 +212,11 @@ export const pollPaymentStatus = async (paymentId, maxAttempts = 30, intervalMs 
       
     } catch (error) {
       console.error(`Payment status check attempt ${attempt + 1} failed:`, error);
+      
+      // If payment not found (404), stop polling immediately
+      if (error.paymentNotFound) {
+        return { success: false, reason: 'Payment invoice not found', paymentNotFound: true };
+      }
       
       // If it's the last attempt, throw the error
       if (attempt === maxAttempts - 1) {

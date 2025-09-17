@@ -27,7 +27,13 @@ const PaymentFailure = () => {
         setPaymentDetails(payment);
       } catch (err) {
         console.error('Failed to get payment details:', err);
-        setError('Unable to retrieve payment details');
+        
+        // Handle 404 - payment invoice not found
+        if (err.paymentNotFound) {
+          setError('Payment invoice not found. This payment may have been cancelled or expired.');
+        } else {
+          setError('Unable to retrieve payment details');
+        }
       } finally {
         setLoading(false);
       }

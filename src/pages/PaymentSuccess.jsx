@@ -50,8 +50,15 @@ const PaymentSuccess = () => {
 
       } catch (err) {
         console.error('Payment verification error:', err);
-        setError('Unable to verify payment status. Please contact support if you completed the payment.');
-        setVerificationStatus('error');
+        
+        // Handle 404 - payment invoice not found
+        if (err.paymentNotFound) {
+          setError('Payment invoice not found. This payment may have been cancelled or expired. Please try creating a new subscription.');
+          setVerificationStatus('error');
+        } else {
+          setError('Unable to verify payment status. Please contact support if you completed the payment.');
+          setVerificationStatus('error');
+        }
       } finally {
         setLoading(false);
       }

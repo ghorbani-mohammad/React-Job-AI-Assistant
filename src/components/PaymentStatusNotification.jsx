@@ -37,11 +37,26 @@ const PaymentStatusNotification = () => {
               }, 5000);
               
             } else {
-              setNotification({
-                type: 'error',
-                message: result.reason || 'Payment failed. Please try again.',
-                orderId: pending.orderId
-              });
+              // Handle payment not found (404) - clear notification after showing message
+              if (result.paymentNotFound) {
+                setNotification({
+                  type: 'error',
+                  message: 'Payment invoice not found. Please try creating a new subscription.',
+                  orderId: pending.orderId
+                });
+                
+                // Auto-hide and clear after 5 seconds
+                setTimeout(() => {
+                  setIsVisible(false);
+                  setTimeout(() => setNotification(null), 300);
+                }, 5000);
+              } else {
+                setNotification({
+                  type: 'error',
+                  message: result.reason || 'Payment failed. Please try again.',
+                  orderId: pending.orderId
+                });
+              }
             }
           }
         } catch (error) {
