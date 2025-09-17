@@ -60,10 +60,9 @@
 
 /* Logo image next to brand text */
 .navbar-logo {
-  width: 24px;
-  height: 24px;
+  width: 1.1rem;
+  height: 1.1rem;
   display: block;
-  vertical-align: middle;
   flex-shrink: 0;
 }
 
