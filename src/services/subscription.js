@@ -190,7 +190,7 @@ export const checkPaymentServiceStatus = async () => {
 /**
  * Poll payment status until completion or timeout
  */
-export const pollPaymentStatus = async (paymentId, maxAttempts = 30, intervalMs = 10000) => {
+export const pollPaymentStatus = async (paymentId, maxAttempts = 2, intervalMs = 10000) => {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       const payment = await checkPaymentStatus(paymentId);
