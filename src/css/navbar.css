@@ -19,6 +19,7 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
+  line-height: 1;
 }
 
 .navbar-links {
@@ -62,6 +63,8 @@
   width: 24px;
   height: 24px;
   display: block;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 /* User section styles */
