@@ -60,8 +60,8 @@
 
 /* Logo image next to brand text */
 .navbar-logo {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   display: block;
   flex-shrink: 0;
 }
