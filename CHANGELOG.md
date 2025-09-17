@@ -1,3 +1,10 @@
+## [0.27.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.27.0...v0.27.1) (2025-09-17)
+
+
+### Bug Fixes
+
+* reduce max attempts for polling payment status to improve efficiency ([3abfeb0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3abfeb069665b5c5fbb62191e8b0f5353a1451e0))
+
 ## [0.27.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.26.0...v0.27.0) (2025-09-17)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * implement subscription management system with premium features and UI components ([2f3ff72](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/2f3ff72230ceff12ac5656f4ea8440039a5462e2))
-
-## [0.23.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.22.0...v0.23.0) (2025-09-14)
-
-
-### Features
-
-* add login prompt and disabled state for AI features in JobCard component ([69e096f](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/69e096fbb076918568476ed570cb4437b5d9acaf))
 
