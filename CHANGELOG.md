@@ -1,3 +1,10 @@
+## [0.28.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.27.1...v0.28.0) (2025-09-18)
+
+
+### Features
+
+* add notification system and enhance subscription cancellation process ([cb3aba1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/cb3aba1bfc896c2c1c07308857609e8061cc48a3))
+
 ## [0.27.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.27.0...v0.27.1) (2025-09-17)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * add payment history and notification components for subscription management ([fb708e4](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/fb708e4878fe1bc941e620e33c6a91fdc6010746))
-
-## [0.24.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.23.0...v0.24.0) (2025-09-16)
-
-
-### Features
-
-* implement subscription management system with premium features and UI components ([2f3ff72](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/2f3ff72230ceff12ac5656f4ea8440039a5462e2))
 
