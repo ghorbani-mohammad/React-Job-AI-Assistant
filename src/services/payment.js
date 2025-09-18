@@ -17,7 +17,8 @@ export const PAYMENT_STATUSES = {
   FINISHED: 'finished',
   FAILED: 'failed',
   REFUNDED: 'refunded',
-  EXPIRED: 'expired'
+  EXPIRED: 'expired',
+  CANCELLED: 'cancelled'
 };
 
 /**
@@ -33,7 +34,8 @@ export const getPaymentStatusText = (status) => {
     [PAYMENT_STATUSES.FINISHED]: 'Payment Completed',
     [PAYMENT_STATUSES.FAILED]: 'Payment Failed',
     [PAYMENT_STATUSES.REFUNDED]: 'Payment Refunded',
-    [PAYMENT_STATUSES.EXPIRED]: 'Payment Expired'
+    [PAYMENT_STATUSES.EXPIRED]: 'Payment Expired',
+    [PAYMENT_STATUSES.CANCELLED]: 'Payment Cancelled'
   };
   
   return statusTexts[status] || 'Unknown Status';
@@ -52,7 +54,8 @@ export const getPaymentStatusColor = (status) => {
     [PAYMENT_STATUSES.FINISHED]: '#10b981',
     [PAYMENT_STATUSES.FAILED]: '#ef4444',
     [PAYMENT_STATUSES.REFUNDED]: '#6b7280',
-    [PAYMENT_STATUSES.EXPIRED]: '#ef4444'
+    [PAYMENT_STATUSES.EXPIRED]: '#ef4444',
+    [PAYMENT_STATUSES.CANCELLED]: '#f97316'
   };
   
   return statusColors[status] || '#6b7280';
@@ -72,7 +75,8 @@ export const isPaymentFailed = (status) => {
   return [
     PAYMENT_STATUSES.FAILED,
     PAYMENT_STATUSES.EXPIRED,
-    PAYMENT_STATUSES.REFUNDED
+    PAYMENT_STATUSES.REFUNDED,
+    PAYMENT_STATUSES.CANCELLED
   ].includes(status);
 };
 

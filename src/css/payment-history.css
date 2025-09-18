@@ -376,8 +376,15 @@
   border: 1px solid #fecaca;
 }
 
+.payment-cancelled {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
 .success-icon,
-.failed-icon {
+.failed-icon,
+.cancelled-icon {
   font-size: 1rem;
 }
 

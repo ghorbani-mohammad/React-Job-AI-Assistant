@@ -279,8 +279,8 @@ export const pollPaymentStatus = async (paymentId, maxAttempts = 2, intervalMs =
         return { success: true, payment };
       }
       
-      // Payment failed or expired
-      if (payment.status === 'expired' || payment.status === 'failed' || payment.status === 'refunded') {
+      // Payment failed, expired, or cancelled
+      if (payment.status === 'expired' || payment.status === 'failed' || payment.status === 'refunded' || payment.status === 'cancelled') {
         return { success: false, payment, reason: `Payment ${payment.status}` };
       }
       

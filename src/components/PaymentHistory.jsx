@@ -245,6 +245,13 @@ const PaymentHistory = () => {
                     <span>Payment failed - please try again</span>
                   </div>
                 )}
+
+                {payment.status === 'cancelled' && (
+                  <div className='payment-cancelled'>
+                    <span className='cancelled-icon'>🚫</span>
+                    <span>Payment was cancelled</span>
+                  </div>
+                )}
               </div>
             </div>
           );
