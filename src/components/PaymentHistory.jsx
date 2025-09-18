@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getPaymentHistory } from '../services/subscription';
+import { getPaymentHistory, cancelPayment } from '../services/subscription';
 import { 
   getPaymentStatusText, 
   getPaymentStatusColor, 
@@ -8,16 +8,36 @@ import {
   getPaymentTimeRemaining,
   canPaymentBeCompleted
 } from '../services/payment';
+import notificationSoundService from '../services/notificationSound';
 import '../css/payment-history.css';
 
 const PaymentHistory = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notification, setNotification] = useState(null);
+  const [cancellingPayment, setCancellingPayment] = useState(null);
 
   useEffect(() => {
     loadPaymentHistory();
   }, []);
+
+  // Auto-hide notifications after 5 seconds
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    if (type === 'success') {
+      notificationSoundService.playNotificationSound();
+    }
+  };
 
   const loadPaymentHistory = async () => {
     try {
@@ -35,6 +55,31 @@ const PaymentHistory = () => {
 
   const handleCompletePayment = (paymentUrl) => {
     window.open(paymentUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleCancelPayment = async (paymentId) => {
+    if (!confirm('Are you sure you want to cancel this payment? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setCancellingPayment(paymentId);
+      const result = await cancelPayment(paymentId);
+      
+      if (result.message) {
+        showNotification(result.message, 'success');
+      } else {
+        showNotification('Payment cancelled successfully.', 'success');
+      }
+      
+      // Refresh payment history after successful cancellation
+      await loadPaymentHistory();
+    } catch (error) {
+      console.error('Payment cancellation error:', error);
+      showNotification(`Failed to cancel payment: ${error.message}`, 'error');
+    } finally {
+      setCancellingPayment(null);
+    }
   };
 
   const formatDate = (dateString) => {
@@ -85,6 +130,21 @@ const PaymentHistory = () => {
           🔄 Refresh
         </button>
       </div>
+
+      {notification && (
+        <div className={`notification-banner ${notification.type}`}>
+          <span className='notification-icon'>
+            {notification.type === 'success' ? '✅' : '❌'}
+          </span>
+          <p>{notification.message}</p>
+          <button 
+            className='notification-close'
+            onClick={() => setNotification(null)}
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       <div className='payment-list'>
         {payments.map((payment) => {
@@ -143,14 +203,27 @@ const PaymentHistory = () => {
                   </div>
                 </div>
 
-                {canComplete && (
+                {(canComplete || payment.status === 'waiting' || payment.status === 'pending') && (
                   <div className='payment-actions'>
-                    <button
-                      onClick={() => handleCompletePayment(payment.payment_url)}
-                      className='complete-payment-button'
-                    >
-                      Complete Payment
-                    </button>
+                    {canComplete && (
+                      <button
+                        onClick={() => handleCompletePayment(payment.payment_url)}
+                        className='complete-payment-button'
+                      >
+                        Complete Payment
+                      </button>
+                    )}
+                    
+                    {(payment.status === 'waiting' || payment.status === 'pending') && (
+                      <button
+                        onClick={() => handleCancelPayment(payment.id)}
+                        disabled={cancellingPayment === payment.id}
+                        className='cancel-payment-button'
+                      >
+                        {cancellingPayment === payment.id ? 'Cancelling...' : 'Cancel Payment'}
+                      </button>
+                    )}
+                    
                     {timeRemaining && timeRemaining.minutes <= 60 && !timeRemaining.expired && (
                       <span className='urgency-notice'>
                         ⚠️ Payment expires soon!

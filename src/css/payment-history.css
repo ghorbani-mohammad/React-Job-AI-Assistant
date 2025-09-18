@@ -35,6 +35,85 @@
   color: #374151;
 }
 
+/* Notification Banner */
+.notification-banner {
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification-banner.success {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.notification-banner.error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.notification-banner p {
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+}
+
+.notification-banner.success p {
+  color: #166534;
+}
+
+.notification-banner.error p {
+  color: #dc2626;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.notification-banner.success .notification-close {
+  color: #166534;
+}
+
+.notification-banner.error .notification-close {
+  color: #dc2626;
+}
+
+.notification-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Loading and Error States */
 .payment-history-loading,
 .payment-history-error {
@@ -240,6 +319,30 @@
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
+.cancel-payment-button {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-payment-button:hover:not(:disabled) {
+  background: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.cancel-payment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .urgency-notice {
   color: #f59e0b;
   font-size: 0.875rem;
@@ -317,7 +420,8 @@
     align-items: stretch;
   }
 
-  .complete-payment-button {
+  .complete-payment-button,
+  .cancel-payment-button {
     width: 100%;
     text-align: center;
   }
