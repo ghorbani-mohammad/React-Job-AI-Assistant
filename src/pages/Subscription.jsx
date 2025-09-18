@@ -15,7 +15,6 @@ const Subscription = () => {
     error,
     cancelCurrentSubscription,
     cancelSpecificPayment,
-    pendingPayments,
     refreshSubscriptionData,
     hasPremium,
     hasActivePlan,
@@ -265,33 +264,6 @@ const Subscription = () => {
                       </div>
                     )}
 
-                    {pendingPayments && pendingPayments.length > 0 && (
-                      <div className='pending-payments-section'>
-                        <h4>Pending Payments</h4>
-                        <div className='pending-payments-list'>
-                          {pendingPayments.map((payment) => (
-                            <div key={payment.id} className='pending-payment-item'>
-                              <div className='payment-info'>
-                                <span className='payment-amount'>${parseFloat(payment.amount || 0).toFixed(2)}</span>
-                                <span className='payment-status'>{payment.status}</span>
-                                {payment.created_at && (
-                                  <span className='payment-date'>
-                                    {new Date(payment.created_at).toLocaleDateString()}
-                                  </span>
-                                )}
-                              </div>
-                              <button 
-                                className='cancel-payment-button'
-                                onClick={() => handleCancelPayment(payment.id)}
-                                disabled={cancelling}
-                              >
-                                {cancelling ? 'Cancelling...' : 'Cancel Payment'}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
                     {currentSubscription?.plan?.features && (
                       <div className='features-included'>

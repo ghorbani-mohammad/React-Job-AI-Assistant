@@ -252,19 +252,6 @@ export const cancelPayment = async (paymentId) => {
   }
 };
 
-/**
- * Get pending payments for current subscription
- */
-export const getPendingPayments = async () => {
-  const response = await apiRequest(`${BASE_URL}user/payments/pending/`);
-  
-  if (!response.ok) {
-    throw new Error(`Failed to fetch pending payments: ${response.status}`);
-  }
-  
-  const data = await response.json();
-  return data;
-};
 
 
 // AI Premium endpoints
