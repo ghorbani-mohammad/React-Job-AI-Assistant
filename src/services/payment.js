@@ -1,6 +1,5 @@
 import { 
   checkPaymentStatus, 
-  pollPaymentStatus, 
   getPaymentHistory, 
   checkPaymentServiceStatus 
 } from './subscription';
@@ -169,23 +168,25 @@ export const handlePaymentReturn = async (onSuccess, onFailure, onLoading) => {
   try {
     if (onLoading) onLoading('Confirming your payment...');
     
-    const result = await pollPaymentStatus(pendingSubscription.paymentId);
+    const payment = await checkPaymentStatus(pendingSubscription.paymentId);
     
-    if (result.success) {
+    // Payment completed successfully
+    if (payment.is_paid || payment.status === 'finished') {
       clearPendingSubscription();
-      if (onSuccess) onSuccess(result.payment);
-      return { handled: true, success: true, payment: result.payment };
-    } else {
-      // If payment not found, clear the pending subscription
-      if (result.paymentNotFound) {
-        clearPendingSubscription();
-        if (onFailure) onFailure('Payment invoice not found. Please try creating a new subscription.', null);
-        return { handled: true, success: false, reason: 'Payment invoice not found', paymentNotFound: true };
-      }
-      
-      if (onFailure) onFailure(result.reason, result.payment);
-      return { handled: true, success: false, reason: result.reason };
+      if (onSuccess) onSuccess(payment);
+      return { handled: true, success: true, payment };
     }
+    
+    // Payment failed, expired, or cancelled
+    if (payment.status === 'expired' || payment.status === 'failed' || payment.status === 'refunded' || payment.status === 'cancelled') {
+      clearPendingSubscription();
+      if (onFailure) onFailure(`Payment ${payment.status}`, payment);
+      return { handled: true, success: false, reason: `Payment ${payment.status}` };
+    }
+    
+    // Payment is still processing
+    if (onFailure) onFailure('Payment is still being processed. Please wait a moment and refresh the page.', payment);
+    return { handled: true, success: false, reason: 'Payment still processing' };
     
   } catch (error) {
     console.error('Payment return handling error:', error);
