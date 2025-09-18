@@ -49,6 +49,85 @@
   color: #dc2626;
 }
 
+/* Notification Banner */
+.notification-banner {
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification-banner.success {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.notification-banner.error {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.notification-banner p {
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+}
+
+.notification-banner.success p {
+  color: #166534;
+}
+
+.notification-banner.error p {
+  color: #dc2626;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.notification-banner.success .notification-close {
+  color: #166534;
+}
+
+.notification-banner.error .notification-close {
+  color: #dc2626;
+}
+
+.notification-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Loading States */
 .loading-state, .subscription-loading {
   display: flex;
@@ -261,6 +340,39 @@
 .renewal-notice p {
   margin: 0;
   color: #92400e;
+}
+
+/* Pending Payment Warning */
+.pending-payment-warning {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.warning-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.warning-icon {
+  font-size: 1.2rem;
+}
+
+.pending-payment-warning h4 {
+  margin: 0;
+  color: #92400e;
+  font-size: 1rem;
+}
+
+.pending-payment-warning p {
+  margin: 0;
+  color: #92400e;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 /* No Subscription State */

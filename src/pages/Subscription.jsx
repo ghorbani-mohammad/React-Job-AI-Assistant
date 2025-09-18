@@ -3,6 +3,7 @@ import { useSubscription } from '../contexts/Subscription';
 import { useAuth } from '../contexts/Auth';
 import SubscriptionPlans from '../components/SubscriptionPlans';
 import PaymentHistory from '../components/PaymentHistory';
+import notificationSoundService from '../services/notificationSound';
 import '../css/subscription.css';
 
 const Subscription = () => {
@@ -22,6 +23,7 @@ const Subscription = () => {
   const { isLoggedIn, user } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [cancelling, setCancelling] = useState(false);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -29,17 +31,50 @@ const Subscription = () => {
     }
   }, [isLoggedIn, refreshSubscriptionData]);
 
+  // Auto-hide notifications after 5 seconds
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    if (type === 'success') {
+      notificationSoundService.playNotificationSound();
+    }
+  };
+
   const handleCancelSubscription = async () => {
-    if (!confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.')) {
+    // Check if subscription has pending status (waiting for payment)
+    const hasPendingPayments = currentSubscription?.status === 'pending';
+    
+    const confirmMessage = hasPendingPayments 
+      ? 'This subscription has pending payments. Cancelling will also cancel those payments. Are you sure you want to proceed?'
+      : 'Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.';
+
+    if (!confirm(confirmMessage)) {
       return;
     }
 
     try {
       setCancelling(true);
-      await cancelCurrentSubscription();
-      alert('Subscription cancelled successfully. You will retain access until the end of your billing period.');
+      const result = await cancelCurrentSubscription();
+      
+      // Show success message with details about cancelled payments
+      if (result.message) {
+        showNotification(result.message, 'success');
+      } else if (hasPendingPayments) {
+        showNotification('Subscription cancelled successfully and any pending payments have been cancelled.', 'success');
+      } else {
+        showNotification('Subscription cancelled successfully. You will retain access until the end of your billing period.', 'success');
+      }
     } catch (error) {
-      alert('Failed to cancel subscription: ' + error.message);
+      console.error('Subscription cancellation error:', error);
+      showNotification(`Failed to cancel subscription: ${error.message}`, 'error');
     } finally {
       setCancelling(false);
     }
@@ -103,6 +138,21 @@ const Subscription = () => {
           <div className='error-banner'>
             <span className='error-icon'>⚠️</span>
             <p>{error}</p>
+          </div>
+        )}
+
+        {notification && (
+          <div className={`notification-banner ${notification.type}`}>
+            <span className='notification-icon'>
+              {notification.type === 'success' ? '✅' : '❌'}
+            </span>
+            <p>{notification.message}</p>
+            <button 
+              className='notification-close'
+              onClick={() => setNotification(null)}
+            >
+              ×
+            </button>
           </div>
         )}
 
@@ -181,6 +231,16 @@ const Subscription = () => {
                       )}
                     </div>
 
+                    {currentSubscription?.status === 'pending' && (
+                      <div className='pending-payment-warning'>
+                        <div className='warning-header'>
+                          <span className='warning-icon'>⚠️</span>
+                          <h4>Pending Payment</h4>
+                        </div>
+                        <p>This subscription is waiting for payment completion. If you cancel now, any pending payments will also be cancelled.</p>
+                      </div>
+                    )}
+
                     {currentSubscription?.plan?.features && (
                       <div className='features-included'>
                         <h4>Features included:</h4>
@@ -202,7 +262,9 @@ const Subscription = () => {
                           onClick={handleCancelSubscription}
                           disabled={cancelling}
                         >
-                          {cancelling ? 'Cancelling...' : 'Cancel Subscription'}
+                          {cancelling ? 'Cancelling...' : 
+                           currentSubscription?.status === 'pending' ? 'Cancel Subscription & Payments' : 
+                           'Cancel Subscription'}
                         </button>
                       </div>
                     )}

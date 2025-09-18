@@ -111,7 +111,7 @@ export const SubscriptionProvider = ({ children }) => {
     }
   }, [loadPremiumStatus]);
 
-  // Cancel subscription
+  // Cancel subscription (automatically cancels any pending payments)
   const cancelCurrentSubscription = useCallback(async () => {
     if (!currentSubscription?.id) {
       throw new Error('No active subscription to cancel');

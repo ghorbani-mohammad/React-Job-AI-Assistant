@@ -106,20 +106,44 @@ export const getCurrentSubscription = async () => {
 };
 
 /**
- * Cancel a subscription
+ * Cancel a subscription (automatically cancels any pending payments)
  */
 export const cancelSubscription = async (subscriptionId) => {
-  const response = await apiRequest(`${BASE_URL}user/subscriptions/${subscriptionId}/cancel/`, {
-    method: 'POST',
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `Failed to cancel subscription: ${response.status}`);
+  if (!subscriptionId) {
+    throw new Error('Subscription ID is required for cancellation');
   }
-  
-  const data = await response.json();
-  return data;
+
+  try {
+    const response = await apiRequest(`${BASE_URL}user/subscriptions/${subscriptionId}/cancel/`, {
+      method: 'POST',
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      
+      // Handle specific error cases
+      if (response.status === 404) {
+        throw new Error('Subscription not found');
+      } else if (response.status === 403) {
+        throw new Error('You do not have permission to cancel this subscription');
+      } else if (response.status === 409) {
+        throw new Error('Subscription cannot be cancelled at this time');
+      } else if (response.status >= 500) {
+        throw new Error('Server error occurred. Please try again later.');
+      }
+      
+      throw new Error(errorData.error || errorData.detail || `Failed to cancel subscription: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Handle network errors
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Network error. Please check your connection and try again.');
+    }
+    throw error;
+  }
 };
 
 /**
