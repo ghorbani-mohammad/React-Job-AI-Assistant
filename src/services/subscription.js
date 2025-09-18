@@ -212,6 +212,61 @@ export const checkPaymentServiceStatus = async () => {
 };
 
 /**
+ * Cancel a specific payment
+ */
+export const cancelPayment = async (paymentId) => {
+  if (!paymentId) {
+    throw new Error('Payment ID is required for cancellation');
+  }
+
+  try {
+    const response = await apiRequest(`${BASE_URL}user/payments/invoices/${paymentId}/cancel/`, {
+      method: 'POST',
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      
+      // Handle specific error cases
+      if (response.status === 404) {
+        throw new Error('Payment not found');
+      } else if (response.status === 403) {
+        throw new Error('You do not have permission to cancel this payment');
+      } else if (response.status === 409) {
+        throw new Error('Payment cannot be cancelled at this time');
+      } else if (response.status >= 500) {
+        throw new Error('Server error occurred. Please try again later.');
+      }
+      
+      throw new Error(errorData.error || errorData.detail || `Failed to cancel payment: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Handle network errors
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Network error. Please check your connection and try again.');
+    }
+    throw error;
+  }
+};
+
+/**
+ * Get pending payments for current subscription
+ */
+export const getPendingPayments = async () => {
+  const response = await apiRequest(`${BASE_URL}user/payments/pending/`);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch pending payments: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  return data;
+};
+
+/**
  * Poll payment status until completion or timeout
  */
 export const pollPaymentStatus = async (paymentId, maxAttempts = 2, intervalMs = 10000) => {

@@ -5,6 +5,8 @@ import {
   getCurrentSubscription, 
   createSubscription, 
   cancelSubscription,
+  cancelPayment,
+  getPendingPayments,
   getFeatureUsage,
   checkPaymentServiceStatus
 } from '../services/subscription';
@@ -36,6 +38,7 @@ export const SubscriptionProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [paymentServiceStatus, setPaymentServiceStatus] = useState(null);
   const [pendingPayment, setPendingPayment] = useState(null);
+  const [pendingPayments, setPendingPayments] = useState([]);
 
   // Load subscription plans (public endpoint)
   const loadSubscriptionPlans = useCallback(async () => {
@@ -152,6 +155,47 @@ export const SubscriptionProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
+  // Load pending payments
+  const loadPendingPayments = useCallback(async () => {
+    if (!isLoggedIn) {
+      setPendingPayments([]);
+      return;
+    }
+
+    try {
+      const payments = await getPendingPayments();
+      setPendingPayments(payments);
+    } catch (error) {
+      console.error('Failed to load pending payments:', error);
+      setPendingPayments([]);
+    }
+  }, [isLoggedIn]);
+
+  // Cancel a specific payment
+  const cancelSpecificPayment = useCallback(async (paymentId) => {
+    if (!paymentId) {
+      throw new Error('Payment ID is required for cancellation');
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const result = await cancelPayment(paymentId);
+      
+      // Refresh pending payments after successful cancellation
+      await loadPendingPayments();
+      
+      return result;
+    } catch (error) {
+      console.error('Failed to cancel payment:', error);
+      setError(error.message || 'Failed to cancel payment');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [loadPendingPayments]);
+
   // Handle payment return from payment page
   const handlePaymentReturnCallback = useCallback(async () => {
     const result = await handlePaymentReturn(
@@ -186,9 +230,10 @@ export const SubscriptionProvider = ({ children }) => {
     await Promise.all([
       loadSubscriptionPlans(),
       loadPremiumStatus(),
-      loadPaymentServiceStatus()
+      loadPaymentServiceStatus(),
+      loadPendingPayments()
     ]);
-  }, [loadSubscriptionPlans, loadPremiumStatus, loadPaymentServiceStatus]);
+  }, [loadSubscriptionPlans, loadPremiumStatus, loadPaymentServiceStatus, loadPendingPayments]);
 
   // Refresh subscription status only (for payment result pages)
   const refreshSubscriptionStatus = useCallback(async () => {
@@ -200,11 +245,12 @@ export const SubscriptionProvider = ({ children }) => {
     loadSubscriptionPlans();
   }, [loadSubscriptionPlans]);
 
-  // Load premium status and payment service status when auth state changes
+  // Load premium status, payment service status, and pending payments when auth state changes
   useEffect(() => {
     loadPremiumStatus();
     loadPaymentServiceStatus();
-  }, [loadPremiumStatus, loadPaymentServiceStatus]);
+    loadPendingPayments();
+  }, [loadPremiumStatus, loadPaymentServiceStatus, loadPendingPayments]);
 
   // Check for pending payments on mount and when returning from payment
   useEffect(() => {
@@ -255,6 +301,7 @@ export const SubscriptionProvider = ({ children }) => {
     error,
     paymentServiceStatus,
     pendingPayment,
+    pendingPayments,
     
     // Computed values
     hasPremium,
@@ -265,6 +312,7 @@ export const SubscriptionProvider = ({ children }) => {
     // Actions
     subscribe,
     cancelCurrentSubscription,
+    cancelSpecificPayment,
     refreshSubscriptionData,
     refreshSubscriptionStatus,
     hasFeatureAccess,
@@ -275,6 +323,7 @@ export const SubscriptionProvider = ({ children }) => {
     loadPremiumStatus,
     loadSubscriptionPlans,
     loadPaymentServiceStatus,
+    loadPendingPayments,
   };
 
   return (

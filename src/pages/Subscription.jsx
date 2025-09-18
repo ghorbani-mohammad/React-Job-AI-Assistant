@@ -14,6 +14,8 @@ const Subscription = () => {
     loading, 
     error,
     cancelCurrentSubscription,
+    cancelSpecificPayment,
+    pendingPayments,
     refreshSubscriptionData,
     hasPremium,
     hasActivePlan,
@@ -45,6 +47,28 @@ const Subscription = () => {
     setNotification({ message, type });
     if (type === 'success') {
       notificationSoundService.playNotificationSound();
+    }
+  };
+
+  const handleCancelPayment = async (paymentId) => {
+    if (!confirm('Are you sure you want to cancel this payment? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setCancelling(true);
+      const result = await cancelSpecificPayment(paymentId);
+      
+      if (result.message) {
+        showNotification(result.message, 'success');
+      } else {
+        showNotification('Payment cancelled successfully.', 'success');
+      }
+    } catch (error) {
+      console.error('Payment cancellation error:', error);
+      showNotification(`Failed to cancel payment: ${error.message}`, 'error');
+    } finally {
+      setCancelling(false);
     }
   };
 
@@ -238,6 +262,34 @@ const Subscription = () => {
                           <h4>Pending Payment</h4>
                         </div>
                         <p>This subscription is waiting for payment completion. If you cancel now, any pending payments will also be cancelled.</p>
+                      </div>
+                    )}
+
+                    {pendingPayments && pendingPayments.length > 0 && (
+                      <div className='pending-payments-section'>
+                        <h4>Pending Payments</h4>
+                        <div className='pending-payments-list'>
+                          {pendingPayments.map((payment) => (
+                            <div key={payment.id} className='pending-payment-item'>
+                              <div className='payment-info'>
+                                <span className='payment-amount'>${parseFloat(payment.amount || 0).toFixed(2)}</span>
+                                <span className='payment-status'>{payment.status}</span>
+                                {payment.created_at && (
+                                  <span className='payment-date'>
+                                    {new Date(payment.created_at).toLocaleDateString()}
+                                  </span>
+                                )}
+                              </div>
+                              <button 
+                                className='cancel-payment-button'
+                                onClick={() => handleCancelPayment(payment.id)}
+                                disabled={cancelling}
+                              >
+                                {cancelling ? 'Cancelling...' : 'Cancel Payment'}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
 

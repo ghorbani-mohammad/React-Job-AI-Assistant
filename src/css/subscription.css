@@ -375,6 +375,84 @@
   line-height: 1.4;
 }
 
+/* Pending Payments Section */
+.pending-payments-section {
+  margin-bottom: 1.5rem;
+}
+
+.pending-payments-section h4 {
+  margin-bottom: 1rem;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.pending-payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pending-payment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.pending-payment-item:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.payment-amount {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.payment-status {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+.payment-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.cancel-payment-button {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.cancel-payment-button:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.cancel-payment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* No Subscription State */
 .no-subscription {
   text-align: center;
@@ -801,5 +879,20 @@
   
   .amount {
     font-size: 2rem;
+  }
+  
+  .pending-payment-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .payment-info {
+    width: 100%;
+  }
+  
+  .cancel-payment-button {
+    width: 100%;
+    text-align: center;
   }
 }
