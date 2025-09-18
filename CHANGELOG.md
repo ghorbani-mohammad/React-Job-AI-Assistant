@@ -1,3 +1,10 @@
+## [0.30.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.29.0...v0.30.0) (2025-09-18)
+
+
+### Features
+
+* enhance payment history component with cancellation and notification features ([25586f2](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/25586f2c67cb75eac152c1b9f7b76bdecc0fc1aa))
+
 ## [0.29.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.28.0...v0.29.0) (2025-09-18)
 
 
@@ -25,11 +32,4 @@
 ### Features
 
 * handle payment not found errors across payment components ([eefa179](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/eefa179bcce28f56c5e44f160012575ab09f1dd7))
-
-## [0.26.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.25.0...v0.26.0) (2025-09-16)
-
-
-### Features
-
-* implement payment result pages and update subscription context ([3574982](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/35749827dbc5f3a4d439d996cd3e75c059dd4d96))
 
