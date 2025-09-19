@@ -1,7 +1,5 @@
 import { 
   checkPaymentStatus, 
-  getPaymentHistory, 
-  checkPaymentServiceStatus 
 } from './subscription';
 
 /**
