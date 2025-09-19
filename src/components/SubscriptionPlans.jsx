@@ -10,8 +10,7 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
     subscribe, 
     hasPremium, 
     currentSubscription, 
-    paymentServiceStatus,
-    error 
+    paymentServiceStatus
   } = useSubscription();
   const { isLoggedIn } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -137,12 +136,6 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
         </div>
       )}
 
-      {error && (
-        <div className='subscription-error'>
-          <span className='error-icon'>❌</span>
-          <p>{error}</p>
-        </div>
-      )}
 
       <div className='plans-grid'>
         {Object.entries(groupedPlans).map(([planName, planTypes]) => (

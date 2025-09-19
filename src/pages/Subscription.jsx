@@ -12,7 +12,6 @@ const Subscription = () => {
     currentSubscription, 
     featureUsage, 
     loading, 
-    error,
     cancelSpecificPayment,
     refreshSubscriptionData,
     hasPremium,
@@ -125,12 +124,6 @@ const Subscription = () => {
           <p>Manage your premium subscription and billing</p>
         </div>
 
-        {error && (
-          <div className='error-banner'>
-            <span className='error-icon'>⚠️</span>
-            <p>{error}</p>
-          </div>
-        )}
 
         {notification && (
           <div className={`notification-banner ${notification.type}`}>
