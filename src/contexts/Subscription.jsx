@@ -248,7 +248,9 @@ export const SubscriptionProvider = ({ children }) => {
   }, [isLoggedIn, handlePaymentReturnCallback]);
 
   // Helper functions
-  const hasPremium = premiumStatus?.has_premium || false;
+  // has_premium now returns: "active" | "pending" | false
+  const hasPremium = premiumStatus?.has_premium === 'active';
+  const isPaymentPending = premiumStatus?.has_premium === 'pending';
   const hasActivePlan = currentSubscription?.status === 'active';
   const isExpired = premiumStatus?.subscription?.is_expired || false;
   const daysRemaining = premiumStatus?.subscription?.days_remaining || 0;
@@ -283,6 +285,7 @@ export const SubscriptionProvider = ({ children }) => {
     
     // Computed values
     hasPremium,
+    isPaymentPending,
     hasActivePlan,
     isExpired,
     daysRemaining,

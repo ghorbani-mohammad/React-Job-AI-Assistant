@@ -9,7 +9,7 @@ import notificationSoundService from '../services/notificationSound';
 
 function Navbar() {
     const { user, isLoggedIn, logout, loading } = useAuth();
-    const { hasPremium, daysRemaining, isExpired, pendingPayment } = useSubscription();
+    const { hasPremium, isPaymentPending, daysRemaining, isExpired } = useSubscription();
     const [showLogin, setShowLogin] = useState(false);
     const [isMuted, setIsMuted] = useState(notificationSoundService.isMutedState());
 
@@ -57,7 +57,7 @@ function Navbar() {
                             <Link to="/favorites">Favorites</Link>
                             <Link to="/profile">Profile</Link>
                             <Link to="/subscription" className="subscription-link">
-                                {pendingPayment ? (
+                                {isPaymentPending ? (
                                     <span className="pending-payment">
                                         ⏳ Payment Pending
                                     </span>
