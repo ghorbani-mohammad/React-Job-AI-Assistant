@@ -105,7 +105,7 @@ const PaymentHistory = () => {
     return (
       <div className='payment-history-error'>
         <p>{error}</p>
-        <button onClick={loadPaymentHistory} className='retry-button'>
+        <button type="button" onClick={loadPaymentHistory} className='retry-button'>
           Try Again
         </button>
       </div>
@@ -126,7 +126,7 @@ const PaymentHistory = () => {
     <div className='payment-history'>
       <div className='payment-history-header'>
         <h3>Payment History</h3>
-        <button onClick={loadPaymentHistory} className='refresh-button'>
+        <button type="button" onClick={loadPaymentHistory} className='refresh-button'>
           🔄 Refresh
         </button>
       </div>
@@ -138,6 +138,7 @@ const PaymentHistory = () => {
           </span>
           <p>{notification.message}</p>
           <button 
+            type="button"
             className='notification-close'
             onClick={() => setNotification(null)}
           >
@@ -207,6 +208,7 @@ const PaymentHistory = () => {
                   <div className='payment-actions'>
                     {canComplete && (
                       <button
+                        type="button"
                         onClick={() => handleCompletePayment(payment.payment_url)}
                         className='complete-payment-button'
                       >
@@ -216,6 +218,7 @@ const PaymentHistory = () => {
                     
                     {(payment.status === 'waiting' || payment.status === 'pending') && (
                       <button
+                        type="button"
                         onClick={() => handleCancelPayment(payment.id)}
                         disabled={cancellingPayment === payment.id}
                         className='cancel-payment-button'
