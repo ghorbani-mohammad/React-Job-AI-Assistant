@@ -1,3 +1,10 @@
+## [0.30.1](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.30.0...v0.30.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* add type attribute to buttons in PaymentHistory component for accessibility ([9fb8107](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/9fb8107b947971dbba28c18c7200594d03713f1c))
+
 ## [0.30.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.29.0...v0.30.0) (2025-09-18)
 
 
@@ -25,11 +32,4 @@
 ### Bug Fixes
 
 * reduce max attempts for polling payment status to improve efficiency ([3abfeb0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/3abfeb069665b5c5fbb62191e8b0f5353a1451e0))
-
-## [0.27.0](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/compare/v0.26.0...v0.27.0) (2025-09-17)
-
-
-### Features
-
-* handle payment not found errors across payment components ([eefa179](https://github.com/ghorbani-mohammad/React-Job-AI-Assistant/commit/eefa179bcce28f56c5e44f160012575ab09f1dd7))
 
