@@ -13,7 +13,6 @@ const Subscription = () => {
     featureUsage, 
     loading, 
     error,
-    cancelCurrentSubscription,
     cancelSpecificPayment,
     refreshSubscriptionData,
     hasPremium,
@@ -71,37 +70,6 @@ const Subscription = () => {
     }
   };
 
-  const handleCancelSubscription = async () => {
-    // Check if subscription has pending status (waiting for payment)
-    const hasPendingPayments = currentSubscription?.status === 'pending';
-    
-    const confirmMessage = hasPendingPayments 
-      ? 'This subscription has pending payments. Cancelling will also cancel those payments. Are you sure you want to proceed?'
-      : 'Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.';
-
-    if (!confirm(confirmMessage)) {
-      return;
-    }
-
-    try {
-      setCancelling(true);
-      const result = await cancelCurrentSubscription();
-      
-      // Show success message with details about cancelled payments
-      if (result.message) {
-        showNotification(result.message, 'success');
-      } else if (hasPendingPayments) {
-        showNotification('Subscription cancelled successfully and any pending payments have been cancelled.', 'success');
-      } else {
-        showNotification('Subscription cancelled successfully. You will retain access until the end of your billing period.', 'success');
-      }
-    } catch (error) {
-      console.error('Subscription cancellation error:', error);
-      showNotification(`Failed to cancel subscription: ${error.message}`, 'error');
-    } finally {
-      setCancelling(false);
-    }
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -279,19 +247,6 @@ const Subscription = () => {
                       </div>
                     )}
 
-                    {hasActivePlan && currentSubscription?.status !== 'cancelled' && (
-                      <div className='subscription-actions'>
-                        <button 
-                          className='cancel-button'
-                          onClick={handleCancelSubscription}
-                          disabled={cancelling}
-                        >
-                          {cancelling ? 'Cancelling...' : 
-                           currentSubscription?.status === 'pending' ? 'Cancel Subscription & Payments' : 
-                           'Cancel Subscription'}
-                        </button>
-                      </div>
-                    )}
 
                     {isExpired && (
                       <div className='renewal-notice'>
