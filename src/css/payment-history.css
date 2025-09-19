@@ -447,26 +447,26 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .payment-item {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1e293b;
   }
 
   .payment-plan h4 {
-    color: #f9fafb;
+    color: #1e293b;
   }
 
   .amount-value,
   .date-value {
-    color: #e5e7eb;
+    color: #334155;
   }
 
   .amount-row.crypto {
-    background: #374151;
-    border-color: #4b5563;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
   }
 
   .payment-actions {
-    border-top-color: #374151;
+    border-top-color: #e2e8f0;
   }
 }
