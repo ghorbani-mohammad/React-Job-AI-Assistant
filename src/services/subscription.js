@@ -202,19 +202,6 @@ export const getPaymentHistory = async (page = 1, pageSize = 10) => {
   return data;
 };
 
-/**
- * Check payment service status
- */
-export const checkPaymentServiceStatus = async () => {
-  const response = await apiRequest(`${BASE_URL}user/payments/status/`);
-  
-  if (!response.ok) {
-    throw new Error(`Failed to check payment service status: ${response.status}`);
-  }
-  
-  const data = await response.json();
-  return data;
-};
 
 /**
  * Cancel a specific payment
