@@ -194,7 +194,6 @@ export const SubscriptionProvider = ({ children }) => {
       // onLoading
       (message) => {
         setLoading(true);
-        console.log('Payment status:', message);
       }
     );
 
