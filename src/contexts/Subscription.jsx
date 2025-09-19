@@ -188,7 +188,6 @@ export const SubscriptionProvider = ({ children }) => {
       },
       // onFailure
       (reason, payment) => {
-        console.error('Payment failed:', reason, payment);
         setError(`Payment failed: ${reason}`);
         setPendingPayment(null);
       },
