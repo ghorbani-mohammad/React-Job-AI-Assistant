@@ -17,10 +17,16 @@ const PaymentHistory = () => {
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState(null);
   const [cancellingPayment, setCancellingPayment] = useState(null);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [pageSize] = useState(10);
 
   useEffect(() => {
     loadPaymentHistory();
-  }, []);
+  }, [currentPage]);
 
   // Auto-hide notifications after 5 seconds
   useEffect(() => {
@@ -43,8 +49,19 @@ const PaymentHistory = () => {
     try {
       setLoading(true);
       setError(null);
-      const history = await getPaymentHistory();
-      setPayments(history);
+      const response = await getPaymentHistory(currentPage, pageSize);
+      
+      // Handle paginated response
+      if (response.results) {
+        setPayments(response.results);
+        setTotalCount(response.count || 0);
+        setTotalPages(Math.ceil((response.count || 0) / pageSize));
+      } else {
+        // Fallback for non-paginated response
+        setPayments(response);
+        setTotalCount(response.length);
+        setTotalPages(1);
+      }
     } catch (err) {
       console.error('Failed to load payment history:', err);
       setError('Failed to load payment history');
@@ -82,6 +99,16 @@ const PaymentHistory = () => {
     }
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handleRefresh = () => {
+    loadPaymentHistory();
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -105,7 +132,7 @@ const PaymentHistory = () => {
     return (
       <div className='payment-history-error'>
         <p>{error}</p>
-        <button type="button" onClick={loadPaymentHistory} className='retry-button'>
+        <button type="button" onClick={handleRefresh} className='retry-button'>
           Try Again
         </button>
       </div>
@@ -125,8 +152,15 @@ const PaymentHistory = () => {
   return (
     <div className='payment-history'>
       <div className='payment-history-header'>
-        <h3>Payment History</h3>
-        <button type="button" onClick={loadPaymentHistory} className='refresh-button'>
+        <div className='header-info'>
+          <h3>Payment History</h3>
+          {totalCount > 0 && (
+            <span className='pagination-info'>
+              Showing {((currentPage - 1) * pageSize) + 1}-{Math.min(currentPage * pageSize, totalCount)} of {totalCount} payments
+            </span>
+          )}
+        </div>
+        <button type="button" onClick={handleRefresh} className='refresh-button'>
           🔄 Refresh
         </button>
       </div>
@@ -260,6 +294,55 @@ const PaymentHistory = () => {
           );
         })}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className='pagination-controls'>
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className='pagination-button prev'
+          >
+            ← Previous
+          </button>
+          
+          <div className='pagination-numbers'>
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNum;
+              if (totalPages <= 5) {
+                pageNum = i + 1;
+              } else if (currentPage <= 3) {
+                pageNum = i + 1;
+              } else if (currentPage >= totalPages - 2) {
+                pageNum = totalPages - 4 + i;
+              } else {
+                pageNum = currentPage - 2 + i;
+              }
+              
+              return (
+                <button
+                  key={pageNum}
+                  type="button"
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`pagination-button number ${currentPage === pageNum ? 'active' : ''}`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+          </div>
+          
+          <button
+            type="button"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className='pagination-button next'
+          >
+            Next →
+          </button>
+        </div>
+      )}
     </div>
   );
 };

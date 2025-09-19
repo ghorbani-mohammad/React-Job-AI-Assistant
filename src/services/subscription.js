@@ -186,8 +186,13 @@ export const checkPaymentStatus = async (paymentId) => {
 /**
  * Get user's payment history
  */
-export const getPaymentHistory = async () => {
-  const response = await apiRequest(`${BASE_URL}user/payments/invoices/`);
+export const getPaymentHistory = async (page = 1, pageSize = 10) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    page_size: pageSize.toString()
+  });
+  
+  const response = await apiRequest(`${BASE_URL}user/payments/invoices/?${params}`);
   
   if (!response.ok) {
     throw new Error(`Failed to fetch payment history: ${response.status}`);
