@@ -6,7 +6,7 @@
 
 .payment-history-header {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
@@ -214,7 +214,7 @@
 /* Payment Header */
 .payment-header {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1rem;
 }
@@ -259,7 +259,7 @@
 .amount-row,
 .date-row {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
 }
