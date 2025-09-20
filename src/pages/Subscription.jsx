@@ -9,7 +9,6 @@ import '../css/subscription.css';
 const Subscription = () => {
   const { 
     premiumStatus, 
-    currentSubscription, 
     featureUsage, 
     loading, 
     cancelSpecificPayment,
@@ -177,32 +176,32 @@ const Subscription = () => {
                   <div className='status-card'>
                     <div className='status-header'>
                       <h3>✨ Premium Subscription</h3>
-                      {getStatusBadge(currentSubscription?.status)}
+                       {getStatusBadge(premiumStatus?.subscription?.status)}
                     </div>
                     
                     <div className='subscription-details'>
                       <div className='detail-row'>
                         <span className='label'>Plan:</span>
                         <span className='value'>
-                          {currentSubscription?.plan?.name} ({currentSubscription?.plan?.plan_type})
+                          {premiumStatus?.subscription?.plan?.name} ({premiumStatus?.subscription?.plan?.plan_type})
                         </span>
                       </div>
                       
                       <div className='detail-row'>
                         <span className='label'>Price:</span>
                         <span className='value'>
-                          ${parseFloat(currentSubscription?.plan?.price || 0).toFixed(2)}/
-                          {currentSubscription?.plan?.plan_type === 'monthly' ? 'month' : 'year'}
+                          ${parseFloat(premiumStatus?.subscription?.plan?.price || 0).toFixed(2)}/
+                          {premiumStatus?.subscription?.plan?.plan_type === 'monthly' ? 'month' : 'year'}
                         </span>
                       </div>
                       
-                      {currentSubscription?.expires_at && (
+                      {premiumStatus?.subscription?.expires_at && (
                         <div className='detail-row'>
                           <span className='label'>
-                            {currentSubscription?.status === 'cancelled' ? 'Access until:' : 'Next billing:'}
+                            {premiumStatus?.subscription?.status === 'cancelled' ? 'Access until:' : 'Next billing:'}
                           </span>
                           <span className='value'>
-                            {formatDate(currentSubscription.expires_at)}
+                            {formatDate(premiumStatus.subscription.expires_at)}
                           </span>
                         </div>
                       )}
@@ -215,7 +214,7 @@ const Subscription = () => {
                       )}
                     </div>
 
-                    {currentSubscription?.status === 'pending' && (
+                    {premiumStatus?.subscription?.status === 'pending' && (
                       <div className='pending-payment-warning'>
                         <div className='warning-header'>
                           <span className='warning-icon'>⚠️</span>
@@ -226,11 +225,11 @@ const Subscription = () => {
                     )}
 
 
-                    {currentSubscription?.plan?.features && (
+                    {premiumStatus?.subscription?.plan?.features && (
                       <div className='features-included'>
                         <h4>Features included:</h4>
                         <ul>
-                          {currentSubscription.plan.features.map((feature, index) => (
+                          {premiumStatus.subscription.plan.features.map((feature, index) => (
                             <li key={index}>
                               <span className='feature-check'>✓</span>
                               {feature}

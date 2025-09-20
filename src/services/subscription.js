@@ -91,19 +91,6 @@ export const getUserSubscriptions = async () => {
   return data;
 };
 
-/**
- * Get current active subscription
- */
-export const getCurrentSubscription = async () => {
-  const response = await apiRequest(`${BASE_URL}user/subscriptions/current/`);
-  
-  if (!response.ok) {
-    throw new Error(`Failed to fetch current subscription: ${response.status}`);
-  }
-  
-  const data = await response.json();
-  return data;
-};
 
 /**
  * Cancel a subscription (automatically cancels any pending payments)

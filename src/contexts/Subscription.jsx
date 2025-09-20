@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import { 
   getPremiumStatus, 
   getSubscriptionPlans, 
-  getCurrentSubscription, 
   createSubscription, 
   cancelSubscription,
   cancelPayment,
@@ -30,7 +29,6 @@ export const SubscriptionProvider = ({ children }) => {
   const { isLoggedIn } = useAuth();
   const [premiumStatus, setPremiumStatus] = useState(null);
   const [subscriptionPlans, setSubscriptionPlans] = useState([]);
-  const [currentSubscription, setCurrentSubscription] = useState(null);
   const [featureUsage, setFeatureUsage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -52,7 +50,6 @@ export const SubscriptionProvider = ({ children }) => {
   const loadPremiumStatus = useCallback(async () => {
     if (!isLoggedIn) {
       setPremiumStatus(null);
-      setCurrentSubscription(null);
       setFeatureUsage(null);
       return;
     }
@@ -61,14 +58,12 @@ export const SubscriptionProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       
-      const [status, subscription, usage] = await Promise.all([
+      const [status, usage] = await Promise.all([
         getPremiumStatus(),
-        getCurrentSubscription().catch(() => null), // Don't fail if no current subscription
         getFeatureUsage().catch(() => null) // Don't fail if no usage data
       ]);
       
       setPremiumStatus(status);
-      setCurrentSubscription(subscription);
       setFeatureUsage(usage);
     } catch (error) {
       console.error('Failed to load premium status:', error);
@@ -112,7 +107,7 @@ export const SubscriptionProvider = ({ children }) => {
 
   // Cancel subscription (automatically cancels any pending payments)
   const cancelCurrentSubscription = useCallback(async () => {
-    if (!currentSubscription?.id) {
+    if (!premiumStatus?.subscription?.id) {
       throw new Error('No active subscription to cancel');
     }
 
@@ -120,7 +115,7 @@ export const SubscriptionProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       
-      const result = await cancelSubscription(currentSubscription.id);
+      const result = await cancelSubscription(premiumStatus.subscription.id);
       
       // Refresh status after successful cancellation
       await loadPremiumStatus();
@@ -133,7 +128,7 @@ export const SubscriptionProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [currentSubscription?.id, loadPremiumStatus]);
+  }, [premiumStatus?.subscription?.id, loadPremiumStatus]);
 
 
 
@@ -230,18 +225,18 @@ export const SubscriptionProvider = ({ children }) => {
   // has_premium now returns: "active" | "pending" | false
   const hasPremium = premiumStatus?.has_premium === 'active';
   const isPaymentPending = premiumStatus?.has_premium === 'pending';
-  const hasActivePlan = currentSubscription?.status === 'active';
+  const hasActivePlan = premiumStatus?.subscription?.status === 'active';
   const isExpired = premiumStatus?.subscription?.is_expired || false;
   const daysRemaining = premiumStatus?.subscription?.days_remaining || 0;
 
   // Check if user has access to a specific feature
   const hasFeatureAccess = useCallback((feature) => {
-    if (!hasPremium || !currentSubscription?.plan?.features) {
+    if (!hasPremium || !premiumStatus?.subscription?.plan?.features) {
       return false;
     }
     
-    return currentSubscription.plan.features.includes(feature);
-  }, [hasPremium, currentSubscription?.plan?.features]);
+    return premiumStatus.subscription.plan.features.includes(feature);
+  }, [hasPremium, premiumStatus?.subscription?.plan?.features]);
 
   // Get plan by type and billing cycle
   const getPlanByType = useCallback((planType, billingCycle) => {
@@ -255,7 +250,6 @@ export const SubscriptionProvider = ({ children }) => {
     // State
     premiumStatus,
     subscriptionPlans,
-    currentSubscription,
     featureUsage,
     loading,
     error,

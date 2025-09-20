@@ -9,7 +9,7 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
     loading, 
     subscribe, 
     hasPremium, 
-    currentSubscription, 
+    premiumStatus, 
     paymentServiceStatus
   } = useSubscription();
   const { isLoggedIn } = useAuth();
@@ -89,7 +89,7 @@ const SubscriptionPlans = ({ onPlanSelect, showTitle = true }) => {
   };
 
   const isCurrentPlan = (plan) => {
-    return currentSubscription?.plan?.id === plan.id;
+    return premiumStatus?.subscription?.plan?.id === plan.id;
   };
 
   if (loading) {

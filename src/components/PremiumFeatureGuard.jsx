@@ -10,7 +10,7 @@ const PremiumFeatureGuard = ({
   showUpgrade = true,
   requiredPlan = 'premium' 
 }) => {
-  const { hasPremium, hasFeatureAccess, currentSubscription } = useSubscription();
+  const { hasPremium, hasFeatureAccess, premiumStatus } = useSubscription();
   const { isLoggedIn } = useAuth();
 
   // If user is not logged in
@@ -82,7 +82,7 @@ const PremiumFeatureGuard = ({
             }
           </p>
           
-          {currentSubscription?.status === 'expired' ? (
+          {premiumStatus?.subscription?.status === 'expired' ? (
             <div className='expired-notice'>
               <p>Your subscription has expired. Renew to continue using premium features.</p>
             </div>
@@ -107,7 +107,7 @@ const PremiumFeatureGuard = ({
           
           <div className='guard-actions'>
             <Link to='/subscription' className='upgrade-button'>
-              {currentSubscription?.status === 'expired' ? 'Renew Subscription' : 'Upgrade Now'}
+              {premiumStatus?.subscription?.status === 'expired' ? 'Renew Subscription' : 'Upgrade Now'}
             </Link>
           </div>
         </div>
