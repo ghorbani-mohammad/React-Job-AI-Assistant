@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useSubscription } from '../contexts/Subscription';
 import { checkPaymentStatus } from '../services/subscription';
+import { getPendingSubscription, clearPendingSubscription } from '../services/payment';
 import '../css/payment-result.css';
 
 const PaymentSuccess = () => {
@@ -14,13 +15,12 @@ const PaymentSuccess = () => {
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [error, setError] = useState('');
 
-  const orderId = searchParams.get('orderId');
-  const paymentId = searchParams.get('paymentId');
+  const orderId = searchParams.get('order_id');
 
   useEffect(() => {
     const verifyPayment = async () => {
-      if (!paymentId && !orderId) {
-        setError('Missing payment information');
+      if (!orderId) {
+        setError('Missing order information');
         setVerificationStatus('error');
         setLoading(false);
         return;
@@ -30,22 +30,30 @@ const PaymentSuccess = () => {
         setLoading(true);
         setVerificationStatus('verifying');
 
-        // Check payment status to confirm it's actually successful
-        let payment = null;
-        if (paymentId) {
-          payment = await checkPaymentStatus(paymentId);
-        }
+        if (orderId) {
+          const payment = await checkPaymentStatus(orderId);
 
-        if (payment && (payment.is_paid || payment.status === 'finished')) {
-          setPaymentDetails(payment);
-          setVerificationStatus('confirmed');
-          
-          // Refresh user's subscription status
-          await refreshSubscriptionStatus();
+          if (payment && (payment.is_paid || payment.status === 'finished')) {
+            setPaymentDetails(payment);
+            setVerificationStatus('confirmed');
+            
+            // Clear pending subscription since payment is confirmed
+            clearPendingSubscription();
+            
+            // Refresh user's subscription status
+            await refreshSubscriptionStatus();
+          } else if (payment) {
+            // Payment might still be processing
+            setVerificationStatus('processing');
+            setPaymentDetails(payment);
+          } else {
+            setError('Payment verification failed. Please check your subscription status.');
+            setVerificationStatus('error');
+          }
         } else {
-          // Payment might still be processing
-          setVerificationStatus('processing');
-          setPaymentDetails(payment);
+          // No pending subscription found with this orderId
+          setError('Unable to verify payment. Please check your subscription status in your profile.');
+          setVerificationStatus('error');
         }
 
       } catch (err) {
@@ -55,6 +63,7 @@ const PaymentSuccess = () => {
         if (err.paymentNotFound) {
           setError('Payment invoice not found. This payment may have been cancelled or expired. Please try creating a new subscription.');
           setVerificationStatus('error');
+          clearPendingSubscription();
         } else {
           setError('Unable to verify payment status. Please contact support if you completed the payment.');
           setVerificationStatus('error');
@@ -65,7 +74,7 @@ const PaymentSuccess = () => {
     };
 
     verifyPayment();
-  }, [paymentId, orderId, refreshSubscriptionStatus]);
+  }, [orderId, refreshSubscriptionStatus]);
 
   const handleContinue = () => {
     navigate('/subscription');
