@@ -8,10 +8,12 @@ import {
   getPaymentTimeRemaining,
   canPaymentBeCompleted
 } from '../services/payment';
+import { useSubscription } from '../contexts/Subscription';
 import notificationSoundService from '../services/notificationSound';
 import '../css/payment-history.css';
 
 const PaymentHistory = () => {
+  const { refreshSubscriptionStatus } = useSubscription();
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -89,8 +91,11 @@ const PaymentHistory = () => {
         showNotification('Payment cancelled successfully.', 'success');
       }
       
-      // Refresh payment history after successful cancellation
-      await loadPaymentHistory();
+      // Refresh payment history and subscription status after successful cancellation
+      await Promise.all([
+        loadPaymentHistory(),
+        refreshSubscriptionStatus()
+      ]);
     } catch (error) {
       console.error('Payment cancellation error:', error);
       showNotification(`Failed to cancel payment: ${error.message}`, 'error');
